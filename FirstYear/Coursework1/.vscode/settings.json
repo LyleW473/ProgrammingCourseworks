@@ -1,6 +1,9 @@
 {
-    "java.project.referencedLibraries": [
-      "+libs/opencsv-4.1.jar"
+    "java.project.referencedLibraries": 
+    [
+      "+libs/commons-lang3-3.7.jar",
+      "+libs/commons-text-1.2.jar",
+      "+libs/opencsv-4.1.jar",
     ]
   }
   

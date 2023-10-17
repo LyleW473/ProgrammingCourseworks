@@ -15,6 +15,14 @@ public class PropertyViewer
     private PropertyViewerGUI gui;     // the Graphical User Interface
     private Portfolio portfolio;
     
+    // Main method for testing + development (Remove later)
+    public static void main(String[] args)
+    {
+        // Create 
+        PropertyViewer propertyViewer1 = new PropertyViewer();
+
+    }
+
     /**
      * Create a PropertyViewer and display its GUI on screen.
      */
