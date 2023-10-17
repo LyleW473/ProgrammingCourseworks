@@ -17,10 +17,15 @@ public class PropertyViewer
     
     // Main method for testing + development (Remove later)
     public static void main(String[] args)
-    {
-        // Create 
+    {   
+        // Create a property viewer
         PropertyViewer propertyViewer1 = new PropertyViewer();
 
+        // Show the current property
+        int propertyIndex = 0;
+        Property currentProperty = propertyViewer1.portfolio.getProperty(propertyIndex);
+        propertyViewer1.gui.showID(currentProperty); // Show property ID at the top of the window
+        propertyViewer1.gui.showProperty(currentProperty); // Display property
     }
 
     /**
