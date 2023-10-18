@@ -43,11 +43,10 @@ public class PropertyViewer
 
         // Initialise property viewer with the first property
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
-        this.numPropertiesViewed ++;
-        this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
-        System.out.println("Viewed" + getNumberOfPropertiesViewed());
-        System.out.println("Total" + this.propertiesPriceSum);
-        System.out.println("Average" + averagePropertyPrice());
+
+        // Update statistics 
+        // Note: Initialises the number of properties viewed as 1 and price sum as the current property being looked at
+        this.updateStatistics();
 
         // Update GUI with the current property's information
         this.updateGUI();
