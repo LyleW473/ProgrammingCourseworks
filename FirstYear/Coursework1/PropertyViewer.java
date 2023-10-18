@@ -1,4 +1,5 @@
 import java.awt.Desktop;
+import java.beans.PropertyEditor;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -19,6 +20,7 @@ public class PropertyViewer
     private static Property currentProperty;
     private static int propertyIndex = 0;
     private final int NUM_PROPERTIES; // Non-static because cannot assign to static in constructor after initialisation
+    private static int numPropertiesViewed = 0;
     
     // Main method for testing + development (Remove later)
     public static void main(String[] args)
@@ -62,6 +64,10 @@ public class PropertyViewer
 
         // Update GUI
         this.updateGUI();
+
+        // Increase number of properties viewed since the application started
+        numPropertiesViewed ++;
+        System.out.println(getNumberOfPropertiesViewed());
     }
 
     /**
@@ -85,6 +91,10 @@ public class PropertyViewer
 
         // Update GUI
         this.updateGUI();
+
+        // Increase number of properties viewed since the application started
+        numPropertiesViewed ++;
+        System.out.println(getNumberOfPropertiesViewed());
     }
 
     /**
@@ -134,7 +144,7 @@ public class PropertyViewer
      */
     public int getNumberOfPropertiesViewed()
     {
-        return 0;
+        return PropertyViewer.numPropertiesViewed;
     }
     
     /**
