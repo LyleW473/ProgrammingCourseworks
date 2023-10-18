@@ -55,7 +55,7 @@ public class PropertyViewer
     {  
         System.out.println(this.portfolio.numberOfProperties());
         System.out.println("Before" +  PropertyViewer.propertyIndex);
-        // Increase the property index, looping back to the beginning if clicking next on the last property in the "list"
+        // Increase the property index, looping back to the first property if clicking next on the last property in the "list"
         PropertyViewer.propertyIndex = (PropertyViewer.propertyIndex + 1) % (NUM_PROPERTIES);
         System.out.println("After" + PropertyViewer.propertyIndex);
         
@@ -71,8 +71,24 @@ public class PropertyViewer
      * 
      */
     public void previousProperty()
-    {
+    {   
+        System.out.println("Before" +  PropertyViewer.propertyIndex);
+        // Decrease the property index
+        PropertyViewer.propertyIndex --;
         
+        // Loop back to the last property if clicking previous on the first property in the "list"
+        if (PropertyViewer.propertyIndex < 0)
+            {
+            PropertyViewer.propertyIndex += NUM_PROPERTIES;
+            }
+        System.out.println("After" + PropertyViewer.propertyIndex);
+
+        // Update current property
+        PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+        // Update GUI
+        this.gui.showID(PropertyViewer.currentProperty);
+        this.gui.showProperty(PropertyViewer.currentProperty);
+        this.gui.showFavourite(currentProperty);
     }
 
     /**
