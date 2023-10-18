@@ -14,7 +14,11 @@ public class PropertyViewer
 {    
     private PropertyViewerGUI gui;     // the Graphical User Interface
     private Portfolio portfolio;
-    private static Property currentProperty; // Static because only one viewer is required
+
+    // Following attributes are static because only one PropertyViewer is required for the program
+    private static Property currentProperty;
+    private static int propertyIndex = 0;
+    private final int NUM_PROPERTIES; // Non-static because cannot assign to static in constructor after initialisation
     
     // Main method for testing + development (Remove later)
     public static void main(String[] args)
@@ -32,22 +36,35 @@ public class PropertyViewer
         gui = new PropertyViewerGUI(this);
         portfolio = new Portfolio("airbnb-london.csv");
 
+        // Initialise additional attributes
+        NUM_PROPERTIES = portfolio.numberOfProperties();
+
         // Initialise property viewer with the first 
-        int propertyIndex = 0;
-        PropertyViewer.currentProperty = this.portfolio.getProperty(propertyIndex);
-        
+        PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+
          // Show property ID at the top of the window
-        this.gui.showID(currentProperty);
+        this.gui.showID(PropertyViewer.currentProperty);
         // Display property (i.e., the entries of this property)
-        this.gui.showProperty(currentProperty);
+        this.gui.showProperty(PropertyViewer.currentProperty);
     }
 
     /**
      *
      */
     public void nextProperty()
-    {
+    {  
+        System.out.println(this.portfolio.numberOfProperties());
+        System.out.println("Before" +  PropertyViewer.propertyIndex);
+        // Increase the property index, looping back to the beginning if clicking next on the last property in the "list"
+        PropertyViewer.propertyIndex = (PropertyViewer.propertyIndex + 1) % (NUM_PROPERTIES);
+        System.out.println("After" + PropertyViewer.propertyIndex);
         
+        // Update current property
+        PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+        // Update GUI
+        this.gui.showID(PropertyViewer.currentProperty);
+        this.gui.showProperty(PropertyViewer.currentProperty);
+        this.gui.showFavourite(currentProperty);
     }
 
     /**
