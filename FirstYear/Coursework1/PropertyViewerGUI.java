@@ -31,6 +31,13 @@ public class PropertyViewerGUI
     private JTextField priceLabel;
     private JTextField minNightsLabel;
     private JTextArea descriptionLabel;
+
+
+    // Statistics window
+    private JTextField numPropertiesViewedLabel;
+    private JTextField propertiesPriceSumLabel;
+    private JTextField averagePropertyPriceLabel;
+    private boolean isShowingStatisticsWindow = false;
     
     private Property currentProperty;
     private PropertyViewer viewer;
@@ -63,6 +70,13 @@ public class PropertyViewerGUI
         priceLabel.setText("£" + property.getPrice());
         minNightsLabel.setText(property.getMinNights());
         //descriptionLabel.setText(property.getDescription());
+        
+        // If the window to display the statistics is showing
+        System.out.println(isShowingStatistics());
+        if (isShowingStatistics() == true)
+        {
+            updateStatisticsWindow();
+        }
     }
     
     /**
@@ -133,6 +147,108 @@ public class PropertyViewerGUI
     private void toggleFavouriteButton(){
         viewer.toggleFavourite();     
     }
+    
+    // ---- Methods for displaying statistics ----
+
+    /**
+     * Returns a boolean as to whether the statistics window is being displayed or not
+     */
+    public boolean isShowingStatistics()
+    {
+        return isShowingStatisticsWindow;
+    }
+
+    /**
+     * Updates the statistics window with the correct values for each statistic
+     */
+    public void updateStatisticsWindow()
+    {
+        numPropertiesViewedLabel.setText(Integer.toString(viewer.getNumberOfPropertiesViewed()));
+        averagePropertyPriceLabel.setText(Integer.toString(viewer.averagePropertyPrice()));
+        propertiesPriceSumLabel.setText(Integer.toString(viewer.getPropertiesPriceSum()));
+    }
+
+    /**
+     * Changes the showing 
+     * Called when the 'Display statistics' button is clicked, or when the close button is clicked on the statistics window, to change 
+     */
+    public void toggleShowingStatistics()
+    {
+        isShowingStatisticsWindow = !isShowingStatisticsWindow;
+    }
+
+    /**
+     * Called when the 'Display statistics' button was clicked.
+     */
+    private void displayStatisticsButton(){
+        System.out.println("Showing stats");
+        
+        // If the window isn't already showing, create a new one
+        if (isShowingStatistics() == false)
+        {
+            frame = new JFrame("Statistics");
+            JPanel contentPane = (JPanel)frame.getContentPane();
+            contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
+
+            // Specify the layout manager with nice spacing
+            contentPane.setLayout(new BorderLayout(2, 2));
+
+            // Create the property pane in the center
+            propertyPanel = new JPanel();
+            propertyPanel.setLayout(new GridLayout(3,2)); // First number should be the number of labels we want
+            
+            // Number of properties viewed
+            propertyPanel.add(new JLabel("Number of properties viewed: "));
+            System.out.println(viewer.getNumberOfPropertiesViewed());
+            numPropertiesViewedLabel = new JTextField("default");
+            numPropertiesViewedLabel.setEditable(false);
+            propertyPanel.add(numPropertiesViewedLabel);
+        
+            // Total sum of the prices of the properties viewed
+            propertyPanel.add(new JLabel("Total sum of property prices: "));
+            propertiesPriceSumLabel = new JTextField("default");
+            propertiesPriceSumLabel.setEditable(false);
+            propertyPanel.add(propertiesPriceSumLabel);
+
+            // Average property price
+            propertyPanel.add(new JLabel("Average property price: "));
+            averagePropertyPriceLabel = new JTextField("default");
+            averagePropertyPriceLabel.setEditable(false);
+            propertyPanel.add(averagePropertyPriceLabel);
+        
+            propertyPanel.setBorder(new EtchedBorder());
+            contentPane.add(propertyPanel, BorderLayout.CENTER);
+            
+            // building is done - arrange the components     
+            frame.pack();
+            
+            // Place and show the frame at the center of the screen
+            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+            frame.setLocation(d.width/2 - frame.getWidth()/2, d.height/2 - frame.getHeight()/2);
+            frame.setVisible(true);
+            
+            // Add a window listener to the frame for when the close button is clicked to call the toggle statistics method
+            frame.addWindowListener(new java.awt.event.WindowAdapter() 
+            {
+                @Override
+                public void windowClosing(WindowEvent e)
+                {
+                toggleShowingStatistics();
+                System.out.println(isShowingStatistics());
+                }
+            });
+
+        }
+        
+        // Only set the showing statistics attribute to false if it isn't being shown already (i.e., only set to back to false when the exit button is clicked)
+        if (isShowingStatistics() == false)
+        {
+            toggleShowingStatistics();
+        }
+
+        // Update the statistics window with the current state (values) of the statistics
+        updateStatisticsWindow();
+    }
 
     // ---- swing stuff to build the frame and all its components ----
     
@@ -196,30 +312,40 @@ public class PropertyViewerGUI
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(0, 1));
         
+        // Next button
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(new ActionListener() {
                                public void actionPerformed(ActionEvent e) { nextButton(); }
                            });
         toolbar.add(nextButton);
         
+        // Previous button
         JButton previousButton = new JButton("Previous");
         previousButton.addActionListener(new ActionListener() {
                                public void actionPerformed(ActionEvent e) { previousButton(); }
                            });
         toolbar.add(previousButton);
-
+        
+        // Map button
         JButton mapButton = new JButton("View Property on Map");
         mapButton.addActionListener(new ActionListener() {
                                public void actionPerformed(ActionEvent e) { viewOnMapsButton(); }
                            });
         toolbar.add(mapButton);
-        
+                        
+        // Favourite button
         JButton favouriteButton = new JButton("Toggle Favourite");
         favouriteButton.addActionListener(new ActionListener() {
                                public void actionPerformed(ActionEvent e) { toggleFavouriteButton(); }
                            });
         toolbar.add(favouriteButton);
-
+        
+        // Statistics button
+        JButton statisticsButton = new JButton("Display statistics");
+        statisticsButton.addActionListener(new ActionListener() {
+                               public void actionPerformed(ActionEvent e) { displayStatisticsButton(); }
+                           });
+        toolbar.add(statisticsButton);
 
         // Add toolbar into panel with flow layout for spacing
         JPanel flow = new JPanel();

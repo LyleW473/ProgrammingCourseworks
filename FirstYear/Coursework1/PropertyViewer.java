@@ -172,4 +172,13 @@ public class PropertyViewer
     {   
         return PropertyViewer.propertyPriceSum / PropertyViewer.numPropertiesViewed;
     }
+    
+    /**
+     * Returns the sum of all of the prices of the properties viewed since the application was started
+     */
+    public int getPropertiesPriceSum()
+    {
+        return PropertyViewer.propertyPriceSum;
+    }
+
 }
