@@ -47,7 +47,7 @@ public class PropertyViewer
     }
 
     /**
-     *
+     * Moves to the next property and updates the GUI with its information.
      */
     public void nextProperty()
     {  
@@ -65,7 +65,7 @@ public class PropertyViewer
     }
 
     /**
-     * 
+     * Moves to the previous property and updates the GUI with its information.
      */
     public void previousProperty()
     {   
@@ -88,9 +88,8 @@ public class PropertyViewer
     }
 
     /**
-     * 
+     * Favourites / unfavourites a property and displays if its favourited on the GUI.
      */
-    // Toogle the current property being viewed as favourite
     public void toggleFavourite()
     {
         PropertyViewer.currentProperty.toggleFavourite(); // Set to True if False, False if True.
@@ -98,6 +97,10 @@ public class PropertyViewer
     }
 
     //----- Additional methods for code readability -----
+
+    /**
+     * Updates the GUI with the current property's: property ID, the details used for the entries of the GUI, whether it has been favourited.
+     */
     public void updateGUI()
     {
         // Show property ID at the top of the window
