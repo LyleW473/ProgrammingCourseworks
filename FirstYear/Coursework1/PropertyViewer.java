@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
  */
 public class PropertyViewer
 {    
-    private PropertyViewerGUI gui;     // the Graphical User Interface
+    private PropertyViewerGUI gui; // the Graphical User Interface
     private Portfolio portfolio;
 
     // Following attributes are static because only one PropertyViewer is required for the program
@@ -42,10 +42,8 @@ public class PropertyViewer
         // Initialise property viewer with the first 
         PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
 
-         // Show property ID at the top of the window
-        this.gui.showID(PropertyViewer.currentProperty);
-        // Display property (i.e., the entries of this property)
-        this.gui.showProperty(PropertyViewer.currentProperty);
+        // Update GUI with the current property's information
+        this.updateGUI();
     }
 
     /**
@@ -53,18 +51,17 @@ public class PropertyViewer
      */
     public void nextProperty()
     {  
-        System.out.println(this.portfolio.numberOfProperties());
-        System.out.println("Before" +  PropertyViewer.propertyIndex);
+        // System.out.println(this.portfolio.numberOfProperties());
+        // System.out.println("Before" +  PropertyViewer.propertyIndex);
         // Increase the property index, looping back to the first property if clicking next on the last property in the "list"
         PropertyViewer.propertyIndex = (PropertyViewer.propertyIndex + 1) % (NUM_PROPERTIES);
-        System.out.println("After" + PropertyViewer.propertyIndex);
+        // System.out.println("After" + PropertyViewer.propertyIndex);
         
         // Update current property
         PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+
         // Update GUI
-        this.gui.showID(PropertyViewer.currentProperty);
-        this.gui.showProperty(PropertyViewer.currentProperty);
-        this.gui.showFavourite(currentProperty);
+        this.updateGUI();
     }
 
     /**
@@ -72,7 +69,7 @@ public class PropertyViewer
      */
     public void previousProperty()
     {   
-        System.out.println("Before" +  PropertyViewer.propertyIndex);
+        // System.out.println("Before" +  PropertyViewer.propertyIndex);
         // Decrease the property index
         PropertyViewer.propertyIndex --;
         
@@ -81,14 +78,13 @@ public class PropertyViewer
             {
             PropertyViewer.propertyIndex += NUM_PROPERTIES;
             }
-        System.out.println("After" + PropertyViewer.propertyIndex);
+        // System.out.println("After" + PropertyViewer.propertyIndex);
 
         // Update current property
         PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+
         // Update GUI
-        this.gui.showID(PropertyViewer.currentProperty);
-        this.gui.showProperty(PropertyViewer.currentProperty);
-        this.gui.showFavourite(currentProperty);
+        this.updateGUI();
     }
 
     /**
@@ -100,7 +96,20 @@ public class PropertyViewer
         PropertyViewer.currentProperty.toggleFavourite(); // Set to True if False, False if True.
         this.gui.showFavourite(currentProperty); // Display whether this property is favourited or not (Done after each method call)
     }
-    
+
+    //----- Additional methods for code readability -----
+    public void updateGUI()
+    {
+        // Show property ID at the top of the window
+        this.gui.showID(PropertyViewer.currentProperty);
+
+        // Display property (i.e., the entries of this property)
+        this.gui.showProperty(PropertyViewer.currentProperty);
+
+        // Display whether this property is favourited
+        this.gui.showFavourite(currentProperty);
+
+    }
 
     //----- methods for challenge tasks -----
     
