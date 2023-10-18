@@ -21,6 +21,7 @@ public class PropertyViewer
     private static int propertyIndex = 0;
     private final int NUM_PROPERTIES; // Non-static because cannot assign to static in constructor after initialisation
     private static int numPropertiesViewed = 0;
+    private static int propertyPriceSum = 0;
     
     // Main method for testing + development (Remove later)
     public static void main(String[] args)
@@ -41,8 +42,13 @@ public class PropertyViewer
         // Initialise additional attributes
         NUM_PROPERTIES = portfolio.numberOfProperties();
 
-        // Initialise property viewer with the first 
+        // Initialise property viewer with the first property
         PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+        PropertyViewer.numPropertiesViewed ++;
+        PropertyViewer.propertyPriceSum += PropertyViewer.currentProperty.getPrice();
+        System.out.println("Viewed" + getNumberOfPropertiesViewed());
+        System.out.println("Total" + PropertyViewer.propertyPriceSum);
+        System.out.println("Average" + averagePropertyPrice());
 
         // Update GUI with the current property's information
         this.updateGUI();
@@ -61,13 +67,19 @@ public class PropertyViewer
         
         // Update current property
         PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+        
+        // Increase number of properties viewed since the application started
+        numPropertiesViewed ++;
+
+        // Increase total value of all properties viewed so far
+        PropertyViewer.propertyPriceSum += PropertyViewer.currentProperty.getPrice();
+
+        System.out.println("Viewed" + getNumberOfPropertiesViewed());
+        System.out.println("Total" + PropertyViewer.propertyPriceSum);
+        System.out.println("Average" + averagePropertyPrice());
 
         // Update GUI
         this.updateGUI();
-
-        // Increase number of properties viewed since the application started
-        numPropertiesViewed ++;
-        System.out.println(getNumberOfPropertiesViewed());
     }
 
     /**
@@ -89,12 +101,18 @@ public class PropertyViewer
         // Update current property
         PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
 
+        // Increase number of properties viewed since the application started
+        numPropertiesViewed ++;
+            
+        // Increase total value of all properties viewed so far
+        PropertyViewer.propertyPriceSum += PropertyViewer.currentProperty.getPrice();
+        System.out.println("Viewed" + getNumberOfPropertiesViewed());
+        System.out.println("Total" + PropertyViewer.propertyPriceSum);
+        System.out.println("Average" + averagePropertyPrice());
+
         // Update GUI
         this.updateGUI();
 
-        // Increase number of properties viewed since the application started
-        numPropertiesViewed ++;
-        System.out.println(getNumberOfPropertiesViewed());
     }
 
     /**
@@ -140,7 +158,7 @@ public class PropertyViewer
     }
     
     /**
-     * 
+     * Returns the number of properties viewed since the application was started
      */
     public int getNumberOfPropertiesViewed()
     {
@@ -148,10 +166,10 @@ public class PropertyViewer
     }
     
     /**
-     * 
+     * Returns the average price of the properties viewed since the application was started
      */
     public int averagePropertyPrice()
-    {
-        return 0;
+    {   
+        return PropertyViewer.propertyPriceSum / PropertyViewer.numPropertiesViewed;
     }
 }
