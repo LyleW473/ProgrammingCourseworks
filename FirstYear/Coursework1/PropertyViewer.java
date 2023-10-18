@@ -67,7 +67,7 @@ public class PropertyViewer
         
         // Update current property
         PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
-        
+
         // Increase number of properties viewed since the application started
         numPropertiesViewed ++;
 
@@ -150,8 +150,8 @@ public class PropertyViewer
      */
     public void viewMap() throws Exception
     {
-       double latitude = 51.512793;
-       double longitude = -0.117149;
+       double latitude = PropertyViewer.currentProperty.getLatitude();
+       double longitude = PropertyViewer.currentProperty.getLongitude();
        
        URI uri = new URI("https://www.google.com/maps/place/" + latitude + "," + longitude);
        java.awt.Desktop.getDesktop().browse(uri); 
