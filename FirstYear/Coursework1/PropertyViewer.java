@@ -66,16 +66,9 @@ public class PropertyViewer
         
         // Update current property
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
-
-        // Increase number of properties viewed since the application started
-        numPropertiesViewed ++;
-
-        // Increase total value of all properties viewed so far
-        this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
-
-        System.out.println("Viewed" + getNumberOfPropertiesViewed());
-        System.out.println("Total" + this.propertiesPriceSum);
-        System.out.println("Average" + averagePropertyPrice());
+        
+        // Update statistics
+        this.updateStatistics();
 
         // Update GUI
         this.updateGUI();
@@ -100,14 +93,8 @@ public class PropertyViewer
         // Update current property
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
 
-        // Increase number of properties viewed since the application started
-        numPropertiesViewed ++;
-            
-        // Increase total value of all properties viewed so far
-        this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
-        System.out.println("Viewed" + getNumberOfPropertiesViewed());
-        System.out.println("Total" + this.propertiesPriceSum);
-        System.out.println("Average" + averagePropertyPrice());
+        // Update statistics
+        this.updateStatistics();
 
         // Update GUI
         this.updateGUI();
@@ -139,6 +126,20 @@ public class PropertyViewer
         // Display whether this property is favourited
         this.gui.showFavourite(this.gui.getCurrentProperty());
 
+    }
+    /**
+     * Updates the values of the statistics when going viewing different properties
+     */
+    public void updateStatistics()
+    {
+        // Increase number of properties viewed since the application started
+        numPropertiesViewed ++;
+            
+        // Increase total value of all properties viewed so far
+        this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
+        System.out.println("Viewed" + getNumberOfPropertiesViewed());
+        System.out.println("Total" + this.propertiesPriceSum);
+        System.out.println("Average" + averagePropertyPrice());
     }
 
     //----- methods for challenge tasks -----
