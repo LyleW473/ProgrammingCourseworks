@@ -39,7 +39,7 @@ public class PropertyViewerGUI
     private JTextField averagePropertyPriceLabel;
     private boolean isShowingStatisticsWindow = false;
     
-    private Property currentProperty;
+    // private Property currentProperty; (Replaced with static attribute in PropertyViewer)
     private PropertyViewer viewer;
     private boolean fixedSize;
         
@@ -48,7 +48,7 @@ public class PropertyViewerGUI
      */
     public PropertyViewerGUI(PropertyViewer viewer)
     {
-        currentProperty = null;
+        // currentProperty = null;
         this.viewer = viewer;
         fixedSize = false;
         makeFrame();
