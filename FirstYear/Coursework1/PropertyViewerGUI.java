@@ -39,7 +39,7 @@ public class PropertyViewerGUI
     private JTextField averagePropertyPriceLabel;
     private boolean isShowingStatisticsWindow = false;
     
-    // private Property currentProperty; (Replaced with static attribute in PropertyViewer)
+    private Property currentProperty;
     private PropertyViewer viewer;
     private boolean fixedSize;
         
@@ -48,7 +48,7 @@ public class PropertyViewerGUI
      */
     public PropertyViewerGUI(PropertyViewer viewer)
     {
-        // currentProperty = null;
+        currentProperty = null;
         this.viewer = viewer;
         fixedSize = false;
         makeFrame();
@@ -57,7 +57,23 @@ public class PropertyViewerGUI
 
 
     // ---- public view functions ----
-    
+
+    /**
+     * Sets the current property to the property passed in
+     */
+    public void setCurrentProperty(Property propertyToChangeTo)
+    {
+        currentProperty = propertyToChangeTo;
+    }
+
+    /**
+     * Returns the current property being viewed
+     */
+    public Property getCurrentProperty()
+    {
+        return currentProperty;
+    }
+
     /**
      * Display a given property
      */

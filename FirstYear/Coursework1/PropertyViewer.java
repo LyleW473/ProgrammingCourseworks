@@ -15,19 +15,18 @@ public class PropertyViewer
 {    
     private PropertyViewerGUI gui; // the Graphical User Interface
     private Portfolio portfolio;
-
-    // Following attributes are static because only one PropertyViewer is required for the program
-    private static Property currentProperty;
-    private static int propertyIndex = 0;
-    private final int NUM_PROPERTIES; // Non-static because cannot assign to static in constructor after initialisation
-    private static int numPropertiesViewed = 0;
-    private static int propertyPriceSum = 0;
+    
+    private int propertyIndex = 0;
+    private final int NUM_PROPERTIES;
+    private int numPropertiesViewed = 0;
+    private int propertiesPriceSum = 0;
     
     // Main method for testing + development (Remove later)
     public static void main(String[] args)
     {   
         // Create a property viewer
         PropertyViewer propertyViewer1 = new PropertyViewer();
+        PropertyViewer propertyViewer2 = new PropertyViewer();
     }
     
     /**
@@ -43,11 +42,11 @@ public class PropertyViewer
         NUM_PROPERTIES = portfolio.numberOfProperties();
 
         // Initialise property viewer with the first property
-        PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
-        PropertyViewer.numPropertiesViewed ++;
-        PropertyViewer.propertyPriceSum += PropertyViewer.currentProperty.getPrice();
+        this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
+        this.numPropertiesViewed ++;
+        this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
         System.out.println("Viewed" + getNumberOfPropertiesViewed());
-        System.out.println("Total" + PropertyViewer.propertyPriceSum);
+        System.out.println("Total" + this.propertiesPriceSum);
         System.out.println("Average" + averagePropertyPrice());
 
         // Update GUI with the current property's information
@@ -60,22 +59,22 @@ public class PropertyViewer
     public void nextProperty()
     {  
         // System.out.println(this.portfolio.numberOfProperties());
-        // System.out.println("Before" +  PropertyViewer.propertyIndex);
+        // System.out.println("Before" +  this.propertyIndex);
         // Increase the property index, looping back to the first property if clicking next on the last property in the "list"
-        PropertyViewer.propertyIndex = (PropertyViewer.propertyIndex + 1) % (NUM_PROPERTIES);
-        // System.out.println("After" + PropertyViewer.propertyIndex);
+        this.propertyIndex = (this.propertyIndex + 1) % (NUM_PROPERTIES);
+        // System.out.println("After" + this.propertyIndex);
         
         // Update current property
-        PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+        this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
 
         // Increase number of properties viewed since the application started
         numPropertiesViewed ++;
 
         // Increase total value of all properties viewed so far
-        PropertyViewer.propertyPriceSum += PropertyViewer.currentProperty.getPrice();
+        this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
 
         System.out.println("Viewed" + getNumberOfPropertiesViewed());
-        System.out.println("Total" + PropertyViewer.propertyPriceSum);
+        System.out.println("Total" + this.propertiesPriceSum);
         System.out.println("Average" + averagePropertyPrice());
 
         // Update GUI
@@ -87,27 +86,27 @@ public class PropertyViewer
      */
     public void previousProperty()
     {   
-        // System.out.println("Before" +  PropertyViewer.propertyIndex);
+        // System.out.println("Before" +  this.propertyIndex);
         // Decrease the property index
-        PropertyViewer.propertyIndex --;
+        this.propertyIndex --;
         
         // Loop back to the last property if clicking previous on the first property in the "list"
-        if (PropertyViewer.propertyIndex < 0)
+        if (this.propertyIndex < 0)
             {
-            PropertyViewer.propertyIndex += NUM_PROPERTIES;
+            this.propertyIndex += NUM_PROPERTIES;
             }
-        // System.out.println("After" + PropertyViewer.propertyIndex);
+        // System.out.println("After" + this.propertyIndex);
 
         // Update current property
-        PropertyViewer.currentProperty = this.portfolio.getProperty(PropertyViewer.propertyIndex);
+        this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
 
         // Increase number of properties viewed since the application started
         numPropertiesViewed ++;
             
         // Increase total value of all properties viewed so far
-        PropertyViewer.propertyPriceSum += PropertyViewer.currentProperty.getPrice();
+        this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
         System.out.println("Viewed" + getNumberOfPropertiesViewed());
-        System.out.println("Total" + PropertyViewer.propertyPriceSum);
+        System.out.println("Total" + this.propertiesPriceSum);
         System.out.println("Average" + averagePropertyPrice());
 
         // Update GUI
@@ -120,8 +119,8 @@ public class PropertyViewer
      */
     public void toggleFavourite()
     {
-        PropertyViewer.currentProperty.toggleFavourite(); // Set to True if False, False if True.
-        this.gui.showFavourite(currentProperty); // Display whether this property is favourited or not (Done after each method call)
+        this.gui.getCurrentProperty().toggleFavourite(); // Set to True if False, False if True.
+        this.gui.showFavourite(this.gui.getCurrentProperty()); // Display whether this property is favourited or not (Done after each method call)
     }
 
     //----- Additional methods for code readability -----
@@ -132,13 +131,13 @@ public class PropertyViewer
     public void updateGUI()
     {
         // Show property ID at the top of the window
-        this.gui.showID(PropertyViewer.currentProperty);
+        this.gui.showID(this.gui.getCurrentProperty());
 
         // Display property (i.e., the entries of this property)
-        this.gui.showProperty(PropertyViewer.currentProperty);
+        this.gui.showProperty(this.gui.getCurrentProperty());
 
         // Display whether this property is favourited
-        this.gui.showFavourite(currentProperty);
+        this.gui.showFavourite(this.gui.getCurrentProperty());
 
     }
 
@@ -150,8 +149,8 @@ public class PropertyViewer
      */
     public void viewMap() throws Exception
     {
-       double latitude = PropertyViewer.currentProperty.getLatitude();
-       double longitude = PropertyViewer.currentProperty.getLongitude();
+       double latitude = this.gui.getCurrentProperty().getLatitude();
+       double longitude = this.gui.getCurrentProperty().getLongitude();
        
        URI uri = new URI("https://www.google.com/maps/place/" + latitude + "," + longitude);
        java.awt.Desktop.getDesktop().browse(uri); 
@@ -162,7 +161,7 @@ public class PropertyViewer
      */
     public int getNumberOfPropertiesViewed()
     {
-        return PropertyViewer.numPropertiesViewed;
+        return this.numPropertiesViewed;
     }
     
     /**
@@ -170,7 +169,7 @@ public class PropertyViewer
      */
     public int averagePropertyPrice()
     {   
-        return PropertyViewer.propertyPriceSum / PropertyViewer.numPropertiesViewed;
+        return this.propertiesPriceSum / this.numPropertiesViewed;
     }
     
     /**
@@ -178,7 +177,7 @@ public class PropertyViewer
      */
     public int getPropertiesPriceSum()
     {
-        return PropertyViewer.propertyPriceSum;
+        return this.propertiesPriceSum;
     }
 
 }
