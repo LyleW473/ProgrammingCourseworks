@@ -14,27 +14,32 @@ public class PropertyViewer
 {    
     private PropertyViewerGUI gui;     // the Graphical User Interface
     private Portfolio portfolio;
+    private static Property currentProperty; // Static because only one viewer is required
     
     // Main method for testing + development (Remove later)
     public static void main(String[] args)
     {   
         // Create a property viewer
         PropertyViewer propertyViewer1 = new PropertyViewer();
-
-        // Show the current property
-        int propertyIndex = 0;
-        Property currentProperty = propertyViewer1.portfolio.getProperty(propertyIndex);
-        propertyViewer1.gui.showID(currentProperty); // Show property ID at the top of the window
-        propertyViewer1.gui.showProperty(currentProperty); // Display property
     }
-
+    
     /**
      * Create a PropertyViewer and display its GUI on screen.
      */
     public PropertyViewer()
     {
+        // Instantiate GUI and Portfolio
         gui = new PropertyViewerGUI(this);
         portfolio = new Portfolio("airbnb-london.csv");
+
+        // Initialise property viewer with the first 
+        int propertyIndex = 0;
+        PropertyViewer.currentProperty = this.portfolio.getProperty(propertyIndex);
+        
+         // Show property ID at the top of the window
+        this.gui.showID(currentProperty);
+        // Display property (i.e., the entries of this property)
+        this.gui.showProperty(currentProperty);
     }
 
     /**
@@ -56,9 +61,11 @@ public class PropertyViewer
     /**
      * 
      */
+    // Toogle the current property being viewed as favourite
     public void toggleFavourite()
     {
-
+        PropertyViewer.currentProperty.toggleFavourite(); // Set to True if False, False if True.
+        this.gui.showFavourite(currentProperty); // Display whether this property is favourited or not (Done after each method call)
     }
     
 
