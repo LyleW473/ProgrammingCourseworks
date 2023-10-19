@@ -26,7 +26,6 @@ public class PropertyViewer
     {   
         // Create a property viewer
         PropertyViewer propertyViewer1 = new PropertyViewer();
-        PropertyViewer propertyViewer2 = new PropertyViewer();
     }
     
     /**
@@ -57,11 +56,8 @@ public class PropertyViewer
      */
     public void nextProperty()
     {  
-        // System.out.println(this.portfolio.numberOfProperties());
-        // System.out.println("Before" +  this.propertyIndex);
         // Increase the property index, looping back to the first property if clicking next on the last property in the "list"
         this.propertyIndex = (this.propertyIndex + 1) % (NUM_PROPERTIES);
-        // System.out.println("After" + this.propertyIndex);
         
         // Update current property
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
@@ -78,7 +74,6 @@ public class PropertyViewer
      */
     public void previousProperty()
     {   
-        // System.out.println("Before" +  this.propertyIndex);
         // Decrease the property index
         this.propertyIndex --;
         
@@ -87,7 +82,6 @@ public class PropertyViewer
             {
             this.propertyIndex += NUM_PROPERTIES;
             }
-        // System.out.println("After" + this.propertyIndex);
 
         // Update current property
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
@@ -136,9 +130,6 @@ public class PropertyViewer
             
         // Increase total value of all properties viewed so far
         this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
-        System.out.println("Viewed" + getNumberOfPropertiesViewed());
-        System.out.println("Total" + this.propertiesPriceSum);
-        System.out.println("Average" + averagePropertyPrice());
     }
 
     //----- methods for challenge tasks -----

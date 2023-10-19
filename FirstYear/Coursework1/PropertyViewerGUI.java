@@ -88,7 +88,6 @@ public class PropertyViewerGUI
         //descriptionLabel.setText(property.getDescription());
         
         // If the window to display the statistics is showing
-        System.out.println(isShowingStatistics());
         if (isShowingStatistics() == true)
         {
             updateStatisticsWindow();
@@ -197,7 +196,6 @@ public class PropertyViewerGUI
      * Called when the 'Display statistics' button was clicked.
      */
     private void displayStatisticsButton(){
-        System.out.println("Showing stats");
         
         // If the window isn't already showing, create a new one
         if (isShowingStatistics() == false)
@@ -215,7 +213,6 @@ public class PropertyViewerGUI
             
             // Number of properties viewed
             propertyPanel.add(new JLabel("Number of properties viewed: "));
-            System.out.println(viewer.getNumberOfPropertiesViewed());
             numPropertiesViewedLabel = new JTextField("default");
             numPropertiesViewedLabel.setEditable(false);
             propertyPanel.add(numPropertiesViewedLabel);
@@ -250,7 +247,6 @@ public class PropertyViewerGUI
                 public void windowClosing(WindowEvent e)
                 {
                 toggleShowingStatistics();
-                System.out.println(isShowingStatistics());
                 }
             });
 
