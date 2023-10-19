@@ -249,14 +249,22 @@ public class PropertyViewerGUI
                 toggleShowingStatistics();
                 }
             });
+            
+            // Set the statistics frame to always be on top of all other frames
+            frame.setAlwaysOnTop(true);
 
         }
-        
-        // Only set the showing statistics attribute to false if it isn't being shown already (i.e., only set to back to false when the exit button is clicked)
-        if (isShowingStatistics() == false)
+
+        // If the window is already showing when the display statistics button was clicked
+        if (isShowingStatistics() == true)
         {
-            toggleShowingStatistics();
+            // Set the frame "invisible"
+            frame.setVisible(false);
+            
         }
+
+        // Show/Hide statistics window
+        toggleShowingStatistics();
 
         // Update the statistics window with the current state (values) of the statistics
         updateStatisticsWindow();
