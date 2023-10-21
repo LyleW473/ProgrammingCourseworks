@@ -18,12 +18,16 @@ import java.util.Iterator;
  */
 public class PropertyViewerGUI
 {
-    // fields:
+    // Porfolio viewer GUI
     private JFrame frame;
     private JPanel propertyPanel;
+    private Property currentProperty;
+    private PropertyViewer viewer;
+    private boolean fixedSize;
+
+    // Labels for portfolio viewer GUI for saving the fields from the currentProperty
     private JLabel idLabel;
     private JLabel favouriteLabel;
-    
     private JTextField hostIDLabel;
     private JTextField hostNameLabel;
     private JTextField neighbourhoodLabel;
@@ -31,18 +35,16 @@ public class PropertyViewerGUI
     private JTextField priceLabel;
     private JTextField minNightsLabel;
     private JTextArea descriptionLabel;
-
-
-    // Statistics window
+    
+    // Labels for the statistics window
     private JTextField numPropertiesViewedLabel;
     private JTextField propertiesPriceSumLabel;
     private JTextField averagePropertyPriceLabel;
+
+    // Boolean value as to whether the statistics window is currently being displayed or not
     private boolean isShowingStatisticsWindow = false;
-    
-    private Property currentProperty;
-    private PropertyViewer viewer;
-    private boolean fixedSize;
-        
+
+
     /**
      * Create a PropertyViewer and display its GUI on screen.
      */
@@ -54,7 +56,6 @@ public class PropertyViewerGUI
         makeFrame();
         this.setPropertyViewSize(400, 250);
     }
-
 
     // ---- public view functions ----
 
@@ -85,7 +86,7 @@ public class PropertyViewerGUI
         roomTypeLabel.setText(property.getRoomType());
         priceLabel.setText("£" + property.getPrice());
         minNightsLabel.setText(property.getMinNights());
-        //descriptionLabel.setText(property.getDescription());
+        // descriptionLabel.setText(property.getDescription());
         
         // If the window to display the statistics is showing
         if (isShowingStatistics() == true)
@@ -106,7 +107,7 @@ public class PropertyViewerGUI
     }
     
     /**
-     * Show a message in the status bar at the bottom of the screen.
+     * Show a message in the status bar at the bottom of the screen indicating whether it has been favourited or not.
      */
     public void showFavourite(Property property)
     {
@@ -120,7 +121,8 @@ public class PropertyViewerGUI
     /**
      * Show the ID in the top of the screen.
      */
-    public void showID(Property property){
+    public void showID(Property property)
+    {
         idLabel.setText("Current Property ID:" + property.getID());
     }
     
@@ -159,14 +161,15 @@ public class PropertyViewerGUI
     /**
      * Called when the 'Toggle Favourite' button was clicked.
      */
-    private void toggleFavouriteButton(){
+    private void toggleFavouriteButton()
+    {
         viewer.toggleFavourite();     
     }
     
     // ---- Methods for displaying statistics ----
 
     /**
-     * Returns a boolean as to whether the statistics window is being displayed or not
+     * Returns a boolean indicating whether the statistics window is being displayed currently or not
      */
     public boolean isShowingStatistics()
     {
@@ -174,18 +177,18 @@ public class PropertyViewerGUI
     }
 
     /**
-     * Updates the statistics window with the correct values for each statistic
+     * Updates the labels for the statistics window with the correct values for each statistic
      */
     public void updateStatisticsWindow()
     {
+        // Note: Integer.toString to convert from "int" to "String"
         numPropertiesViewedLabel.setText(Integer.toString(viewer.getNumberOfPropertiesViewed()));
         averagePropertyPriceLabel.setText(Integer.toString(viewer.averagePropertyPrice()));
         propertiesPriceSumLabel.setText(Integer.toString(viewer.getPropertiesPriceSum()));
     }
 
     /**
-     * Changes the showing 
-     * Called when the 'Display statistics' button is clicked, or when the close button is clicked on the statistics window, to change 
+     * Used to toggle the attribute used to show/hide the statistics window when the 'Display statistics' button (or the exit button on the window) is clicked.
      */
     public void toggleShowingStatistics()
     {
@@ -200,6 +203,7 @@ public class PropertyViewerGUI
         // If the window isn't already showing, create a new one
         if (isShowingStatistics() == false)
         {
+            // Create frame and content pane for the statistics window
             frame = new JFrame("Statistics");
             JPanel contentPane = (JPanel)frame.getContentPane();
             contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
@@ -210,6 +214,8 @@ public class PropertyViewerGUI
             // Create the property pane in the center
             propertyPanel = new JPanel();
             propertyPanel.setLayout(new GridLayout(3,2)); // First number should be the number of labels we want
+
+            // ---- Labels for each statistic ----
             
             // Number of properties viewed
             propertyPanel.add(new JLabel("Number of properties viewed: "));
@@ -228,9 +234,12 @@ public class PropertyViewerGUI
             averagePropertyPriceLabel = new JTextField("default");
             averagePropertyPriceLabel.setEditable(false);
             propertyPanel.add(averagePropertyPriceLabel);
-        
+            
+            // Add property panel to the content pane
             propertyPanel.setBorder(new EtchedBorder());
             contentPane.add(propertyPanel, BorderLayout.CENTER);
+
+            // ----------------------------------
             
             // building is done - arrange the components     
             frame.pack();
@@ -248,7 +257,8 @@ public class PropertyViewerGUI
                 {
                 toggleShowingStatistics();
                 }
-            });
+            }
+            );
             
             // Set the statistics frame to always be on top of all other frames
             frame.setAlwaysOnTop(true);
@@ -277,6 +287,7 @@ public class PropertyViewerGUI
      */
     private void makeFrame()
     {
+        // ---- Initialise window for portfolio viewer application ----
         frame = new JFrame("Portfolio Viewer Application");
         JPanel contentPane = (JPanel)frame.getContentPane();
         contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
@@ -284,49 +295,63 @@ public class PropertyViewerGUI
         // Specify the layout manager with nice spacing
         contentPane.setLayout(new BorderLayout(6, 6));
 
+        // ---- Labels for each field for each property ----
+
         // Create the property pane in the center
         propertyPanel = new JPanel();
         propertyPanel.setLayout(new GridLayout(6,2));
         
+        // Host ID
         propertyPanel.add(new JLabel("HostID: "));
         hostIDLabel = new JTextField("default");
         hostIDLabel.setEditable(false);
         propertyPanel.add(hostIDLabel);
-        
+
+        // Host Name
         propertyPanel.add(new JLabel("Host Name: "));
         hostNameLabel = new JTextField("default");
         hostNameLabel.setEditable(false);
         propertyPanel.add(hostNameLabel);
         
+        // Neighbourhood
         propertyPanel.add(new JLabel("Neighbourhood: "));
         neighbourhoodLabel = new JTextField("default");
         neighbourhoodLabel.setEditable(false);
         propertyPanel.add(neighbourhoodLabel);
         
+        // Room type
         propertyPanel.add(new JLabel("Room type: "));
         roomTypeLabel = new JTextField("default");
         roomTypeLabel.setEditable(false);
         propertyPanel.add(roomTypeLabel);
         
+        // Price
         propertyPanel.add(new JLabel("Price: "));
         priceLabel = new JTextField("default");
         priceLabel.setEditable(false);
         propertyPanel.add(priceLabel);
         
+        // Minimum nights
         propertyPanel.add(new JLabel("Minimum nights: "));
         minNightsLabel = new JTextField("default");
         minNightsLabel.setEditable(false);
         propertyPanel.add(minNightsLabel);
 
+        // Add property panel to the content pane
         propertyPanel.setBorder(new EtchedBorder());
         contentPane.add(propertyPanel, BorderLayout.CENTER);
+        
+        // ----------------------------------
         
         // Create two labels at top and bottom for the file name and status message
         idLabel = new JLabel("default");
         contentPane.add(idLabel, BorderLayout.NORTH);
 
+        // Label for whether the current property being viewed has been favourited or not
         favouriteLabel = new JLabel(" ");
         contentPane.add(favouriteLabel, BorderLayout.SOUTH);
+
+        // ---- Toolbar for buttons ----
         
         // Create the toolbar with the buttons
         JPanel toolbar = new JPanel();
@@ -372,6 +397,8 @@ public class PropertyViewerGUI
         flow.add(toolbar);
         
         contentPane.add(flow, BorderLayout.WEST);
+
+        // ----------------------------------
         
         // building is done - arrange the components     
         frame.pack();

@@ -13,13 +13,13 @@ import java.net.URISyntaxException;
  */
 public class PropertyViewer
 {    
-    private PropertyViewerGUI gui; // the Graphical User Interface
-    private Portfolio portfolio;
+    private PropertyViewerGUI gui; // The Graphical User Interface
+    private Portfolio portfolio; // Portfolio
     
-    private int propertyIndex = 0;
-    private final int NUM_PROPERTIES;
-    private int numPropertiesViewed = 0;
-    private int propertiesPriceSum = 0;
+    private int propertyIndex = 0; // Index to keep track of which property we're looking at
+    private int numPropertiesViewed = 0; // Total properties viewed since the applicaton started
+    private int propertiesPriceSum = 0; // Total sum of the price of all the properties viewed since the applicaton started
+    private final int NUM_PROPERTIES; // Constant to keep track of how many total properties there are
     
     // Main method for testing + development (Remove later)
     public static void main(String[] args)
@@ -44,10 +44,10 @@ public class PropertyViewer
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
 
         // Update statistics 
-        // Note: Initialises the number of properties viewed as 1 and price sum as the current property being looked at
+        // Note: Initialises the number of properties viewed as 1 and price sum as the price of the current property being looked at
         this.updateStatistics();
 
-        // Update GUI with the current property's information
+        // Update GUI with the current property's information (i.e., the first property)
         this.updateGUI();
     }
 
@@ -59,13 +59,13 @@ public class PropertyViewer
         // Increase the property index, looping back to the first property if clicking next on the last property in the "list"
         this.propertyIndex = (this.propertyIndex + 1) % (NUM_PROPERTIES);
         
-        // Update current property
+        // Update currentProperty with the "next" property
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
         
         // Update statistics
         this.updateStatistics();
 
-        // Update GUI
+        // Update GUI with the current property's information
         this.updateGUI();
     }
 
@@ -83,15 +83,14 @@ public class PropertyViewer
             this.propertyIndex += NUM_PROPERTIES;
             }
 
-        // Update current property
+        // Update currentProperty with the "previous" property
         this.gui.setCurrentProperty(this.portfolio.getProperty(this.propertyIndex));
 
         // Update statistics
         this.updateStatistics();
 
-        // Update GUI
+        // Update GUI with the current property's information
         this.updateGUI();
-
     }
 
     /**
@@ -113,15 +112,16 @@ public class PropertyViewer
         // Show property ID at the top of the window
         this.gui.showID(this.gui.getCurrentProperty());
 
-        // Display property (i.e., the entries of this property)
+        // Display property (i.e., the entries/fields of this property)
         this.gui.showProperty(this.gui.getCurrentProperty());
 
         // Display whether this property is favourited
         this.gui.showFavourite(this.gui.getCurrentProperty());
 
     }
+
     /**
-     * Updates the values of the statistics when going viewing different properties
+     * Updates the values of the statistics when viewing different properties
      */
     public void updateStatistics()
     {
@@ -156,7 +156,7 @@ public class PropertyViewer
     }
     
     /**
-     * Returns the average price of the properties viewed since the application was started
+     * Returns the average price of all of the properties viewed since the application was started
      */
     public int averagePropertyPrice()
     {   
