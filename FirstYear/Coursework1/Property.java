@@ -51,7 +51,7 @@ public class Property
         this.reviewsPerMonth = reviewsPerMonth;
         this.availability365 = availability365;
         
-        isFavourite = false;
+        this.isFavourite = false;
     }
     
     /**
@@ -59,7 +59,7 @@ public class Property
      */
     public String getID()
     {
-        return id;
+        return this.id;
     }
     
     /**
@@ -67,7 +67,7 @@ public class Property
      */
     public String getHostID()
     {
-        return hostID;
+        return this.hostID;
     }
     
     /**
@@ -75,7 +75,7 @@ public class Property
      */
     public double getLatitude()
     {
-        return latitude;
+        return this.latitude;
     }
     
     /**
@@ -83,7 +83,7 @@ public class Property
      */
     public double getLongitude()
     {
-        return longitude;
+        return this.longitude;
     }
     
     /**
@@ -91,7 +91,7 @@ public class Property
      */
     public int getPrice()
     {
-        return price;
+        return this.price;
     }
     
     /**
@@ -99,7 +99,7 @@ public class Property
      */
     public boolean isFavourite()
     {
-        return isFavourite;
+        return this.isFavourite;
     }
     
     /**
@@ -107,7 +107,7 @@ public class Property
      */
     public String getHostName()
     {
-        return hostName;
+        return this.hostName;
     }
     
     /**
@@ -115,7 +115,7 @@ public class Property
      */
     public String getNeighbourhood()
     {
-        return neighbourhood;
+        return this.neighbourhood;
     }
     
     /**
@@ -123,7 +123,7 @@ public class Property
      */
     public String getRoomType()
     {
-        return roomType;
+        return this.roomType;
     }
     
     /**
@@ -131,7 +131,7 @@ public class Property
      */
     public String getMinNights()
     {
-        return "" + minimumNights;
+        return "" + this.minimumNights;
     }
     
     /**
@@ -139,7 +139,7 @@ public class Property
      */
     public String getDescription()
     {
-        return description;
+        return this.description;
     }
     
     /**
@@ -147,7 +147,7 @@ public class Property
      */
     public void toggleFavourite()
     {
-        isFavourite = !isFavourite;
+        this.isFavourite = !this.isFavourite;
     }
 
     // ---- Additional entries/fields for each property ----
@@ -175,5 +175,12 @@ public class Property
     {
         return this.reviewsPerMonth;
     }
- 
+
+    /**
+     * Returns the year-round availiability of the property in days.
+     */
+    public int getAvailability365()
+    {
+        return this.availability365;
+    }
 }

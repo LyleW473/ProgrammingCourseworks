@@ -39,6 +39,7 @@ public class PropertyViewerGUI
     private JTextField dateLastReviewLabel;
     private JTextField reviewsPerMonthLabel;
     private JTextField descriptionLabel;
+    private JTextField availability365Label;
     
     // Labels for the statistics window
     private JTextField numPropertiesViewedLabel;
@@ -54,10 +55,10 @@ public class PropertyViewerGUI
      */
     public PropertyViewerGUI(PropertyViewer viewer)
     {
-        currentProperty = null;
+        this.currentProperty = null;
         this.viewer = viewer;
-        fixedSize = false;
-        makeFrame();
+        this.fixedSize = false;
+        this.makeFrame();
         this.setPropertyViewSize(600, 400);
     }
 
@@ -68,7 +69,7 @@ public class PropertyViewerGUI
      */
     public void setCurrentProperty(Property propertyToChangeTo)
     {
-        currentProperty = propertyToChangeTo;
+        this.currentProperty = propertyToChangeTo;
     }
 
     /**
@@ -76,7 +77,7 @@ public class PropertyViewerGUI
      */
     public Property getCurrentProperty()
     {
-        return currentProperty;
+        return this.currentProperty;
     }
 
     /**
@@ -84,21 +85,22 @@ public class PropertyViewerGUI
      */
     public void showProperty(Property property)
     {
-        hostIDLabel.setText(property.getHostID());
-        hostNameLabel.setText(property.getHostName());
-        descriptionLabel.setText(property.getDescription());
-        neighbourhoodLabel.setText(property.getNeighbourhood());
-        roomTypeLabel.setText(property.getRoomType());
-        priceLabel.setText("£" + property.getPrice());
-        minNightsLabel.setText(property.getMinNights());
-        numReviewsLabel.setText(Integer.toString(property.getNumReviews()));
-        dateLastReviewLabel.setText(property.getDateLastReview());
-        reviewsPerMonthLabel.setText(property.getReviewsPerMonth());
+        this.hostIDLabel.setText(property.getHostID());
+        this.hostNameLabel.setText(property.getHostName());
+        this.descriptionLabel.setText(property.getDescription());
+        this.neighbourhoodLabel.setText(property.getNeighbourhood());
+        this.roomTypeLabel.setText(property.getRoomType());
+        this.priceLabel.setText("£" + property.getPrice());
+        this.minNightsLabel.setText(property.getMinNights());
+        this.numReviewsLabel.setText(Integer.toString(property.getNumReviews()));
+        this.dateLastReviewLabel.setText(property.getDateLastReview());
+        this.reviewsPerMonthLabel.setText(property.getReviewsPerMonth());
+        this.availability365Label.setText(Integer.toString(property.getAvailability365()) + " days annually");
         
         // If the window to display the statistics is showing
-        if (isShowingStatistics() == true)
+        if (this.isShowingStatistics() == true)
         {
-            updateStatisticsWindow();
+            this.updateStatisticsWindow();
         }
     }
     
@@ -108,9 +110,9 @@ public class PropertyViewerGUI
      */
     public void setPropertyViewSize(int width, int height)
     {
-        propertyPanel.setPreferredSize(new Dimension(width, height));
-        frame.pack();
-        fixedSize = true;
+        this.propertyPanel.setPreferredSize(new Dimension(width, height));
+        this.frame.pack();
+        this.fixedSize = true;
     }
     
     /**
@@ -122,7 +124,7 @@ public class PropertyViewerGUI
         if (property.isFavourite()){
             favouriteText += "This is one of your favourite properties!";
         }
-        favouriteLabel.setText(favouriteText);
+        this.favouriteLabel.setText(favouriteText);
     }
     
     /**
@@ -130,7 +132,7 @@ public class PropertyViewerGUI
      */
     public void showID(Property property)
     {
-        idLabel.setText("Current Property ID:" + property.getID());
+        this.idLabel.setText("Current Property ID:" + property.getID());
     }
     
     // ---- implementation of button functions ----
@@ -140,7 +142,7 @@ public class PropertyViewerGUI
      */
     private void nextButton()
     {
-        viewer.nextProperty();
+        this.viewer.nextProperty();
     }
 
     /**
@@ -148,7 +150,7 @@ public class PropertyViewerGUI
      */
     private void previousButton()
     {
-        viewer.previousProperty();
+        this.viewer.previousProperty();
     }
     
     /**
@@ -156,10 +158,12 @@ public class PropertyViewerGUI
      */
     private void viewOnMapsButton()
     {
-        try{
-         viewer.viewMap();
+        try
+        {
+            this.viewer.viewMap();
         }
-        catch(Exception e){
+        catch(Exception e)
+        {
             System.out.println("URL INVALID");
         }
         
@@ -170,7 +174,7 @@ public class PropertyViewerGUI
      */
     private void toggleFavouriteButton()
     {
-        viewer.toggleFavourite();     
+        this.viewer.toggleFavourite();     
     }
     
     // ---- Methods for displaying statistics ----
@@ -180,18 +184,21 @@ public class PropertyViewerGUI
      */
     public boolean isShowingStatistics()
     {
-        return isShowingStatisticsWindow;
+        return this.isShowingStatisticsWindow;
     }
 
     /**
-     * Updates the labels for the statistics window with the correct values for each statistic
+     * Updates the labels for the statistics window with the correct values for each statistics
+     * - Calls the appropriate getter method for each label to get the value from that property
+     * - Converts the returned value from an integer to a string (to be accepted into JLabel.setText)
+     * - Passed into the labels' setText method
      */
     public void updateStatisticsWindow()
     {
         // Note: Integer.toString to convert from "int" to "String"
-        numPropertiesViewedLabel.setText(Integer.toString(viewer.getNumberOfPropertiesViewed()));
-        averagePropertyPriceLabel.setText(Integer.toString(viewer.averagePropertyPrice()));
-        propertiesPriceSumLabel.setText(Integer.toString(viewer.getPropertiesPriceSum()));
+        this.numPropertiesViewedLabel.setText(Integer.toString(this.viewer.getNumberOfPropertiesViewed()));
+        this.averagePropertyPriceLabel.setText(Integer.toString(this.viewer.averagePropertyPrice()));
+        this.propertiesPriceSumLabel.setText(Integer.toString(this.viewer.getPropertiesPriceSum()));
     }
 
     /**
@@ -199,7 +206,7 @@ public class PropertyViewerGUI
      */
     public void toggleShowingStatistics()
     {
-        isShowingStatisticsWindow = !isShowingStatisticsWindow;
+        this.isShowingStatisticsWindow = !this.isShowingStatisticsWindow;
     }
 
     /**
@@ -286,7 +293,7 @@ public class PropertyViewerGUI
     private void makeFrame()
     {
         // ---- Initialise window for portfolio viewer application ----
-        frame = new JFrame("Portfolio Viewer Application");
+        this.frame = new JFrame("Portfolio Viewer Application");
         JPanel contentPane = (JPanel)frame.getContentPane();
         contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
 
@@ -296,51 +303,54 @@ public class PropertyViewerGUI
         // ---- Labels for each field for each property ----
 
         // Create the property pane in the center
-        propertyPanel = new JPanel();
-        propertyPanel.setLayout(new GridLayout(10, 2)); // First value should be the number of entries to display
+        this.propertyPanel = new JPanel();
+        this.propertyPanel.setLayout(new GridLayout(11, 2)); // First value should be the number of entries to display
         
         // Host ID
-        this.hostIDLabel = this.createNewLabel(propertyPanel, "HostID: ");
+        this.hostIDLabel = this.createNewLabel(this.propertyPanel, "HostID: ");
 
         // Host Name
-        this.hostNameLabel = this.createNewLabel(propertyPanel, "Host Name: ");
+        this.hostNameLabel = this.createNewLabel(this.propertyPanel, "Host Name: ");
         
         // Description of the property
-        this.descriptionLabel = this.createNewLabel(propertyPanel, "Description: ");
+        this.descriptionLabel = this.createNewLabel(this.propertyPanel, "Description: ");
 
         // Neighbourhood
-        this.neighbourhoodLabel= this.createNewLabel(propertyPanel, "Neighbourhood: ");
+        this.neighbourhoodLabel= this.createNewLabel(this.propertyPanel, "Neighbourhood: ");
         
         // Room type
-        this.roomTypeLabel = this.createNewLabel(propertyPanel, "Room type: ");
+        this.roomTypeLabel = this.createNewLabel(this.propertyPanel, "Room type: ");
         
         // Price
-        this.priceLabel = this.createNewLabel(propertyPanel, "Price: ");
+        this.priceLabel = this.createNewLabel(this.propertyPanel, "Price: ");
 
         // Minimum nights
-        this.minNightsLabel = this.createNewLabel(propertyPanel, "Minimum nights: ");
+        this.minNightsLabel = this.createNewLabel(this.propertyPanel, "Minimum nights: ");
 
         // Number of reviews
-        this.numReviewsLabel = this.createNewLabel(propertyPanel, "Total number of reviews: ");
+        this.numReviewsLabel = this.createNewLabel(this.propertyPanel, "Total number of reviews: ");
 
         // Reviews per month 
-        this.reviewsPerMonthLabel = this.createNewLabel(propertyPanel, "Reviews per month: ");       
+        this.reviewsPerMonthLabel = this.createNewLabel(this.propertyPanel, "Reviews per month: ");       
 
         // Date of the last review
-        this.dateLastReviewLabel = this.createNewLabel(propertyPanel, "Date of last review: ");
+        this.dateLastReviewLabel = this.createNewLabel(this.propertyPanel, "Date of last review: ");
+        
+        // Availability of property
+        this.availability365Label = this.createNewLabel(this.propertyPanel, "Availability: ");
 
         // Add property panel to the content pane
-        propertyPanel.setBorder(new EtchedBorder());
-        contentPane.add(propertyPanel, BorderLayout.CENTER);
+        this.propertyPanel.setBorder(new EtchedBorder());
+        contentPane.add(this.propertyPanel, BorderLayout.CENTER);
 
         // ----------------------------------
         
         // Create two labels at top and bottom for the file name and status message
-        idLabel = new JLabel("default");
+        this.idLabel = new JLabel("default");
         contentPane.add(idLabel, BorderLayout.NORTH);
 
         // Label for whether the current property being viewed has been favourited or not
-        favouriteLabel = new JLabel("default");
+        this.favouriteLabel = new JLabel("default");
         contentPane.add(favouriteLabel, BorderLayout.SOUTH);
 
         // ---- Toolbar for buttons ----
@@ -373,12 +383,12 @@ public class PropertyViewerGUI
         // ----------------------------------
         
         // building is done - arrange the components     
-        frame.pack();
+        this.frame.pack();
         
         // place the frame at the center of the screen and show
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(d.width/2 - frame.getWidth()/2, d.height/2 - frame.getHeight()/2);
-        frame.setVisible(true);
+        this.frame.setLocation(d.width/2 - this.frame.getWidth()/2, d.height/2 - this.frame.getHeight()/2);
+        this.frame.setVisible(true);
     }    
 
     // ---- Methods for greater readability ----
