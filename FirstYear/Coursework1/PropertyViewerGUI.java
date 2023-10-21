@@ -218,22 +218,13 @@ public class PropertyViewerGUI
             // ---- Labels for each statistic ----
             
             // Number of properties viewed
-            propertyPanel.add(new JLabel("Number of properties viewed: "));
-            numPropertiesViewedLabel = new JTextField("default");
-            numPropertiesViewedLabel.setEditable(false);
-            propertyPanel.add(numPropertiesViewedLabel);
+            numPropertiesViewedLabel = this.createNewLabel(propertyPanel, "Number of properties viewed: ");
         
             // Total sum of the prices of the properties viewed
-            propertyPanel.add(new JLabel("Total sum of property prices: "));
-            propertiesPriceSumLabel = new JTextField("default");
-            propertiesPriceSumLabel.setEditable(false);
-            propertyPanel.add(propertiesPriceSumLabel);
+            propertiesPriceSumLabel = this.createNewLabel(propertyPanel, "Total sum of property prices: ");
 
             // Average property price
-            propertyPanel.add(new JLabel("Average property price: "));
-            averagePropertyPriceLabel = new JTextField("default");
-            averagePropertyPriceLabel.setEditable(false);
-            propertyPanel.add(averagePropertyPriceLabel);
+            averagePropertyPriceLabel = this.createNewLabel(propertyPanel, "Average property price: ");
             
             // Add property panel to the content pane
             propertyPanel.setBorder(new EtchedBorder());
@@ -302,40 +293,22 @@ public class PropertyViewerGUI
         propertyPanel.setLayout(new GridLayout(6,2));
         
         // Host ID
-        propertyPanel.add(new JLabel("HostID: "));
-        hostIDLabel = new JTextField("default");
-        hostIDLabel.setEditable(false);
-        propertyPanel.add(hostIDLabel);
+        hostIDLabel = this.createNewLabel(propertyPanel, "HostID: ");
 
         // Host Name
-        propertyPanel.add(new JLabel("Host Name: "));
-        hostNameLabel = new JTextField("default");
-        hostNameLabel.setEditable(false);
-        propertyPanel.add(hostNameLabel);
+        hostNameLabel = this.createNewLabel(propertyPanel, "Host Name: ");
         
         // Neighbourhood
-        propertyPanel.add(new JLabel("Neighbourhood: "));
-        neighbourhoodLabel = new JTextField("default");
-        neighbourhoodLabel.setEditable(false);
-        propertyPanel.add(neighbourhoodLabel);
+        neighbourhoodLabel= this.createNewLabel(propertyPanel, "Neighbourhood: ");
         
         // Room type
-        propertyPanel.add(new JLabel("Room type: "));
-        roomTypeLabel = new JTextField("default");
-        roomTypeLabel.setEditable(false);
-        propertyPanel.add(roomTypeLabel);
+        roomTypeLabel = this.createNewLabel(propertyPanel, "Room type: ");
         
         // Price
-        propertyPanel.add(new JLabel("Price: "));
-        priceLabel = new JTextField("default");
-        priceLabel.setEditable(false);
-        propertyPanel.add(priceLabel);
-        
+        priceLabel = this.createNewLabel(propertyPanel, "Price: ");
+
         // Minimum nights
-        propertyPanel.add(new JLabel("Minimum nights: "));
-        minNightsLabel = new JTextField("default");
-        minNightsLabel.setEditable(false);
-        propertyPanel.add(minNightsLabel);
+        minNightsLabel = this.createNewLabel(propertyPanel, "Minimum nights: ");
 
         // Add property panel to the content pane
         propertyPanel.setBorder(new EtchedBorder());
@@ -408,4 +381,21 @@ public class PropertyViewerGUI
         frame.setLocation(d.width/2 - frame.getWidth()/2, d.height/2 - frame.getHeight()/2);
         frame.setVisible(true);
     }    
+    
+    // ---- Methods for greater readability ----
+
+    /**
+     * Method used to create a new label (JTextField) to add to a passed in JPanel
+     * - Mostly for readability and to reduce repeated code
+     * - Should only be used for labels of the type JTextField
+     * - Returns a JTextField to update the label with the label created.
+     */
+    public JTextField createNewLabel(JPanel panelForLabel, String labelDescription)
+    {
+        panelForLabel.add(new JLabel(labelDescription));
+        JTextField labelToCreate = new JTextField("default");
+        labelToCreate.setEditable(false);
+        panelForLabel.add(labelToCreate); // Add created label to the passed in JPanel
+        return labelToCreate;
+    }
 }
