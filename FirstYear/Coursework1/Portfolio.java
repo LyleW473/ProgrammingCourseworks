@@ -62,7 +62,7 @@ public class Portfolio
             reader.readNext();
             while ((line = reader.readNext()) != null) {
                 String id = line[0];
-                String name = line[1];
+                String description = line[1];
                 String host_id = line[2];
                 String host_name = line[3];
                 String neighbourhood = line[4];
@@ -71,13 +71,28 @@ public class Portfolio
                 String room_type = line[7];
                 int price = convertInt(line[8]);
                 int minimumNights = convertInt(line[9]);
+                int numReviews = convertInt(line[10]);
+                String dateLastReview = line[11];
+                String reviewsPerMonth = line[12];
                 int availability365 = convertInt(line[13]);
-
-                Property currentProperty = new Property(id, name, host_id, host_name,
+                
+                // If this property has no reviews
+                if (numReviews == 0)
+                {
+                    dateLastReview = "N/A";
+                    reviewsPerMonth = "0";
+                }
+                
+                // Create the property and add it to all of the listings
+                Property currentProperty = new Property(id, description, host_id, host_name,
                     neighbourhood, latitude,longitude, room_type, price,
-                    minimumNights, availability365);
+                    minimumNights, numReviews, dateLastReview, reviewsPerMonth, availability365);
                 listings.add(currentProperty);
+            
+            for (int i = 0; i < 14; i++)
+            {System.out.println(Integer.toString(i) + "   " + line[i] + "   " + line[i].getClass());}
             }
+
         } catch(IOException | URISyntaxException e){
             System.out.println("Failure! Something went wrong when loading the property file");
             e.printStackTrace();

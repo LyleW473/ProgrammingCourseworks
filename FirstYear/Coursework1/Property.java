@@ -23,6 +23,9 @@ public class Property
     private String roomType;
     private int price;
     private int minimumNights;
+    private int numReviews;
+    private String dateLastReview;
+    private String reviewsPerMonth;
     private int availability365;
     private boolean isFavourite;
     
@@ -31,7 +34,8 @@ public class Property
      */
     public Property(String id, String name, String hostID, String hostName, 
             String neighbourhood, double latitude, double longitude, String roomType, 
-            int price, int minimumNights, int availability365){
+            int price, int minimumNights, int numReviews, String dateLastReview, String reviewsPerMonth, int availability365){
+        
 		this.id = id;
         this.description = name;
         this.hostID = hostID;
@@ -42,6 +46,9 @@ public class Property
         this.roomType = roomType;
         this.price = price;
         this.minimumNights = minimumNights;
+        this.numReviews = numReviews;
+        this.dateLastReview = dateLastReview;
+        this.reviewsPerMonth = reviewsPerMonth;
         this.availability365 = availability365;
         
         isFavourite = false;
@@ -50,77 +57,88 @@ public class Property
     /**
      * Return the Id of this property.
      */
-    public String getID(){
+    public String getID()
+    {
         return id;
     }
     
     /**
      * Return the hostId of this property.
      */
-    public String getHostID(){
+    public String getHostID()
+    {
         return hostID;
     }
     
     /**
      * Return the latitude of this property.
      */
-    public double getLatitude(){
+    public double getLatitude()
+    {
         return latitude;
     }
     
     /**
      * Return the longitude of this property.
      */
-    public double getLongitude(){
+    public double getLongitude()
+    {
         return longitude;
     }
     
     /**
      * Return the price of this property.
      */
-    public int getPrice(){
+    public int getPrice()
+    {
         return price;
     }
     
     /**
      * Returns true if this property is currently marked as a favourite, false otherwise.
      */
-    public boolean isFavourite(){
+    public boolean isFavourite()
+    {
         return isFavourite;
     }
     
     /**
      * Return the host name of this property.
      */
-    public String getHostName(){
+    public String getHostName()
+    {
         return hostName;
     }
     
     /**
      * Return the neighbourhood of this property.
      */
-    public String getNeighbourhood(){
+    public String getNeighbourhood()
+    {
         return neighbourhood;
     }
     
     /**
      * Return the room type of this property.
      */
-    public String getRoomType(){
+    public String getRoomType()
+    {
         return roomType;
     }
     
     /**
      * Return the minimum number of nights this property can be booked for.
      */
-    public String getMinNights(){
+    public String getMinNights()
+    {
         return "" + minimumNights;
     }
     
     /**
      * Return the description of this property.
      */
-    public String getDescription(){
+    public String getDescription()
+    {
         return description;
     }
     
@@ -132,4 +150,30 @@ public class Property
         isFavourite = !isFavourite;
     }
 
+    // ---- Additional entries/fields for each property ----
+
+    /**
+     * Returns the total number of reviews for this property.
+     */
+    public int getNumReviews()
+    {
+        return this.numReviews;
+    }
+
+    /**
+     * Returns the date of the last review for this property
+     */
+    public String getDateLastReview()
+    {
+        return this.dateLastReview;
+    }
+
+    /**
+     * Returns the number of reviews per month for this property
+     */
+    public String getReviewsPerMonth()
+    {
+        return this.reviewsPerMonth;
+    }
+ 
 }

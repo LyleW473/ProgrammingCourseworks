@@ -35,7 +35,10 @@ public class PropertyViewerGUI
     private JTextField roomTypeLabel;
     private JTextField priceLabel;
     private JTextField minNightsLabel;
-    private JTextArea descriptionLabel;
+    private JTextField numReviewsLabel;
+    private JTextField dateLastReviewLabel;
+    private JTextField reviewsPerMonthLabel;
+    private JTextField descriptionLabel;
     
     // Labels for the statistics window
     private JTextField numPropertiesViewedLabel;
@@ -55,7 +58,7 @@ public class PropertyViewerGUI
         this.viewer = viewer;
         fixedSize = false;
         makeFrame();
-        this.setPropertyViewSize(400, 250);
+        this.setPropertyViewSize(600, 400);
     }
 
     // ---- public view functions ----
@@ -83,11 +86,14 @@ public class PropertyViewerGUI
     {
         hostIDLabel.setText(property.getHostID());
         hostNameLabel.setText(property.getHostName());
+        descriptionLabel.setText(property.getDescription());
         neighbourhoodLabel.setText(property.getNeighbourhood());
         roomTypeLabel.setText(property.getRoomType());
         priceLabel.setText("£" + property.getPrice());
         minNightsLabel.setText(property.getMinNights());
-        // descriptionLabel.setText(property.getDescription());
+        numReviewsLabel.setText(Integer.toString(property.getNumReviews()));
+        dateLastReviewLabel.setText(property.getDateLastReview());
+        reviewsPerMonthLabel.setText(property.getReviewsPerMonth());
         
         // If the window to display the statistics is showing
         if (isShowingStatistics() == true)
@@ -291,30 +297,42 @@ public class PropertyViewerGUI
 
         // Create the property pane in the center
         propertyPanel = new JPanel();
-        propertyPanel.setLayout(new GridLayout(6,2));
+        propertyPanel.setLayout(new GridLayout(10, 2)); // First value should be the number of entries to display
         
         // Host ID
-        hostIDLabel = this.createNewLabel(propertyPanel, "HostID: ");
+        this.hostIDLabel = this.createNewLabel(propertyPanel, "HostID: ");
 
         // Host Name
-        hostNameLabel = this.createNewLabel(propertyPanel, "Host Name: ");
+        this.hostNameLabel = this.createNewLabel(propertyPanel, "Host Name: ");
         
+        // Description of the property
+        this.descriptionLabel = this.createNewLabel(propertyPanel, "Description: ");
+
         // Neighbourhood
-        neighbourhoodLabel= this.createNewLabel(propertyPanel, "Neighbourhood: ");
+        this.neighbourhoodLabel= this.createNewLabel(propertyPanel, "Neighbourhood: ");
         
         // Room type
-        roomTypeLabel = this.createNewLabel(propertyPanel, "Room type: ");
+        this.roomTypeLabel = this.createNewLabel(propertyPanel, "Room type: ");
         
         // Price
-        priceLabel = this.createNewLabel(propertyPanel, "Price: ");
+        this.priceLabel = this.createNewLabel(propertyPanel, "Price: ");
 
         // Minimum nights
-        minNightsLabel = this.createNewLabel(propertyPanel, "Minimum nights: ");
+        this.minNightsLabel = this.createNewLabel(propertyPanel, "Minimum nights: ");
+
+        // Number of reviews
+        this.numReviewsLabel = this.createNewLabel(propertyPanel, "Total number of reviews: ");
+
+        // Reviews per month 
+        this.reviewsPerMonthLabel = this.createNewLabel(propertyPanel, "Reviews per month: ");       
+
+        // Date of the last review
+        this.dateLastReviewLabel = this.createNewLabel(propertyPanel, "Date of last review: ");
 
         // Add property panel to the content pane
         propertyPanel.setBorder(new EtchedBorder());
         contentPane.add(propertyPanel, BorderLayout.CENTER);
-        
+
         // ----------------------------------
         
         // Create two labels at top and bottom for the file name and status message
@@ -322,7 +340,7 @@ public class PropertyViewerGUI
         contentPane.add(idLabel, BorderLayout.NORTH);
 
         // Label for whether the current property being viewed has been favourited or not
-        favouriteLabel = new JLabel(" ");
+        favouriteLabel = new JLabel("default");
         contentPane.add(favouriteLabel, BorderLayout.SOUTH);
 
         // ---- Toolbar for buttons ----
