@@ -252,7 +252,6 @@ public class PropertyViewerGUI
             // Place and show the frame at the center of the screen
             Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
             frame.setLocation(d.width/2 - frame.getWidth()/2, d.height/2 - frame.getHeight()/2);
-            frame.setVisible(true);
             
             // Add a window listener to the frame for when the close button is clicked to call the toggle statistics method
             frame.addWindowListener(new java.awt.event.WindowAdapter() 
@@ -270,16 +269,9 @@ public class PropertyViewerGUI
 
         }
 
-        // If the window is already showing when the display statistics button was clicked
-        if (isShowingStatistics() == true)
-        {
-            // Set the frame "invisible"
-            frame.setVisible(false);
-            
-        }
-
         // Show/Hide statistics window
         toggleShowingStatistics();
+        frame.setVisible(this.isShowingStatistics()); 
 
         // Update the statistics window with the current state (values) of the statistics
         updateStatisticsWindow();

@@ -88,9 +88,6 @@ public class Portfolio
                     neighbourhood, latitude,longitude, room_type, price,
                     minimumNights, numReviews, dateLastReview, reviewsPerMonth, availability365);
                 listings.add(currentProperty);
-            
-            for (int i = 0; i < 14; i++)
-            {System.out.println(Integer.toString(i) + "   " + line[i] + "   " + line[i].getClass());}
             }
 
         } catch(IOException | URISyntaxException e){
