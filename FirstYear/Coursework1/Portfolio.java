@@ -73,14 +73,14 @@ public class Portfolio
                 int minimumNights = convertInt(line[9]);
                 int numReviews = convertInt(line[10]);
                 String dateLastReview = line[11];
-                String reviewsPerMonth = line[12];
+                double reviewsPerMonth = convertDouble(line[12]);
                 int availability365 = convertInt(line[13]);
                 
                 // If this property has no reviews
                 if (numReviews == 0)
                 {
                     dateLastReview = "N/A";
-                    reviewsPerMonth = "0";
+                    reviewsPerMonth = 0.0;
                 }
                 
                 // Create the property and add it to all of the listings

@@ -94,7 +94,7 @@ public class PropertyViewerGUI
         this.minNightsLabel.setText(property.getMinNights());
         this.numReviewsLabel.setText(Integer.toString(property.getNumReviews()));
         this.dateLastReviewLabel.setText(property.getDateLastReview());
-        this.reviewsPerMonthLabel.setText(property.getReviewsPerMonth());
+        this.reviewsPerMonthLabel.setText(Double.toString(property.getReviewsPerMonth()));
         this.availability365Label.setText(Integer.toString(property.getAvailability365()) + " days annually");
         
         // If the window to display the statistics is showing

@@ -25,7 +25,7 @@ public class Property
     private int minimumNights;
     private int numReviews;
     private String dateLastReview;
-    private String reviewsPerMonth;
+    private double reviewsPerMonth;
     private int availability365;
     private boolean isFavourite;
     
@@ -34,7 +34,7 @@ public class Property
      */
     public Property(String id, String name, String hostID, String hostName, 
             String neighbourhood, double latitude, double longitude, String roomType, 
-            int price, int minimumNights, int numReviews, String dateLastReview, String reviewsPerMonth, int availability365){
+            int price, int minimumNights, int numReviews, String dateLastReview, double reviewsPerMonth, int availability365){
         
 		this.id = id;
         this.description = name;
@@ -171,7 +171,7 @@ public class Property
     /**
      * Returns the number of reviews per month for this property
      */
-    public String getReviewsPerMonth()
+    public double getReviewsPerMonth()
     {
         return this.reviewsPerMonth;
     }
