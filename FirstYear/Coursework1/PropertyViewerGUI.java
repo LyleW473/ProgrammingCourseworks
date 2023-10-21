@@ -6,6 +6,7 @@ import javax.swing.border.*;
 import java.io.File;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -331,39 +332,19 @@ public class PropertyViewerGUI
         toolbar.setLayout(new GridLayout(0, 1));
         
         // Next button
-        JButton nextButton = new JButton("Next");
-        nextButton.addActionListener(new ActionListener() {
-                               public void actionPerformed(ActionEvent e) { nextButton(); }
-                           });
-        toolbar.add(nextButton);
+        this.createNewButton(toolbar, "Next property", this::nextButton);
         
         // Previous button
-        JButton previousButton = new JButton("Previous");
-        previousButton.addActionListener(new ActionListener() {
-                               public void actionPerformed(ActionEvent e) { previousButton(); }
-                           });
-        toolbar.add(previousButton);
+        this.createNewButton(toolbar, "Previous property", this::previousButton);
         
         // Map button
-        JButton mapButton = new JButton("View Property on Map");
-        mapButton.addActionListener(new ActionListener() {
-                               public void actionPerformed(ActionEvent e) { viewOnMapsButton(); }
-                           });
-        toolbar.add(mapButton);
+        this.createNewButton(toolbar, "View property on map", this::viewOnMapsButton);
                         
         // Favourite button
-        JButton favouriteButton = new JButton("Toggle Favourite");
-        favouriteButton.addActionListener(new ActionListener() {
-                               public void actionPerformed(ActionEvent e) { toggleFavouriteButton(); }
-                           });
-        toolbar.add(favouriteButton);
+        this.createNewButton(toolbar, "Toggle favourite", this::toggleFavouriteButton);
         
         // Statistics button
-        JButton statisticsButton = new JButton("Display statistics");
-        statisticsButton.addActionListener(new ActionListener() {
-                               public void actionPerformed(ActionEvent e) { displayStatisticsButton(); }
-                           });
-        toolbar.add(statisticsButton);
+        this.createNewButton(toolbar, "Display statistics", this::displayStatisticsButton);
 
         // Add toolbar into panel with flow layout for spacing
         JPanel flow = new JPanel();
@@ -381,12 +362,13 @@ public class PropertyViewerGUI
         frame.setLocation(d.width/2 - frame.getWidth()/2, d.height/2 - frame.getHeight()/2);
         frame.setVisible(true);
     }    
-    
+
     // ---- Methods for greater readability ----
 
     /**
      * Method used to create a new label (JTextField) to add to a passed in JPanel
-     * - Mostly for readability and to reduce repeated code
+     * - Used for readability and to reduce repeated code
+     * - Takes in: a JPanel to add the label to and a description for the label
      * - Should only be used for labels of the type JTextField
      * - Returns a JTextField to update the label with the label created.
      */
@@ -397,5 +379,21 @@ public class PropertyViewerGUI
         labelToCreate.setEditable(false);
         panelForLabel.add(labelToCreate); // Add created label to the passed in JPanel
         return labelToCreate;
+    }
+    
+    /**
+     * Method used to create a new button (JButton) to add to a passed in JPanel
+     * - Used for readability and to reduce repeated code
+     * - Takes in: a JPanel for the button to be added to, a description for the label, and the method to be executed when the button is clicked.
+     * - Does not return a JButton (Not required)
+     */
+    public void createNewButton(JPanel toolbarForButton, String buttonDescription, Runnable displayButtonMethod)
+    {
+        JButton buttonToCreate = new JButton(buttonDescription);
+        buttonToCreate.addActionListener(new ActionListener() 
+                                {
+                                public void actionPerformed(ActionEvent e) {displayButtonMethod.run();}
+                                });
+        toolbarForButton.add(buttonToCreate); // Add button to the toolbar passed in
     }
 }
