@@ -1,3 +1,8 @@
+/**
+ * Student number: k22039642
+ * Full name: Gee-Lyle Wong
+ */
+
 import java.awt.Desktop;
 import java.beans.PropertyEditor;
 import java.net.URI;
