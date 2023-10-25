@@ -131,7 +131,7 @@ public class PropertyViewer
     public void updateStatistics()
     {
         // Increase number of properties viewed since the application started
-        numPropertiesViewed ++;
+        this.numPropertiesViewed ++;
             
         // Increase total value of all properties viewed so far
         this.propertiesPriceSum += this.gui.getCurrentProperty().getPrice();
