@@ -9,19 +9,22 @@
  * @version 2016.02.29
  */
 
+import java.util.HashSet;
+
 public class CommandWords
 {
-    // a constant array that holds all valid command words
-    private static final String[] validCommands = {
-        "go", "quit", "help"
-    };
+    // A hashset that holds all of the valid command words.
+    private static final HashSet<String> validCommands = new HashSet<String>();
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        // nothing to do at the moment...
+        // Add valid commands to hashset
+        validCommands.add("go");
+        validCommands.add("quit");
+        validCommands.add("help");
     }
 
     /**
@@ -29,13 +32,8 @@ public class CommandWords
      * @return true if it is, false if it isn't.
      */
     public boolean isCommand(String aString)
-    {
-        for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString))
-                return true;
-        }
-        // if we get here, the string was not found in the commands
-        return false;
+    {   
+        return validCommands.contains(aString);
     }
 
     /**
