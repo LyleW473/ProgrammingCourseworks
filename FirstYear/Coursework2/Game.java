@@ -19,23 +19,27 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private TextPrinter textPrinter;
     
     /**
      * Main method, for development
      */
     public static void main(String[] args)
     {   
+        TextPrinter universalTextPrinter = new TextPrinter();
+
         // Start game
-        Game myGame = new Game();
+        Game myGame = new Game(universalTextPrinter);
         myGame.play();
     }
     /**
      * Create the game and initialise its internal map.
      */
-    public Game() 
+    public Game(TextPrinter textPrinter) 
     {
         createRooms();
         parser = new Parser();
+        this.textPrinter = textPrinter;
     }
 
     /**
@@ -92,11 +96,7 @@ public class Game
      */
     private void printWelcome()
     {
-        System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
+        this.textPrinter.outputContentsFile("texts/welcome_message.txt");
         System.out.println(currentRoom.getLongDescription());
     }
 
@@ -137,9 +137,6 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
-        System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
     }

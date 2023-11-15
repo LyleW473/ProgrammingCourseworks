@@ -1,0 +1,10 @@
+It is a quiet night outside the Smith residence.
+Inside the residence are some precious artifacts which will set you for life!
+However, I've heard that the Smith's have hired a maid to patrol the house.
+I would be careful if I were you, the last thief never returned...
+
+Objective:
+- Steal as many artifacts until you meet the minimum cash threshold.
+- Avoid getting caught by the maid.
+- Rendezvous outside once you have met the minimum cash threshold.
+
