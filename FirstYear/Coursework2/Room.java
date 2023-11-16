@@ -69,10 +69,17 @@ public class Room
      */
     private String getExitString()
     {
-        String returnString = "Exits:";
-        Set<String> keys = exits.keySet();
-        for(String exit : keys) {
-            returnString += " " + exit;
+        String returnString = "Exits: ";
+        int i = 0;
+        int numExits = exits.size(); 
+
+        for(String exit : exits.keySet()) {
+            returnString += exit;
+            if (i < numExits - 1)
+            {
+                returnString += " | ";
+            }
+            i ++;
         }
         return returnString;
     }

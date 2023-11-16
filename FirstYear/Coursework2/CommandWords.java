@@ -40,9 +40,16 @@ public class CommandWords
      * Print all valid commands to System.out.
      */
     public void showAll() 
-    {
+    {      
+        int i = 0;
+        int numCommands = validCommands.size(); // Save so this does not need to be calculated at every iteration
         for(String command: validCommands) {
-            System.out.print(command + "  ");
+            System.out.print(command);
+            if (i < numCommands - 1)
+            {
+                System.out.print(" | ");
+            }
+            i ++;
         }
         System.out.println();
     }

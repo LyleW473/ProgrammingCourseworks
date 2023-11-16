@@ -98,10 +98,10 @@ public class Game
         bedroom2.setExit("west", hallway3);
 
         hallway3.setExit("east", bedroom2);
-        hallway3.setExit("north", attic);
+        hallway3.setExit("upstairs", attic);
         hallway3.setExit("south", hallway2);
 
-        attic.setExit("south", hallway3);
+        attic.setExit("downstairs", hallway3);
 
         // Spawn the player outside
         currentRoom = outside;
@@ -114,9 +114,7 @@ public class Game
     {            
         printWelcome();
 
-        // Enter the main command loop.  Here we repeatedly read commands and
-        // execute them until the game is over.
-                
+        //  Main game loop, which will process commands until the player "quits" the game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -131,6 +129,8 @@ public class Game
     private void printWelcome()
     {
         this.textPrinter.outputContentsFile("texts/welcome_message.txt");
+        printHelp();
+        System.out.println();
         System.out.println(currentRoom.getLongDescription());
     }
 
@@ -141,13 +141,15 @@ public class Game
      */
     private boolean processCommand(Command command) 
     {
+        System.out.println(); // Print space to space out different terminal outputs
+        
+        // Unknown command
         boolean wantToQuit = false;
-        System.out.println();
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println("Unknown command, please enter a valid command, type 'help' to see all valid commands.");
             return false;
         }
-
+        
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
             printHelp();
@@ -193,7 +195,7 @@ public class Game
         Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            System.out.println("Cannot go this way!");
         }
         else {
             currentRoom = nextRoom;
