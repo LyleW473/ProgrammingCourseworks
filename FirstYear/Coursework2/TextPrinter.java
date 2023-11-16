@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class TextPrinter 
 {
@@ -34,11 +34,11 @@ public class TextPrinter
     }
 
     /**
-     * @return HashSet<String> containing lines (strings) from a text file
+     * @return ArrayList<String> containing lines (strings) from a text file
      */
-    public HashSet<String> returnContentsHashSet(String pathOfFile)
+    public ArrayList<String> returnContentsList(String pathOfFile)
     {
-        HashSet<String> lines = new HashSet<String>();
+        ArrayList<String> lines = new ArrayList<String>();
 
         try 
         {
