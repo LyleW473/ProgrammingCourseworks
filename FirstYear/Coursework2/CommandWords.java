@@ -25,6 +25,7 @@ public class CommandWords
         validCommands.add("go");
         validCommands.add("quit");
         validCommands.add("help");
+        validCommands.add("print out");
     }
 
     /**
