@@ -47,30 +47,64 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
-      
-        // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        // Create all rooms
+        Room outside, kitchen, mainHallway, bathroom, diningRoom, livingRoom, storageRoom, hallway1, bedroom1, hallway2, hallway3, bedroom2, attic;
+        outside = new Room("outside the Smith's residence");
+        kitchen = new Room("in the kitchen");
+        mainHallway = new Room("in the main hallway");
+        bathroom = new Room("in the bathroom");
+        diningRoom = new Room("in the dining room");
+        livingRoom = new Room("in the living room");
+        storageRoom = new Room("in the storage room");
+        hallway1 = new Room("in the hallway (1)");
+        bedroom1 = new Room("in bedroom 1");
+        hallway2 = new Room("in the hallway (2)");
+        hallway3 = new Room("in the hallway (3)");
+        bedroom2 = new Room("in bedroom 2");
+        attic = new Room("in the attic");
+
+        // Initialise exits for each room
+        outside.setExit("north", mainHallway);
+
+        kitchen.setExit("east", mainHallway);
+        kitchen.setExit("north", diningRoom);
+
+        mainHallway.setExit("west", kitchen);
+        mainHallway.setExit("east", bathroom);
+        mainHallway.setExit("north", livingRoom);
+        mainHallway.setExit("outside", outside);
+
+        bathroom.setExit("west", mainHallway);
+
+        diningRoom.setExit("east", livingRoom);
+        diningRoom.setExit("south", kitchen);
+
+        livingRoom.setExit("west", diningRoom);
+        livingRoom.setExit("east", storageRoom);
+        livingRoom.setExit("south", mainHallway);
+        livingRoom.setExit("upstairs", hallway1); // Climb up the stairs
+
+        storageRoom.setExit("west", livingRoom);
         
-        // initialise room exits
-        outside.setExit("east", theater);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
+        hallway1.setExit("north", hallway2);
+        hallway1.setExit("downstairs", livingRoom); // Climb down the stairs
+        
+        bedroom1.setExit("east", hallway2);
 
-        theater.setExit("west", outside);
+        hallway2.setExit("west", bedroom1);
+        hallway2.setExit("north", hallway3);
+        hallway2.setExit("south", hallway1);
 
-        pub.setExit("east", outside);
+        bedroom2.setExit("west", hallway3);
 
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
+        hallway3.setExit("east", bedroom2);
+        hallway3.setExit("north", attic);
+        hallway3.setExit("south", hallway2);
 
-        office.setExit("west", lab);
+        attic.setExit("south", hallway3);
 
-        currentRoom = outside;  // start game outside
+        // Spawn the player outside
+        currentRoom = outside;
     }
 
     /**
@@ -108,7 +142,7 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
+        System.out.println();
         if(command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
