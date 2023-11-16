@@ -54,9 +54,15 @@ public class Parser
         }
 
         // Clean the word (i.e., remove trailing/leading spaces and convert to lowercase)
-        word1 = cleanWord(word1);
-        word2 = cleanWord(word2);
-
+        if (word1 != null)
+        {
+            word1 = cleanWord(word1);
+        }
+        if (word2 != null)
+        {
+            word2 = cleanWord(word2);
+        }
+        
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommand(word1)) {
@@ -80,7 +86,7 @@ public class Parser
      * - Used to allow commands like "GO NorTh", which means the same thing as "go north"
      */
     public String cleanWord(String word)
-    {
+    {  
         return word.trim().toLowerCase();
     }
 }
