@@ -43,6 +43,10 @@ public class Game
         createRooms();
         parser = new Parser();
         this.textPrinter = textPrinter;
+        
+        // Initialise static collections for NPC class
+        NPC.createConversationsHashSet(textPrinter);
+
     }
 
     /**
