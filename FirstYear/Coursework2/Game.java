@@ -42,6 +42,7 @@ public class Game
     {
         // Initialise static collections for NPC class
         NPC.createConversationsList(textPrinter);
+        NPC.createNamesList(textPrinter);
 
         createRooms();
         parser = new Parser();
@@ -168,12 +169,13 @@ public class Game
             System.out.println("HasNPC: " + currentRoom.hasNPC());
             if (currentRoom.hasNPC())
             {  
+                System.out.println("There is an NPC in here");
                 NPC currentNPC = currentRoom.getAssignedNPC();
-                System.out.println("NPC: " + currentNPC.getRandomConversation());
-                for (String c: currentNPC.getPossibleConversations())
-                {
-                    System.out.println(c);
-                }
+                System.out.println(currentNPC.getName() + ": " + currentNPC.getRandomConversation());
+                // for (String c: currentNPC.getPossibleConversations())
+                // {
+                //     System.out.println(c);
+                // }
             }
         }
         System.out.println("Thank you for playing.  Good bye.");

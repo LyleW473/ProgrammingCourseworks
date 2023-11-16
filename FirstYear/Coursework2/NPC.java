@@ -4,14 +4,21 @@ import java.util.Random;
 public class NPC 
 {
     private static ArrayList<String> allConversations;
-    private ArrayList<String> possibleConversations = new ArrayList<String>();
+    private static ArrayList<String> allNames;
+
     public static final int NUM_CONVOS_PER_NPC = 2;
     public static Random randomGen = new Random();
+    
+    public String name;
+    private ArrayList<String> possibleConversations = new ArrayList<String>();
 
     public NPC()
     {  
         // Assign conversations that this NPC can use
         NPC.assignNPCConversations(this);
+
+        // Assign name
+        NPC.assignNPCName(this);
     }
 
     /**
@@ -20,8 +27,19 @@ public class NPC
     public static void createConversationsList(TextPrinter textPrinter)
     {  
         NPC.allConversations = textPrinter.returnContentsList("texts/npc_texts.txt");
-        for (String p: NPC.allConversations){
-            System.out.println("Text: " + p);
+        for (String conversation: NPC.allConversations){
+            System.out.println("Text: " + conversation);
+        }
+    }
+
+    /**
+     * Initialises a static ArrayList<String> containing all of the possible names that NPCs can be assigned
+     */
+    public static void createNamesList(TextPrinter textPrinter)
+    {  
+        NPC.allNames = textPrinter.returnContentsList("texts/npc_names.txt");
+        for (String name: NPC.allNames){
+            System.out.println("Name: " + name);
         }
     }
 
@@ -55,13 +73,13 @@ public class NPC
             {
                 if (j != generatedIndex)
                 {
-                    remainingConversations.add(allConversations.get(j));
+                    remainingConversations.add(NPC.allConversations.get(j));
                 }
             }
             NPC.allConversations = remainingConversations;
         }
     }
-
+    
     /**
      * @return a random conversation out of the possible conversations this NPC can use.
      */
@@ -78,4 +96,26 @@ public class NPC
         return possibleConversations;
     }
     
+    /**
+     * Assigns a name to this NPC, using the stored names in the static NPC.allNames list.
+     */
+    public static void assignNPCName(NPC subjectNPC)
+    {
+        int generatedIndex;
+        int numNamesLeft;
+
+        numNamesLeft = NPC.allNames.size();
+        generatedIndex = NPC.randomGen.nextInt(numNamesLeft);
+        subjectNPC.name = NPC.allNames.get(generatedIndex);
+        NPC.allNames.remove(subjectNPC.name);
+    }
+    
+    /**
+     * @return the assigned name of this NPC
+     */
+    public String getName()
+    {
+        return name;
+    }
+
 }
