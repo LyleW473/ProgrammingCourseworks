@@ -1,3 +1,6 @@
+import java.util.Random;
+import java.util.HashSet;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -49,19 +52,21 @@ public class Game
     {
         // Create all rooms
         Room outside, kitchen, mainHallway, bathroom, diningRoom, livingRoom, storageRoom, hallway1, bedroom1, hallway2, hallway3, bedroom2, attic;
-        outside = new Room("outside the Smith's residence");
-        kitchen = new Room("in the kitchen");
-        mainHallway = new Room("in the main hallway");
-        bathroom = new Room("in the bathroom");
-        diningRoom = new Room("in the dining room");
-        livingRoom = new Room("in the living room");
-        storageRoom = new Room("in the storage room");
-        hallway1 = new Room("in the hallway (1)");
-        bedroom1 = new Room("in bedroom 1");
-        hallway2 = new Room("in the hallway (2)");
-        hallway3 = new Room("in the hallway (3)");
-        bedroom2 = new Room("in bedroom 2");
-        attic = new Room("in the attic");
+
+        // description, can spawn NPCs in this room?, can spawn objects in this room?
+        outside = new Room("outside the Smith's residence", true);
+        kitchen = new Room("in the kitchen", false);
+        mainHallway = new Room("in the main hallway", false);
+        bathroom = new Room("in the bathroom", true);
+        diningRoom = new Room("in the dining room", false);
+        livingRoom = new Room("in the living room", false);
+        storageRoom = new Room("in the storage room", true);
+        hallway1 = new Room("in the hallway (1)", false);
+        bedroom1 = new Room("in bedroom 1", true);
+        hallway2 = new Room("in the hallway (2)", false);
+        hallway3 = new Room("in the hallway (3)", false);
+        bedroom2 = new Room("in bedroom 2", true);
+        attic = new Room("in the attic", false);
 
         // Initialise exits for each room
         outside.setExit("north", mainHallway);
@@ -103,8 +108,44 @@ public class Game
 
         attic.setExit("downstairs", hallway3);
 
+        // Randomly spawn NPCs into rooms that they can be spawned into
+        spawnNPCs();
+
         // Spawn the player outside
         currentRoom = outside;
+    }
+
+    /**
+     * Used to randomly select n rooms (where allowed) to spawn the NPCs into
+     */
+    public void spawnNPCs()
+    {
+        for (Room room: Room.NPCSpawnableRooms)
+        {
+            System.out.println(room.getShortDescription());
+        }
+
+        // Generate random indexes between 0 (inclusive) and the number of NPC spawnable rooms (exclusive) there are
+        Random randomGen = new Random();
+        HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
+        int numNPCs = 2;
+        int generatedIndex;
+        int numNPCSpawnableRooms = Room.NPCSpawnableRooms.size();
+
+        while (uniqueIndexes.size() < numNPCs)
+        {
+            generatedIndex = randomGen.nextInt(numNPCSpawnableRooms);
+            uniqueIndexes.add(generatedIndex);
+        }
+
+        // Assign NPCs to the randomly selected rooms
+        Room roomToAssignNPC;
+        for (int idx: uniqueIndexes)
+        {
+            System.out.println(idx);
+            roomToAssignNPC = Room.NPCSpawnableRooms.get(idx);
+            roomToAssignNPC.assignNPC(new NPC());
+        }
     }
 
     /**
@@ -119,6 +160,12 @@ public class Game
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+
+            System.out.println("HasNPC: " + currentRoom.hasNPC());
+            if (currentRoom.hasNPC())
+            {
+                System.out.println("NPC id: " + currentRoom.getAssignedNPC().id);
+            }
         }
         System.out.println("Thank you for playing.  Good bye.");
     }

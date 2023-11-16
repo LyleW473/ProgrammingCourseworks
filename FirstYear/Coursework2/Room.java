@@ -1,4 +1,4 @@
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,7 +18,9 @@ import java.util.HashMap;
 public class Room 
 {
     private String description;
-    private HashMap<String, Room> exits;        // stores exits of this room.
+    private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
+    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs 
+    private NPC assignedNPC; // Pointer to NPC assigned to this room
 
     /**
      * Create a room described "description". Initially, it has
@@ -26,10 +28,15 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description, boolean npcSpawnable)
     {
         this.description = description;
-        exits = new HashMap<>();
+
+        // Add this room to the NPCSpawnable rooms list if applicable
+        if (npcSpawnable == true)
+        {
+            Room.NPCSpawnableRooms.add(this);
+        }
     }
 
     /**
@@ -94,5 +101,30 @@ public class Room
     {
         return exits.get(direction);
     }
+
+    /**
+     * @return A boolean indicating whether an NPC is inside this room or not
+     */
+    public boolean hasNPC()
+    {
+        return (assignedNPC != null);
+    }
+
+    /**
+     * @return The assigned NPC to this room (should only be called if the assigned NPC is not null)
+     */
+    public NPC getAssignedNPC()
+    {   
+        return assignedNPC;
+    }
+
+    /**
+     * Called to assign an NPC to this room
+     */
+    public void assignNPC(NPC NPCToAssign) 
+    {
+        assignedNPC = NPCToAssign;
+    }
+
 }
 
