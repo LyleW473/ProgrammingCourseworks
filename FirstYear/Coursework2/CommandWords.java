@@ -26,6 +26,7 @@ public class CommandWords
         validCommands.add("quit");
         validCommands.add("help");
         validCommands.add("print out");
+        validCommands.add("interact with"); // Able to interact with: "npc"
     }
 
     /**

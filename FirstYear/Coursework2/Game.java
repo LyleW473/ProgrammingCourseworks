@@ -165,18 +165,6 @@ public class Game
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
-
-            System.out.println("HasNPC: " + currentRoom.hasNPC());
-            if (currentRoom.hasNPC())
-            {  
-                System.out.println("There is an NPC in here");
-                NPC currentNPC = currentRoom.getAssignedNPC();
-                System.out.println(currentNPC.getName() + ": " + currentNPC.getRandomConversation());
-                // for (String c: currentNPC.getPossibleConversations())
-                // {
-                //     System.out.println(c);
-                // }
-            }
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -209,6 +197,8 @@ public class Game
         }
         
         String commandWord = command.getCommandWord();
+        String secondWord = command.getSecondWord();
+
         if (commandWord.equals("help")) 
         {
             printHelp();
@@ -225,6 +215,14 @@ public class Game
         {  
             System.out.println(command.getSecondWord());
             System.out.println("Three word command working!" + " " + command.getSecondWord());
+        }
+        else if (commandWord.equals("interact with"))
+        {  
+            // Interacting with NPCs
+            if (secondWord.equalsIgnoreCase("NPC"))
+            {
+                printNPCConversation();
+            }
         }
         // else command not recognised.
         return wantToQuit;
@@ -263,12 +261,35 @@ public class Game
         if (nextRoom == null) {
             System.out.println("Cannot go this way!");
         }
-        else {
+        else 
+        {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+
+            // Check if there is an NPC in this room
+            if (currentRoom.hasNPC())
+                {
+                    System.out.println("There is an NPC in this room!");
+                }
         }
     }
 
+    /**
+     * Prints the conversation from the NPC in the current room, if there is an NPC in this room
+     */
+    public void printNPCConversation()
+    {
+        if (currentRoom.hasNPC())
+        {  
+            NPC currentNPC = currentRoom.getAssignedNPC();
+            System.out.println(currentNPC.getName() + ": " + currentNPC.getRandomConversation());
+            // for (String c: currentNPC.getPossibleConversations())
+            // {
+            //     System.out.println(c);
+            // }
+        }
+    }
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
