@@ -74,42 +74,42 @@ public class Game
         attic = new Room("in the attic", false);
 
         // Initialise exits for each room
-        outside.setExit("north", mainHallway);
+        outside.setExit("main hallway", mainHallway);
 
-        kitchen.setExit("east", mainHallway);
-        kitchen.setExit("north", diningRoom);
+        kitchen.setExit("main hallway", mainHallway);
+        kitchen.setExit("dining room", diningRoom);
 
-        mainHallway.setExit("west", kitchen);
-        mainHallway.setExit("east", bathroom);
-        mainHallway.setExit("north", livingRoom);
+        mainHallway.setExit("kitchen", kitchen);
+        mainHallway.setExit("bathroom", bathroom);
+        mainHallway.setExit("living room", livingRoom);
         mainHallway.setExit("outside", outside);
 
-        bathroom.setExit("west", mainHallway);
+        bathroom.setExit("main hallway", mainHallway);
 
-        diningRoom.setExit("east", livingRoom);
-        diningRoom.setExit("south", kitchen);
+        diningRoom.setExit("living room", livingRoom);
+        diningRoom.setExit("kitchen", kitchen);
 
-        livingRoom.setExit("west", diningRoom);
-        livingRoom.setExit("east", storageRoom);
-        livingRoom.setExit("south", mainHallway);
+        livingRoom.setExit("dining room", diningRoom);
+        livingRoom.setExit("storage room", storageRoom);
+        livingRoom.setExit("main hallway", mainHallway);
         livingRoom.setExit("upstairs", hallway1); // Climb up the stairs
 
-        storageRoom.setExit("west", livingRoom);
+        storageRoom.setExit("living room", livingRoom);
         
-        hallway1.setExit("north", hallway2);
+        hallway1.setExit("forwards", hallway2);
         hallway1.setExit("downstairs", livingRoom); // Climb down the stairs
         
-        bedroom1.setExit("east", hallway2);
+        bedroom1.setExit("hallway 2", hallway2);
 
-        hallway2.setExit("west", bedroom1);
-        hallway2.setExit("north", hallway3);
-        hallway2.setExit("south", hallway1);
+        hallway2.setExit("bedroom 1", bedroom1);
+        hallway2.setExit("forwards", hallway3);
+        hallway2.setExit("backwards", hallway1);
 
-        bedroom2.setExit("west", hallway3);
+        bedroom2.setExit("bedroom 2", hallway3);
 
-        hallway3.setExit("east", bedroom2);
+        hallway3.setExit("bedroom 2", bedroom2);
         hallway3.setExit("upstairs", attic);
-        hallway3.setExit("south", hallway2);
+        hallway3.setExit("backwards", hallway2);
 
         attic.setExit("downstairs", hallway3);
 

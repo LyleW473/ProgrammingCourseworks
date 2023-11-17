@@ -72,13 +72,29 @@ public class Parser
             word3 = cleanWord(word3);
         }
         
-        // If this is a three-word command, combine the first and second word into one, using the third as the second word
+        
+        // If this is a three-word command
         if (word1 != null && word2 != null && word3 != null)
         {   
-            word1 = word1 + " " + word2;
-            word2 = word3;
-        }
+            // go {location}
+            if (word1.equals("go"))
+            {
+                word2 = word2 + " " + word3;
+                word3 = null;
+                
+                System.out.println("entered");
+                System.out.println(word1);
+                System.out.println(word2);
+                System.out.println(word3);
+            }
 
+            // interact with {entity}
+            else
+            {
+                word1 = word1 + " " + word2;
+                word2 = word3;
+            }
+        }
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommand(word1)) {
