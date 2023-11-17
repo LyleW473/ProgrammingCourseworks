@@ -92,9 +92,17 @@ public class Parser
     /**
      * Print out a list of valid command words.
      */
-    public void showCommands()
+    public void showAllCommands()
     {
         commands.showAll();
+    }
+
+    /**
+     * Print out a list of valid command words that can be applied right now.
+     */
+    public void showApplicableCommands(Room currentRoom)
+    {
+        commands.showApplicable(currentRoom);
     }
 
     /**

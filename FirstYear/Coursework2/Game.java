@@ -231,14 +231,14 @@ public class Game
     // implementations of user commands:
 
     /**
-     * Print out some help information.
-     * Here we print some stupid, cryptic message and a list of the 
-     * command words.
+     * Prints out all of the commands that the user can use and then all of the commands the user can use at the time of this being called.
      */
     private void printHelp() 
     {
-        System.out.println("Your command words are:");
-        parser.showCommands();
+        parser.showAllCommands();
+        System.out.println("\n");
+        parser.showApplicableCommands(this.currentRoom);
+        System.out.println();
     }
 
     /** 

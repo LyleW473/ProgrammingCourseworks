@@ -10,6 +10,7 @@
  */
 
 import java.util.HashSet;
+import java.util.ArrayList;
 
 public class CommandWords
 {
@@ -43,6 +44,7 @@ public class CommandWords
      */
     public void showAll() 
     {      
+        System.out.println("All of your command words are:");
         int i = 0;
         int numCommands = validCommands.size(); // Save so this does not need to be calculated at every iteration
         for(String command: validCommands) {
@@ -53,6 +55,38 @@ public class CommandWords
             }
             i ++;
         }
-        System.out.println();
+    }
+
+    /**
+     * Print all valid commands that can be used right now to System.out.
+     * - For example, sometimes the "interact with" should not be shown
+     */
+    public void showApplicable(Room currentRoom)
+    {   
+        System.out.println("Applicable commands:");
+        
+        ArrayList<String> commandsToIgnore = new ArrayList<String>();
+        // Has no NPCs (Note: Add && OBJECT condition here once objects are added)
+        if (!currentRoom.hasNPC())
+        {
+            commandsToIgnore.add("interact with");
+        }  
+
+        // Output all applicable commands
+        int i = 0;
+        int numCommands = validCommands.size() - commandsToIgnore.size();
+        for (String command: validCommands)
+        {
+            if (!commandsToIgnore.contains(command))
+            {
+                System.out.print(command);
+                if (i < numCommands - 1)
+                {
+                    System.out.print(" | ");
+                }
+                i ++;
+            }
+
+        }
     }
 }
