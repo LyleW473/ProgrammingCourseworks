@@ -17,9 +17,9 @@ import java.util.HashMap;
 
 public class Room 
 {
+    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs 
     private String description;
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
-    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs 
     private NPC assignedNPC; // Pointer to NPC assigned to this room
 
     /**
@@ -64,17 +64,18 @@ public class Room
      *     Exits: north west
      * @return A long description of this room
      */
-    public String getLongDescription()
+    public String getLongDescription(ArrayList<String> options, boolean shouldAdd)
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ".\n" + getExitString(options, shouldAdd);
     }
 
     /**
-     * Return a string describing the room's exits, for example
-     * "Exits: north west".
+     * Return a string describing the rooms this room connects to, e.g.
+     * Exits: dining room (0) | upstairs (1) | storage room (2) | main hallway (3)
+     * Takes in a list of options available to the player, and adds exits (the names of the rooms) to that list
      * @return Details of the room's exits.
      */
-    private String getExitString()
+    private String getExitString(ArrayList<String> options, boolean shouldAdd)
     {
         String returnString = "Exits: ";
         int i = 0;
@@ -82,8 +83,16 @@ public class Room
 
         for(String exit : exits.keySet()) {
             returnString += exit;
-            if (i < numExits - 1)
+            returnString += " (" + i + ")";
+
+            // Should only add when specified (When the "help" command is used, there is no need to add more items)
+            if (shouldAdd == true)
             {
+                options.add(exit);
+            }
+            
+            if (i < numExits - 1)
+            {   
                 returnString += " | ";
             }
             i ++;

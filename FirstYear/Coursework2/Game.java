@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -23,6 +24,12 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private TextPrinter textPrinter;
+
+    /** 
+     * List containing the names/ identities of the options available to the player (So that commands like "go 0" can be used)
+     * Uses: Names of rooms, Names of items
+    */
+    private ArrayList<String> currentOptions = new ArrayList<String>();
     
     /**
      * Main method, for development
@@ -175,9 +182,9 @@ public class Game
     private void printWelcome()
     {
         this.textPrinter.outputContentsFile("texts/welcome_message.txt");
-        printHelp();
-        System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        printHelp(true);
+        // System.out.println();
+        // System.out.println(currentRoom.getLongDescription(currentOptions));
     }
 
     /**
@@ -186,8 +193,10 @@ public class Game
      * @return true If the command ends the game, false otherwise.
      */
     private boolean processCommand(Command command) 
-    {
-        System.out.println(); // Print space to space out different terminal outputs
+    {   
+        // Space out command inputs
+        System.out.println();
+        System.out.println("--------------------------------------------");
         
         // Unknown command
         boolean wantToQuit = false;
@@ -201,7 +210,7 @@ public class Game
 
         if (commandWord.equals("help")) 
         {
-            printHelp();
+            printHelp(false);
         }
         else if (commandWord.equals("go")) 
         {
@@ -232,45 +241,70 @@ public class Game
 
     /**
      * Prints out all of the commands that the user can use and then all of the commands the user can use at the time of this being called.
+     * "isInitialCall" is used so that when "printHelp" is called in "printWelcome", it will add elements to the currentOptions list
+     * In any other case where "printHelp" is called, more options shouldn't be added to the currentOptions list
      */
-    private void printHelp() 
+    private void printHelp(boolean isInitialCall) 
     {
         parser.showAllCommands();
         System.out.println("\n");
         parser.showApplicableCommands(this.currentRoom);
+        System.out.println("\n");
+        System.out.println("For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go bedroom1' >>");
         System.out.println();
+        System.out.println(currentRoom.getLongDescription(currentOptions, isInitialCall));
     }
 
     /** 
-     * Try to in to one direction. If there is an exit, enter the new
-     * room, otherwise print an error message.
+     * Try to enter the room with the corresponding "selectedRoomName". If there is an exit, try to enter the room, otherwise print an error message.
      */
     private void goRoom(Command command) 
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
+            // System.out.println(currentRoom.getLongDescription(currentOptions, false));
             return;
         }
 
-        String direction = command.getSecondWord();
+        String selectedRoomName = command.getSecondWord();
 
         // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+        Room nextRoom = currentRoom.getExit(selectedRoomName);
 
-        if (nextRoom == null) {
-            System.out.println("Cannot go this way!");
+        // Check whether the user entered an index for the currentOptions (e.g., "go 0")
+        if (nextRoom == null)
+        {   
+            try {
+                int optionIndex = Integer.parseInt(selectedRoomName);
+                
+                // Check whether the index is in between in the range of options
+                if (optionIndex >= 0 && optionIndex < currentOptions.size())
+                    {
+                    String roomName = currentOptions.get(optionIndex);
+                    nextRoom = currentRoom.getExit(roomName);
+                    }
+                }
+            catch (NumberFormatException e){} // Do nothing
         }
-        else 
+
+        // Changing rooms if possible
+        if (nextRoom != null) 
         {
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+            currentOptions.clear(); // Empty the list of options available to the player
 
             // Check if there is an NPC in this room
             if (currentRoom.hasNPC())
                 {
                     System.out.println("There is an NPC in this room!");
                 }
+            System.out.println(currentRoom.getLongDescription(currentOptions, true));
+        }
+        else 
+        {
+            System.out.println("Invalid input!");
+            System.out.println("Use the 'help' command for additional guidance.");
         }
     }
 

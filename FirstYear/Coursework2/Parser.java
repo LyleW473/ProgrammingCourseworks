@@ -81,11 +81,6 @@ public class Parser
             {
                 word2 = word2 + " " + word3;
                 word3 = null;
-                
-                System.out.println("entered");
-                System.out.println(word1);
-                System.out.println(word2);
-                System.out.println(word3);
             }
 
             // interact with {entity}
