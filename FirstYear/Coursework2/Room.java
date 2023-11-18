@@ -17,7 +17,8 @@ import java.util.HashMap;
 
 public class Room 
 {
-    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs 
+    private static ArrayList<Room> roomsHistory = new ArrayList<Room>(); // Stores the history of all the rooms the player has visited (in order)
+    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs (CHANGE TO PRIVATE LATER)
     private String description;
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
     private NPC assignedNPC; // Pointer to NPC assigned to this room
@@ -135,5 +136,42 @@ public class Room
         assignedNPC = NPCToAssign;
     }
 
+    /**
+     * @return the history of all the rooms that the player has visited
+     */
+    public static ArrayList<Room> getRoomHistory()
+    {
+        return Room.roomsHistory;
+    }
+
+    /**
+     * Adds a room to the room history
+     */
+    public static void addToRoomHistory(Room roomToAdd)
+    {
+        Room.roomsHistory.add(roomToAdd);
+    }
+
+    /**
+     * @return the last room inside of the room history (i.e., the )
+     */
+    public static Room returnPrevious()
+    {      
+        // Create a new room history (every room in the list apart from the previous room)
+        int historyLength = Room.roomsHistory.size();
+        ArrayList<Room> newHistory = new ArrayList<Room>();
+        for (int i = 0; i < historyLength - 1; i++)
+        {
+            newHistory.add(roomsHistory.get(i));
+        }
+
+        // Save the previous room (And then return it after updating history)
+        Room previousRoom = Room.roomsHistory.get(Room.roomsHistory.size() - 1);
+        
+        // Update the room history
+        Room.roomsHistory = newHistory;
+
+        return previousRoom;
+    }
 }
 

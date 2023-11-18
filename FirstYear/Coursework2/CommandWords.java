@@ -28,6 +28,7 @@ public class CommandWords
         validCommands.add("help");
         validCommands.add("print out");
         validCommands.add("interact with"); // Able to interact with: "npc"
+        validCommands.add("back");
     }
 
     /**
@@ -71,6 +72,12 @@ public class CommandWords
         {
             commandsToIgnore.add("interact with");
         }  
+        
+        // There is no room history
+        if (Room.getRoomHistory().size() == 0)
+        {
+            commandsToIgnore.add("back");
+        }
 
         // Output all applicable commands
         int i = 0;

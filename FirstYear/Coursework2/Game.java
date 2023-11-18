@@ -233,6 +233,18 @@ public class Game
                 printNPCConversation();
             }
         }
+        else if (commandWord.equals("back"))
+        {   
+            if (Room.getRoomHistory().size() > 0)
+            {
+                goBack();
+            }
+            else
+            {
+                System.out.println("There are currently no rooms to go back to!");
+                System.out.println("Use the 'help' command for additional guidance.");
+            }
+        }
         // else command not recognised.
         return wantToQuit;
     }
@@ -290,7 +302,8 @@ public class Game
 
         // Changing rooms if possible
         if (nextRoom != null) 
-        {
+        {   
+            Room.addToRoomHistory(currentRoom); // Add to room history before moving rooms
             currentRoom = nextRoom;
             currentOptions.clear(); // Empty the list of options available to the player
 
@@ -307,6 +320,18 @@ public class Game
             System.out.println("Use the 'help' command for additional guidance.");
         }
     }
+
+    public void goBack()
+    {
+        currentRoom = Room.returnPrevious();
+        currentOptions.clear();
+        // Check if there is an NPC in this room
+        if (currentRoom.hasNPC())
+            {
+                System.out.println("There is an NPC in this room!");
+            }
+        System.out.println(currentRoom.getLongDescription(currentOptions, true));
+}
 
     /**
      * Prints the conversation from the NPC in the current room, if there is an NPC in this room
