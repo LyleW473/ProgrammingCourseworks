@@ -36,24 +36,24 @@ public class Game
      */
     public static void main(String[] args)
     {   
-        TextPrinter universalTextPrinter = new TextPrinter();
-
         // Start game
-        Game myGame = new Game(universalTextPrinter);
+        Game myGame = new Game();
         myGame.play();
     }
     /**
      * Create the game and initialise its internal map.
      */
-    public Game(TextPrinter textPrinter) 
-    {
+    public Game() 
+    {   
+        // Text printer
+        textPrinter = new TextPrinter();
+
         // Initialise static collections for NPC class
         NPC.createConversationsList(textPrinter);
         NPC.createNamesList(textPrinter);
 
         createRooms();
         parser = new Parser();
-        this.textPrinter = textPrinter;
 
     }
 
@@ -264,6 +264,7 @@ public class Game
         System.out.println("\n");
         System.out.println("For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go bedroom1' >>");
         System.out.println();
+        checkForNPC();
         System.out.println(currentRoom.getLongDescription(currentOptions, isInitialCall));
     }
 
@@ -306,12 +307,7 @@ public class Game
             Room.addToRoomHistory(currentRoom); // Add to room history before moving rooms
             currentRoom = nextRoom;
             currentOptions.clear(); // Empty the list of options available to the player
-
-            // Check if there is an NPC in this room
-            if (currentRoom.hasNPC())
-                {
-                    System.out.println("There is an NPC in this room!");
-                }
+            checkForNPC();
             System.out.println(currentRoom.getLongDescription(currentOptions, true));
         }
         else 
@@ -321,15 +317,16 @@ public class Game
         }
     }
 
+    /** 
+     * Try to go back to the previous room that the player was in
+     */
     public void goBack()
     {
         currentRoom = Room.returnPrevious();
+        checkForNPC();
+
+        // Refresh all the options available to the player
         currentOptions.clear();
-        // Check if there is an NPC in this room
-        if (currentRoom.hasNPC())
-            {
-                System.out.println("There is an NPC in this room!");
-            }
         System.out.println(currentRoom.getLongDescription(currentOptions, true));
 }
 
@@ -347,6 +344,18 @@ public class Game
             //     System.out.println(c);
             // }
         }
+    }
+
+    /**
+     * Check if this room has an NPC, output a comment 
+     */
+    public void checkForNPC()
+    {
+        // Check if there is an NPC in this room
+            if (currentRoom.hasNPC())
+                {
+                    System.out.println("There is an NPC in this room!");
+                }
     }
     
     /** 
