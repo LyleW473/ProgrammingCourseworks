@@ -1,6 +1,14 @@
 import java.util.Random;
+
+import core.Command;
+import core.CommandResult;
+import core.Parser;
+import core.TextPrinter;
+
 import java.util.ArrayList;
 import java.util.HashSet;
+import dependencies.entities.Room;
+import dependencies.entities.NPC;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -187,7 +195,7 @@ public class Game
      */
     private void printWelcome()
     {
-        this.textPrinter.outputContentsFile("texts/welcome_message.txt");
+        this.textPrinter.outputContentsFile("dependencies/texts/welcome_message.txt");
         printHelp(true);
         // System.out.println();
         // System.out.println(currentRoom.getLongDescription(currentOptions));

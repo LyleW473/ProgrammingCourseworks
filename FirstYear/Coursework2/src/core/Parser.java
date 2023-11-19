@@ -1,3 +1,6 @@
+package core;
+
+import dependencies.entities.Room;
 import java.util.Scanner;
 
 /**

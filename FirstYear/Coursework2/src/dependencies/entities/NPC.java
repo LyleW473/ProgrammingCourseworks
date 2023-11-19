@@ -1,5 +1,9 @@
+package dependencies.entities;
+
 import java.util.ArrayList;
 import java.util.Random;
+
+import core.TextPrinter;
 
 public class NPC 
 {
@@ -26,7 +30,7 @@ public class NPC
      */
     public static void createConversationsList(TextPrinter textPrinter)
     {  
-        NPC.allConversations = textPrinter.returnContentsList("texts/npc_texts.txt");
+        NPC.allConversations = textPrinter.returnContentsList("dependencies/texts/npc_texts.txt");
         for (String conversation: NPC.allConversations){
             System.out.println("Text: " + conversation);
         }
@@ -37,7 +41,7 @@ public class NPC
      */
     public static void createNamesList(TextPrinter textPrinter)
     {  
-        NPC.allNames = textPrinter.returnContentsList("texts/npc_names.txt");
+        NPC.allNames = textPrinter.returnContentsList("dependencies/texts/npc_names.txt");
         for (String name: NPC.allNames){
             System.out.println("Name: " + name);
         }
