@@ -6,9 +6,11 @@ import core.Parser;
 import core.TextPrinter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import dependencies.entities.Room;
 import dependencies.entities.NPC;
+import dependencies.entities.Artifact;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -75,19 +77,19 @@ public class Game
         Room outside, kitchen, mainHallway, bathroom, diningRoom, livingRoom, storageRoom, hallway1, bedroom1, hallway2, hallway3, bedroom2, attic;
 
         // description, can spawn NPCs in this room?, can spawn objects in this room?
-        outside = new Room("outside the Smith's residence", true);
-        kitchen = new Room("in the kitchen", false);
-        mainHallway = new Room("in the main hallway", false);
-        bathroom = new Room("in the bathroom", true);
-        diningRoom = new Room("in the dining room", false);
-        livingRoom = new Room("in the living room", false);
-        storageRoom = new Room("in the storage room", true);
-        hallway1 = new Room("in the hallway (1)", false);
-        bedroom1 = new Room("in bedroom 1", true);
-        hallway2 = new Room("in the hallway (2)", false);
-        hallway3 = new Room("in the hallway (3)", false);
-        bedroom2 = new Room("in bedroom 2", true);
-        attic = new Room("in the attic", false);
+        outside = new Room("outside the Smith's residence", true, false);
+        kitchen = new Room("in the kitchen", false, true);
+        mainHallway = new Room("in the main hallway", false, false);
+        bathroom = new Room("in the bathroom", true, true);
+        diningRoom = new Room("in the dining room", false, false);
+        livingRoom = new Room("in the living room", false, false);
+        storageRoom = new Room("in the storage room", true, true);
+        hallway1 = new Room("in the hallway (1)", false, false);
+        bedroom1 = new Room("in bedroom 1", true, true);
+        hallway2 = new Room("in the hallway (2)", false, false);
+        hallway3 = new Room("in the hallway (3)", false, false);
+        bedroom2 = new Room("in bedroom 2", true, true);
+        attic = new Room("in the attic", false, true);
 
         // Initialise exits for each room
         outside.setExit("main hallway", mainHallway);
@@ -132,6 +134,9 @@ public class Game
         // Randomly spawn NPCs into rooms that they can be spawned into
         spawnNPCs();
 
+        // Randomly spawn artifacts
+        spawnArtifacts();
+
         // Spawn the player outside
         currentRoom = outside;
     }
@@ -143,7 +148,7 @@ public class Game
     {
         for (Room room: Room.NPCSpawnableRooms)
         {
-            System.out.println(room.getShortDescription());
+            System.out.println("NPC room: " + room.getShortDescription());
         }
 
         // Generate random indexes between 0 (inclusive) and the number of NPC spawnable rooms (exclusive) there are
@@ -166,6 +171,39 @@ public class Game
             System.out.println(idx);
             roomToAssignNPC = Room.NPCSpawnableRooms.get(idx);
             roomToAssignNPC.assignNPC(new NPC());
+        }
+    }
+
+    /**
+     * Used to randomly select n rooms (where allowed) to spawn artifacts into
+     */
+    public void spawnArtifacts()
+    {
+        for (Room room: Room.artifactSpawnableRooms)
+        {
+            System.out.println("Item room: " + room.getShortDescription());
+        }
+
+        // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
+        Random randomGen = new Random();
+        HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
+        int numArtifacts = 3;
+        int generatedIndex;
+        int numArtifactSpawnableRooms = Room.artifactSpawnableRooms.size();
+
+        while (uniqueIndexes.size() < numArtifacts)
+        {
+            generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
+            uniqueIndexes.add(generatedIndex);
+        }
+
+        // Assign artifacts to the randomly selected rooms
+        Room roomToAssignArtifact;
+        for (int idx: uniqueIndexes)
+        {
+            System.out.println(idx);
+            roomToAssignArtifact = Room.artifactSpawnableRooms.get(idx);
+            roomToAssignArtifact.assignArtifact(new Artifact("trophy", "a trophy", 10.6));
         }
     }
 
@@ -302,6 +340,7 @@ public class Game
         System.out.println("For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go bedroom1' >>");
         System.out.println();
         checkForNPC();
+        checkForArtifact();
         System.out.println(currentRoom.getLongDescription(currentOptions, isInitialCall));
         return true;
     }
@@ -349,6 +388,7 @@ public class Game
             currentRoom = nextRoom;
             currentOptions.clear(); // Empty the list of options available to the player
             checkForNPC();
+            checkForArtifact();
             System.out.println(currentRoom.getLongDescription(currentOptions, true));
             return true;
         }
@@ -368,6 +408,7 @@ public class Game
         {
             currentRoom = Room.returnPrevious();
             checkForNPC();
+            checkForArtifact();
 
             // Refresh all the options available to the player
             currentOptions.clear();
@@ -425,6 +466,19 @@ public class Game
             if (currentRoom.hasNPC())
                 {
                     System.out.println("There is an NPC in this room!");
+                }
+    }
+    
+    /**
+     * Check if this room has an artifact, output a comment 
+     */
+    public void checkForArtifact()
+    {
+        // Check if there is an artifact in this room
+            if (currentRoom.hasArtifact())
+                {
+                    System.out.println("There is an artifact in this room!");
+                    System.out.println(currentRoom.getAssignedArtifact().getName());
                 }
     }
     

@@ -20,10 +20,13 @@ import java.util.HashMap;
 public class Room 
 {
     private static ArrayList<Room> roomsHistory = new ArrayList<Room>(); // Stores the history of all the rooms the player has visited (in order)
-    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs (CHANGE TO PRIVATE LATER)
+    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs can spawn in (CHANGE TO PRIVATE LATER)
+    public static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that artifacts can spawn in (CHANGE TO PRIVATE LATER)
+
     private String description;
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
     private NPC assignedNPC; // Pointer to NPC assigned to this room
+    private Artifact assignedArtifact; // Pointer to Artifact assigned to this room
 
     /**
      * Create a room described "description". Initially, it has
@@ -31,7 +34,7 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description, boolean npcSpawnable)
+    public Room(String description, boolean npcSpawnable, boolean artifactSpawnable)
     {
         this.description = description;
 
@@ -39,6 +42,12 @@ public class Room
         if (npcSpawnable == true)
         {
             Room.NPCSpawnableRooms.add(this);
+        }
+
+        // Add this room to the artifactSpawnable rooms list if applicable
+        if (artifactSpawnable == true)
+        {
+            Room.artifactSpawnableRooms.add(this);
         }
     }
 
@@ -123,7 +132,15 @@ public class Room
     }
 
     /**
-     * @return The assigned NPC to this room (should only be called if the assigned NPC is not null)
+     * @return A boolean indicating whether an artifact is inside this room or not
+     */
+    public boolean hasArtifact()
+    {
+        return (assignedArtifact != null);
+    }
+
+    /**
+     * @return the assigned NPC to this room (should only be called if the assigned NPC is not null)
      */
     public NPC getAssignedNPC()
     {   
@@ -136,6 +153,22 @@ public class Room
     public void assignNPC(NPC NPCToAssign) 
     {
         assignedNPC = NPCToAssign;
+    }
+
+    /**
+     * Called to assign an artifact to this room
+     */
+    public void assignArtifact(Artifact artifactToAssign) 
+    {
+        assignedArtifact = artifactToAssign;
+    }
+
+    /**
+     * @return the assigned artifact to this room (should only be called if the assigned artifact is not null)
+     */
+    public Artifact getAssignedArtifact()
+    {
+        return assignedArtifact;
     }
 
     /**
