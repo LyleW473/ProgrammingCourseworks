@@ -235,16 +235,9 @@ public class Game
         }
         else if (commandWord.equals("back"))
         {   
-            if (Room.getRoomHistory().size() > 0)
-            {
-                goBack();
-            }
-            else
-            {
-                System.out.println("There are currently no rooms to go back to!");
-                System.out.println("Use the 'help' command for additional guidance.");
-            }
+            goBack();
         }
+
         // else command not recognised.
         return wantToQuit;
     }
@@ -321,14 +314,23 @@ public class Game
      * Try to go back to the previous room that the player was in
      */
     public void goBack()
-    {
-        currentRoom = Room.returnPrevious();
-        checkForNPC();
+    {   
+        // If there is a previous room to go to
+        if (Room.getRoomHistory().size() > 0)
+        {
+            currentRoom = Room.returnPrevious();
+            checkForNPC();
 
-        // Refresh all the options available to the player
-        currentOptions.clear();
-        System.out.println(currentRoom.getLongDescription(currentOptions, true));
-}
+            // Refresh all the options available to the player
+            currentOptions.clear();
+            System.out.println(currentRoom.getLongDescription(currentOptions, true));
+        }
+        else
+        {
+            System.out.println("There are currently no rooms to go back to!");
+            System.out.println("Use the 'help' command for additional guidance.");
+        }
+    }
 
     /**
      * Prints the conversation from the NPC in the current room, if there is an NPC in this room
