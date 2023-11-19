@@ -30,6 +30,8 @@ public class Game
      * Uses: Names of rooms, Names of items
     */
     private ArrayList<String> currentOptions = new ArrayList<String>();
+
+    private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
     
     /**
      * Main method, for development
@@ -54,7 +56,6 @@ public class Game
 
         createRooms();
         parser = new Parser();
-
     }
 
     /**
@@ -171,7 +172,12 @@ public class Game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
-            finished = processCommand(command);
+
+            // Space out command inputs
+            System.out.println();
+            System.out.println("--------------------------------------------");
+
+            finished = processCommand(command).wantsToQuit();
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -192,17 +198,16 @@ public class Game
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command) 
+    private CommandResult processCommand(Command command) 
     {   
-        // Space out command inputs
-        System.out.println();
-        System.out.println("--------------------------------------------");
-        
-        // Unknown command
+        // Result variables
         boolean wantToQuit = false;
+        boolean successfulCommand = false;
+
+        // Unknown command
         if(command.isUnknown()) {
             System.out.println("Unknown command, please enter a valid command, type 'help' to see all valid commands.");
-            return false;
+            return new CommandResult(successfulCommand, wantToQuit);
         }
         
         String commandWord = command.getCommandWord();
@@ -210,15 +215,15 @@ public class Game
 
         if (commandWord.equals("help")) 
         {
-            printHelp(false);
+            successfulCommand = printHelp(false);
         }
         else if (commandWord.equals("go")) 
         {
-            goRoom(command);
+            successfulCommand = goRoom(command);
         }
         else if (commandWord.equals("quit")) 
         {
-            wantToQuit = quit(command);
+            successfulCommand = wantToQuit = quit(command);
         }
         else if (commandWord.equals("print out"))
         {  
@@ -230,26 +235,57 @@ public class Game
             // Interacting with NPCs
             if (secondWord.equalsIgnoreCase("NPC"))
             {
-                printNPCConversation();
+                successfulCommand = printNPCConversation();
             }
         }
         else if (commandWord.equals("back"))
         {   
-            goBack();
+            successfulCommand = goBack();
+        }
+        else if (commandWord.equals("repeat"))
+        {
+            successfulCommand = repeatPrevCommand();
         }
 
-        // else command not recognised.
-        return wantToQuit;
+        // If the command was successful and the command can be repeated, save it as the previous command
+        // Note: If the command is "repeat", the previousCommand will just not be overwritten:
+        if (successfulCommand == true){
+
+            // Repeatable command (includes "repeat" command)
+            if (parser.getCommandWords().isRepeatable(commandWord))
+            {   
+                // New previous command to repeat
+                if (!command.getCommandWord().equals("repeat"))
+                {
+                    previousCommand = command;
+                }
+                // Otherwise, just keep the last previous command to repeat again
+
+            }
+            /** Cannot repeat this command, will always replace previousCommand
+             * For example: Following a sequence of commands like: help, go 0, repeat, "help" should not be used again after a command that cannot be repeated ("go 0")
+             */
+            else
+            {
+                previousCommand = null;
+            }
+        }
+
+        // Return the result of this command
+        return new CommandResult(successfulCommand, wantToQuit);
     }
 
     // implementations of user commands:
+    /**
+     * All user commands will return a boolean, representing whether the command was successful or not.
+     */
 
     /**
      * Prints out all of the commands that the user can use and then all of the commands the user can use at the time of this being called.
      * "isInitialCall" is used so that when "printHelp" is called in "printWelcome", it will add elements to the currentOptions list
      * In any other case where "printHelp" is called, more options shouldn't be added to the currentOptions list
      */
-    private void printHelp(boolean isInitialCall) 
+    private boolean printHelp(boolean isInitialCall) 
     {
         parser.showAllCommands();
         System.out.println("\n");
@@ -259,18 +295,19 @@ public class Game
         System.out.println();
         checkForNPC();
         System.out.println(currentRoom.getLongDescription(currentOptions, isInitialCall));
+        return true;
     }
 
     /** 
      * Try to enter the room with the corresponding "selectedRoomName". If there is an exit, try to enter the room, otherwise print an error message.
      */
-    private void goRoom(Command command) 
+    private boolean goRoom(Command command) 
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
             // System.out.println(currentRoom.getLongDescription(currentOptions, false));
-            return;
+            return false;
         }
 
         String selectedRoomName = command.getSecondWord();
@@ -291,7 +328,10 @@ public class Game
                     nextRoom = currentRoom.getExit(roomName);
                     }
                 }
-            catch (NumberFormatException e){} // Do nothing
+            catch (NumberFormatException e)
+            {
+                return false; // Exit method
+            } 
         }
 
         // Changing rooms if possible
@@ -302,18 +342,18 @@ public class Game
             currentOptions.clear(); // Empty the list of options available to the player
             checkForNPC();
             System.out.println(currentRoom.getLongDescription(currentOptions, true));
+            return true;
         }
-        else 
-        {
-            System.out.println("Invalid input!");
-            System.out.println("Use the 'help' command for additional guidance.");
-        }
+
+        System.out.println("Invalid input!");
+        System.out.println("Use the 'help' command for additional guidance.");
+        return false;
     }
 
     /** 
      * Try to go back to the previous room that the player was in
      */
-    public void goBack()
+    public boolean goBack()
     {   
         // If there is a previous room to go to
         if (Room.getRoomHistory().size() > 0)
@@ -324,18 +364,36 @@ public class Game
             // Refresh all the options available to the player
             currentOptions.clear();
             System.out.println(currentRoom.getLongDescription(currentOptions, true));
+            return true;
         }
-        else
-        {
-            System.out.println("There are currently no rooms to go back to!");
-            System.out.println("Use the 'help' command for additional guidance.");
+
+        // Otherwise:
+        System.out.println("There are currently no rooms to go back to!");
+        System.out.println("Use the 'help' command for additional guidance.");
+        return false;
+    }
+
+    /** 
+     * Try to repeat the previous command executed if possible
+     */
+    public boolean repeatPrevCommand()
+    {   
+        // If there was a previous command
+        if (!(previousCommand == null))
+        {   
+            return processCommand(previousCommand).wasSuccessful(); // Return whether the repeat command was successful executed or not
         }
+
+        // Otherwise:
+        System.out.println("There is no previous command to repeat / execute again!");
+        System.out.println("Use the 'help' command for additional guidance.");
+        return false;
     }
 
     /**
      * Prints the conversation from the NPC in the current room, if there is an NPC in this room
      */
-    public void printNPCConversation()
+    public boolean printNPCConversation()
     {
         if (currentRoom.hasNPC())
         {  
@@ -345,7 +403,9 @@ public class Game
             // {
             //     System.out.println(c);
             // }
+            return true;
         }
+        return false;
     }
 
     /**

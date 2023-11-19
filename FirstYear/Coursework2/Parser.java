@@ -124,4 +124,12 @@ public class Parser
     {  
         return word.trim().toLowerCase();
     }
+
+    /**
+     * @return the CommandWords attribute (used to access the CommandWords.isRepeatable() method)
+     */
+    public CommandWords getCommandWords()
+    {
+        return commands;
+    }
 }

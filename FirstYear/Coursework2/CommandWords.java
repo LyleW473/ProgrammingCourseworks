@@ -16,15 +16,20 @@ public class CommandWords
 {
     // A hashset that holds all of the valid command words.
     private static final HashSet<String> validCommands = new HashSet<String>() 
-    {{
-        add("go");
-        add("quit");
-        add("help");
-        add("print out");
-        add("interact with"); // Able to interact with: "npc"
-        add("back");
-        add("repeat");
-    }};
+                                                                            {{
+                                                                                add("go");
+                                                                                add("quit");
+                                                                                add("help");
+                                                                                add("print out");
+                                                                                add("interact with"); // Able to interact with: "npc"
+                                                                                add("back");
+                                                                                add("repeat");
+                                                                            }};
+
+    private static final HashSet<String> cannotRepeatCommands = new HashSet<String>() 
+                                                                                    {{
+                                                                                        add("go");
+                                                                                    }};
 
     /**
      * Constructor - initialise the command words.
@@ -40,6 +45,15 @@ public class CommandWords
     public boolean isCommand(String aString)
     {   
         return validCommands.contains(aString);
+    }
+
+    /**
+     * Check whether a command is repeatable or not
+     * @return true if it is, false if it isn't.
+     */
+    public boolean isRepeatable(String commandWord)
+    {   
+        return !cannotRepeatCommands.contains(commandWord);
     }
 
     /**
