@@ -15,20 +15,22 @@ import java.util.ArrayList;
 public class CommandWords
 {
     // A hashset that holds all of the valid command words.
-    private static final HashSet<String> validCommands = new HashSet<String>();
+    private static final HashSet<String> validCommands = new HashSet<String>() 
+    {{
+        add("go");
+        add("quit");
+        add("help");
+        add("print out");
+        add("interact with"); // Able to interact with: "npc"
+        add("back");
+        add("repeat");
+    }};
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        // Add valid commands to hashset
-        validCommands.add("go");
-        validCommands.add("quit");
-        validCommands.add("help");
-        validCommands.add("print out");
-        validCommands.add("interact with"); // Able to interact with: "npc"
-        validCommands.add("back");
     }
 
     /**
