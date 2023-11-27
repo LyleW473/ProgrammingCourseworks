@@ -42,6 +42,9 @@ public class Game
     private ArrayList<String> currentOptions = new ArrayList<String>();
 
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
+
+    public final int NUM_ARTIFACTS = 3;
+    public final int NUM_NPCS = 2;
     
     /**
      * Main method, for development
@@ -154,11 +157,10 @@ public class Game
         // Generate random indexes between 0 (inclusive) and the number of NPC spawnable rooms (exclusive) there are
         Random randomGen = new Random();
         HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
-        int numNPCs = 2;
         int generatedIndex;
         int numNPCSpawnableRooms = Room.NPCSpawnableRooms.size();
 
-        while (uniqueIndexes.size() < numNPCs)
+        while (uniqueIndexes.size() < NUM_NPCS)
         {
             generatedIndex = randomGen.nextInt(numNPCSpawnableRooms);
             uniqueIndexes.add(generatedIndex);
@@ -187,11 +189,10 @@ public class Game
         // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
         Random randomGen = new Random();
         HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
-        int numArtifacts = 3;
         int generatedIndex;
         int numArtifactSpawnableRooms = Room.artifactSpawnableRooms.size();
 
-        while (uniqueIndexes.size() < numArtifacts)
+        while (uniqueIndexes.size() < NUM_ARTIFACTS)
         {
             generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
             uniqueIndexes.add(generatedIndex);
