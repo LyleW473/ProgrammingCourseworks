@@ -365,11 +365,12 @@ public class Game
      * Try to enter the room with the corresponding "selectedRoomName". If there is an exit, try to enter the room, otherwise print an error message.
      */
     private boolean goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            // System.out.println(currentRoom.getLongDescription(currentOptions, false));
+    {   
+        // No location given by the player to go to
+        if(!command.hasSecondWord()) 
+        {
+            System.out.println("Go where? Missing location to go to.");
+            System.out.println("Use the 'help' command for additional guidance.");
             return false;
         }
 
@@ -390,14 +391,14 @@ public class Game
                     String roomName = currentOptions.get(optionIndex);
                     nextRoom = currentRoom.getExit(roomName);
                     }
+                // Case: If the index is out range then skip to bottom of method
                 }
+            // Case: The second word was not an index or a valid location
             catch (NumberFormatException e)
-            {
-                return false; // Exit method
-            } 
+            {}
         }
 
-        // Changing rooms if possible
+        // Changing rooms if possible (Chek again in case the identifier was an index)
         if (nextRoom != null) 
         {   
             Room.addToRoomHistory(currentRoom); // Add to room history before moving rooms
@@ -409,7 +410,8 @@ public class Game
             return true;
         }
 
-        System.out.println("Invalid input!");
+        // Cases: Index out of range or Room is not reachable
+        System.out.println("Invalid input! A room with the name/identifier '" + selectedRoomName + "' does not exist or is not accessible from this room!");
         System.out.println("Use the 'help' command for additional guidance.");
         return false;
     }
