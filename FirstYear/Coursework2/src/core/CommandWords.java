@@ -30,12 +30,14 @@ public class CommandWords
                                                                                 add("repeat");
                                                                                 add("collect");
                                                                                 add("show");
+                                                                                add("drop");
                                                                             }};
 
     private static final HashSet<String> cannotRepeatCommands = new HashSet<String>() 
                                                                                     {{
                                                                                         add("go");
                                                                                         add("collect");
+                                                                                        add("drop");
                                                                                     }};
 
     /**

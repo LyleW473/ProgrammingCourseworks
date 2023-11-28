@@ -305,6 +305,10 @@ public class Game
         {
             successfulCommand = showInventory(command);
         }
+        else if (commandWord.equals("drop"))
+        {
+            successfulCommand = dropArtifact(command);
+        }
 
         // If the command was successful and the command can be repeated, save it as the previous command
         // Note: If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated)
@@ -542,6 +546,59 @@ public class Game
         }
         return false;
     }
+   
+    /**
+     * Method to drop an artifact if the requirements are satisfied
+     */
+    public boolean dropArtifact(Command command)
+    {
+        String secondWord = command.getSecondWord();
+
+        // Check if there is a second word
+        if (secondWord != null)
+            {
+                // Only acceptable input is the item number
+                try {
+                        int inventorySize = inventory.size();
+
+                        // Check for empty inventory
+                        if (inventorySize == 0)
+                        {
+                            System.out.println("You have no items in your inventory!");
+                            return false;
+                        }
+                        else
+                        {
+                            // Cannot drop an artifact in this room if there is an artifact already in this room
+                            if (currentRoom.getAssignedArtifact() != null)
+                            {
+                                System.out.println("Cannot drop another artifact in this room, there is already an artifact in this room!");
+                                return false;
+                            }
+
+                            // Check whether the index is in between in the range of the number of items in the inventory
+                            int itemIndex = Integer.parseInt(secondWord);
+                            if (itemIndex >= 0 && itemIndex < inventorySize)
+                                {
+                                    // Drop item into this room and remove from inventory
+                                    Artifact artifactToDrop = inventory.get(itemIndex);
+                                    inventory.remove(itemIndex);
+                                    currentRoom.assignArtifact(artifactToDrop);
+                                    System.out.println("Successfully dropped '" + artifactToDrop.getName() + "'!");
+                                    return true;
+                                }
+                            // Case: If the index is out range then skip to bottom of method
+                        }
+                    }
+                // Case: The second word was not an index, then skip to the bottom of the method
+                catch (NumberFormatException e)
+                {}
+            }
+
+        // Invalid command
+        System.out.println("Invalid command, use the 'drop {itemNumber}' command to collect artifacts!");
+        return false;
+    }
     
     /**
      * Shows the contents of the player's inventory inside of the terminal
@@ -568,7 +625,7 @@ public class Game
             System.out.println("<< Inventory >>");
             for (int i = 0; i < inventory.size(); i++)
             {   
-                inventory.get(i).printDetails(i + 1);
+                inventory.get(i).printDetails(i);
             }
         }
         return true;
