@@ -1,0 +1,3 @@
+Golden Trophy@A golden trophy with a shiny finish.@3.0
+Expensive Painting@A painting worth a large fortune.@2.0
+Treasure Chest@A treasure chest encasing jewellery and other precious gems passed down to the Smiths!@5.0

@@ -60,15 +60,18 @@ public class Game
      */
     public Game() 
     {   
-        // Text printer
+        // Text printer and parser
         textPrinter = new TextPrinter();
-
+        parser = new Parser();
+        
         // Initialise static collections for NPC class
         NPC.createConversationsList(textPrinter);
         NPC.createNamesList(textPrinter);
 
+        // Initialise details for all artifacts
+        Artifact.createArtifactsDetails(textPrinter);
+
         createRooms();
-        parser = new Parser();
     }
 
     /**
@@ -188,23 +191,33 @@ public class Game
 
         // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
         Random randomGen = new Random();
-        HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
+        HashSet<Integer> uniqueIndexes = new HashSet<Integer>(); // Hashset for distinct values
         int generatedIndex;
         int numArtifactSpawnableRooms = Room.artifactSpawnableRooms.size();
 
-        while (uniqueIndexes.size() < NUM_ARTIFACTS)
+        while (uniqueIndexes.size() < NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
         {
             generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
             uniqueIndexes.add(generatedIndex);
         }
-
+        
         // Assign artifacts to the randomly selected rooms
         Room roomToAssignArtifact;
-        for (int idx: uniqueIndexes)
+        ArrayList<String> assignableArtifacts = Artifact.getAllArtifactNames(); // Ordered list of names of assignable artifacts
+        for (int roomIdx: uniqueIndexes)
         {
-            System.out.println(idx);
-            roomToAssignArtifact = Room.artifactSpawnableRooms.get(idx);
-            roomToAssignArtifact.assignArtifact(new Artifact("trophy", "a trophy", 10.6));
+            // Generate random artifact to assign to this room
+            int randomArtifactIndex = randomGen.nextInt(assignableArtifacts.size());
+            String artifactName = assignableArtifacts.get(randomArtifactIndex);
+            Artifact artifactToAssign = Artifact.getArtifact(artifactName);
+            
+            // Assign artifact to the room
+            roomToAssignArtifact = Room.artifactSpawnableRooms.get(roomIdx);
+            roomToAssignArtifact.assignArtifact(artifactToAssign);
+
+            // Remove the artifact selected from the list of assignable artifacts
+            assignableArtifacts.remove(randomArtifactIndex);
+            System.out.println("Artifact name: " + artifactToAssign.getName() + "\nRoom name: " + roomToAssignArtifact.getShortDescription());
         }
     }
 
@@ -514,7 +527,7 @@ public class Game
                 {
                     System.out.println(o.getClass());
                 }
-                System.out.println("The " + artifactToCollect.getName() +  " artifact has been added to your inventory!");
+                System.out.println("The '" + artifactToCollect.getName() +  "' artifact has been added to your inventory!");
                 return true;
             }
             else
