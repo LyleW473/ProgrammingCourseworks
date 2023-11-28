@@ -32,7 +32,6 @@ import dependencies.entities.Artifact;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
     private TextPrinter textPrinter;
 
     /** 
@@ -40,8 +39,9 @@ public class Game
      * Uses: Names of rooms, Names of items
     */
     private ArrayList<String> currentOptions = new ArrayList<String>();
-
+    private Room currentRoom;
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
+    public ArrayList<Object> inventory = new ArrayList<>();
 
     public final int NUM_ARTIFACTS = 3;
     public final int NUM_NPCS = 2;
@@ -258,7 +258,6 @@ public class Game
         }
         
         String commandWord = command.getCommandWord();
-        String secondWord = command.getSecondWord();
 
         if (commandWord.equals("help")) 
         {
@@ -278,12 +277,12 @@ public class Game
             System.out.println("Three word command working!" + " " + command.getSecondWord());
         }
         else if (commandWord.equals("interact with"))
-        {  
-            // Interacting with NPCs
-            if (secondWord.equalsIgnoreCase("NPC"))
-            {
-                successfulCommand = printNPCConversation();
-            }
+        {   
+            successfulCommand = interactWithNPC(command);
+        }
+        else if (commandWord.equals("collect" ))
+        {      
+            successfulCommand = collectArtifact(command);
         }
         else if (commandWord.equals("back"))
         {   
@@ -295,7 +294,7 @@ public class Game
         }
 
         // If the command was successful and the command can be repeated, save it as the previous command
-        // Note: If the command is "repeat", the previousCommand will just not be overwritten:
+        // Note: If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated)
         if (successfulCommand == true){
 
             // Repeatable command (includes "repeat" command)
@@ -309,7 +308,8 @@ public class Game
                 // Otherwise, just keep the last previous command to repeat again
 
             }
-            /** Cannot repeat this command, will always replace previousCommand
+            /** Cannot repeat this command.
+             * - Will always replace previousCommand
              * For example: Following a sequence of commands like: help, go 0, repeat, "help" should not be used again after a command that cannot be repeated ("go 0")
              */
             else
@@ -325,6 +325,9 @@ public class Game
     // implementations of user commands:
     /**
      * All user commands will return a boolean, representing whether the command was successful or not.
+     * @return true if the command was successful.
+     * @return false if the command was unsuccessful.
+     * Returning true will allow the command to be repeated if the "repeat" command is used (given that it is a repeatable command)
      */
 
     /**
@@ -338,7 +341,7 @@ public class Game
         System.out.println("\n");
         parser.showApplicableCommands(this.currentRoom);
         System.out.println("\n");
-        System.out.println("For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go bedroom1' >>");
+        System.out.println("For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go dining room' >>");
         System.out.println();
         checkForNPC();
         checkForArtifact();
@@ -441,23 +444,73 @@ public class Game
     }
 
     /**
-     * Prints the conversation from the NPC in the current room, if there is an NPC in this room
+     * Prints the conversation from the assigned NPC in the current room when interacted with, if there is an NPC in this room
      */
-    public boolean printNPCConversation()
+    public boolean interactWithNPC(Command command)
     {
-        if (currentRoom.hasNPC())
-        {  
-            NPC currentNPC = currentRoom.getAssignedNPC();
-            System.out.println(currentNPC.getName() + ": " + currentNPC.getRandomConversation());
-            // for (String c: currentNPC.getPossibleConversations())
-            // {
-            //     System.out.println(c);
-            // }
-            return true;
-        }
+        String secondWord = command.getSecondWord();
+
+        // Check if the player used an invalid command
+        if (secondWord == null || !secondWord.equalsIgnoreCase("NPC"))
+            {
+                System.out.println("Cannot interact with '" + secondWord + "', use the 'interact with npc' command to interact with NPCs.");
+            }
+        else{      
+            // Check if this room has an NPC
+            if (!currentRoom.hasNPC()) 
+                {
+                    System.out.println("There is no NPC to interact with in this room!");
+                    return true; // Allow for repeated commands
+                }
+            else
+                {
+                NPC currentNPC = currentRoom.getAssignedNPC();
+                System.out.println(currentNPC.getName() + ": " + currentNPC.getRandomConversation());
+                // for (String c: currentNPC.getPossibleConversations())
+                // {
+                //     System.out.println(c);
+                // }
+                return true;
+                }
+            }
         return false;
     }
 
+    /**
+     * Method to collect an artifact if the requirements are satisfied
+     */
+    public boolean collectArtifact(Command command)
+    {  
+        String secondWord = command.getSecondWord();
+
+        // Check if the player used an invalid command
+        if (secondWord == null || !secondWord.equals("artifact"))
+            {
+                System.out.println("Invalid command, use the 'collect artifact' command to collect artifacts in rooms.");
+            }
+        else
+        {   
+            // Check if there is an artifact in this room
+            if (currentRoom.hasArtifact())
+            {   
+                // Add artifact to the player's inventory
+                Artifact artifactToCollect = currentRoom.getAssignedArtifact();
+                inventory.add(artifactToCollect);
+                for (Object o: inventory)
+                {
+                    System.out.println(o.getClass());
+                }
+                System.out.println("The " + artifactToCollect.getName() +  " artifact has been added to your inventory!");
+                return true;
+            }
+            else
+            {
+                System.out.println("There is no artifact to collect in this room!");
+            }
+        }
+        return false;
+    }
+    
     /**
      * Check if this room has an NPC, output a comment 
      */

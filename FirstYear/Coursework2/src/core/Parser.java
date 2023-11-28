@@ -74,31 +74,43 @@ public class Parser
         {
             word3 = cleanWord(word3);
         }
-        
-        
-        // If this is a three-word command
+
+        // Command validation
+
+        // Three word commands
         if (word1 != null && word2 != null && word3 != null)
-        {   
+        {      
             // go {location}
             if (word1.equals("go"))
             {
+                // Combine last 2 words into word2 and set word3 as null
                 word2 = word2 + " " + word3;
                 word3 = null;
             }
-
-            // interact with {entity}
+             // interact with NPC
             else
             {
+                // Combine first 2 words into word1 and set word2 as the last word 
                 word1 = word1 + " " + word2;
                 word2 = word3;
             }
         }
-        // Now check whether this word is known. If so, create a command
-        // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(word1)) {
+
+        // Check whether this word is known
+        if(commands.isCommand(word1)) 
+        {
             return new Command(word1, word2);
         }
-        else {
+        else 
+        {
+            // Special three-word command case: First two words in the command were correct but had no 'subject', e.g., "interact with".
+            String concatenatedCommand = word1 + " " + word2;
+            if (commands.isCommand(concatenatedCommand)) 
+                {
+                    return new Command(concatenatedCommand, null);
+                }
+            
+            // Otherwise, create a "null" command (for unknown command).
             return new Command(null, word2); 
         }
     }

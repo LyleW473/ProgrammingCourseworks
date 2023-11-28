@@ -28,11 +28,13 @@ public class CommandWords
                                                                                 add("interact with"); // Able to interact with: "npc"
                                                                                 add("back");
                                                                                 add("repeat");
+                                                                                add("collect");
                                                                             }};
 
     private static final HashSet<String> cannotRepeatCommands = new HashSet<String>() 
                                                                                     {{
                                                                                         add("go");
+                                                                                        add("collect");
                                                                                     }};
 
     /**
