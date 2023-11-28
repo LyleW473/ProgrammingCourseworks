@@ -65,4 +65,15 @@ public class Artifact extends Object
     {
         return weight;
     }
+
+    /**
+    * Prints the name, description and weight of this artifact
+    */
+    public void printDetails(int itemNumber)
+    {
+        System.out.println("Name: " + this.getName() + " (" + itemNumber + ")");
+        System.out.println("Description: " + this.getDescription());
+        System.out.println("Artifact weight: " + this.getWeight());
+        System.out.println();
+    }
 }

@@ -29,6 +29,7 @@ public class CommandWords
                                                                                 add("back");
                                                                                 add("repeat");
                                                                                 add("collect");
+                                                                                add("show");
                                                                             }};
 
     private static final HashSet<String> cannotRepeatCommands = new HashSet<String>() 

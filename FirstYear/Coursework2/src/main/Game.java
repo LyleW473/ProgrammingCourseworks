@@ -41,7 +41,7 @@ public class Game
     private ArrayList<String> currentOptions = new ArrayList<String>();
     private Room currentRoom;
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
-    public ArrayList<Object> inventory = new ArrayList<>();
+    public ArrayList<Artifact> inventory = new ArrayList<Artifact>();
 
     public final int NUM_ARTIFACTS = 3;
     public final int NUM_NPCS = 2;
@@ -63,7 +63,7 @@ public class Game
         // Text printer and parser
         textPrinter = new TextPrinter();
         parser = new Parser();
-        
+
         // Initialise static collections for NPC class
         NPC.createConversationsList(textPrinter);
         NPC.createNamesList(textPrinter);
@@ -303,6 +303,10 @@ public class Game
         {
             successfulCommand = repeatPrevCommand();
         }
+        else if (commandWord.equals("show"))
+        {
+            successfulCommand = showInventory(command);
+        }
 
         // If the command was successful and the command can be repeated, save it as the previous command
         // Note: If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated)
@@ -536,6 +540,37 @@ public class Game
             }
         }
         return false;
+    }
+    
+    /**
+     * Shows the contents of the player's inventory inside of the terminal
+     */
+    public boolean showInventory(Command command)
+    {
+        String secondWord = command.getSecondWord();
+
+        // Check if the player used an invalid command
+        if (secondWord == null || !secondWord.equalsIgnoreCase("inventory"))
+            {
+                System.out.println("Cannot show '" + secondWord + "', use the 'show inventory' command to inspect your inventory.");
+                return false;
+            }
+        
+        // Empty inventory
+        if (inventory.size() == 0)
+        {
+            System.out.println("Your inventory is empty. No artifacts have been collected yet.");
+        }
+        else
+        {  
+            // Display details for each artifact inside of the inventory
+            System.out.println("<< Inventory >>");
+            for (int i = 0; i < inventory.size(); i++)
+            {   
+                inventory.get(i).printDetails(i + 1);
+            }
+        }
+        return true;
     }
     
     /**
