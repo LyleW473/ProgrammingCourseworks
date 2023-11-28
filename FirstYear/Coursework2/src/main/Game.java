@@ -71,7 +71,11 @@ public class Game
         // Initialise details for all artifacts
         Artifact.createArtifactsDetails(textPrinter);
 
+        // Create game world
         createRooms();
+        spawnArtifacts();
+        spawnNPCs();
+        
     }
 
     /**
@@ -136,12 +140,6 @@ public class Game
         hallway3.setExit("backwards", hallway2);
 
         attic.setExit("downstairs", hallway3);
-
-        // Randomly spawn NPCs into rooms that they can be spawned into
-        spawnNPCs();
-
-        // Randomly spawn artifacts
-        spawnArtifacts();
 
         // Spawn the player outside
         currentRoom = outside;
@@ -469,7 +467,7 @@ public class Game
         }
 
         // Otherwise:
-        System.out.println("There is no previous command to repeat / execute again!");
+        System.out.println("There is no previous command to repeat / execute again or the previous command cannot be repeateed!");
         System.out.println("Use the 'help' command for additional guidance.");
         return false;
     }
@@ -572,7 +570,7 @@ public class Game
         }
         return true;
     }
-    
+
     /**
      * Check if this room has an NPC, output a comment 
      */
@@ -581,7 +579,7 @@ public class Game
         // Check if there is an NPC in this room
             if (currentRoom.hasNPC())
                 {
-                    System.out.println("There is an NPC in this room!");
+                    System.out.println("<< There is an NPC in this room! >>");
                 }
     }
     
@@ -593,7 +591,7 @@ public class Game
         // Check if there is an artifact in this room
             if (currentRoom.hasArtifact())
                 {
-                    System.out.println("There is an artifact in this room!");
+                    System.out.println("<< There is an artifact in this room! >>");
                     System.out.println(currentRoom.getAssignedArtifact().getName());
                 }
     }
