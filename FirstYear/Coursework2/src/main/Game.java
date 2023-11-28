@@ -236,8 +236,6 @@ public class Game
     {
         this.textPrinter.outputContentsFile("dependencies/texts/welcome_message.txt");
         printHelp(true);
-        // System.out.println();
-        // System.out.println(currentRoom.getLongDescription(currentOptions));
     }
 
     /**
@@ -331,17 +329,31 @@ public class Game
      */
 
     /**
-     * Prints out all of the commands that the user can use and then all of the commands the user can use at the time of this being called.
-     * "isInitialCall" is used so that when "printHelp" is called in "printWelcome", it will add elements to the currentOptions list
-     * In any other case where "printHelp" is called, more options shouldn't be added to the currentOptions list
+     * Prints out:
+     * - All of the commands that the user can use
+     * - All of the commands the user can use at the time of this being called.
+     * - Information about the room and its contents
+     * "isInitialCall" is used so that when "printHelp" is called in "printWelcome", it will add elements to the currentOptions list (when currentRoom.getLongDescription is called)
+     * In any other case where "printHelp" is called, more options shouldn't be added to the currentOptions list 
      */
     private boolean printHelp(boolean isInitialCall) 
-    {
-        parser.showAllCommands();
-        System.out.println("\n");
-        parser.showApplicableCommands(this.currentRoom);
-        System.out.println("\n");
-        System.out.println("For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go dining room' >>");
+    {   
+        // Used in the welcome message
+        if (isInitialCall == true)
+        {
+            System.out.println("Use the 'help' command for additional information and guidance!");
+        }
+        
+        // Used whenever the help command is called manually by the player
+        else
+        {
+            parser.showAllCommands();
+            System.out.println("\n");
+            parser.showApplicableCommands(this.currentRoom);
+            System.out.println("\n");
+            System.out.println("<< For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go dining room' >>");
+        }
+
         System.out.println();
         checkForNPC();
         checkForArtifact();
@@ -486,7 +498,7 @@ public class Game
         // Check if the player used an invalid command
         if (secondWord == null || !secondWord.equals("artifact"))
             {
-                System.out.println("Invalid command, use the 'collect artifact' command to collect artifacts in rooms.");
+                System.out.println("Invalid command, use the 'collect artifact' command to collect artifacts!");
             }
         else
         {   
