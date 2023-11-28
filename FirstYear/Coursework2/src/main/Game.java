@@ -525,6 +525,9 @@ public class Game
                 // Add artifact to the player's inventory
                 Artifact artifactToCollect = currentRoom.getAssignedArtifact();
                 inventory.add(artifactToCollect);
+
+                // Remove artifact from the room
+                currentRoom.assignArtifact(null);
                 for (Object o: inventory)
                 {
                     System.out.println(o.getClass());
