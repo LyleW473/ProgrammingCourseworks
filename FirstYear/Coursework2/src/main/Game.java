@@ -168,6 +168,9 @@ public class Game
 
         attic.setExit("downstairs", hallway3);
 
+        // Set the attic as the magic transporter room
+        Room.setMagicTransporterRoom(attic);
+
         // Spawn all enemies
         spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
 
@@ -316,6 +319,56 @@ public class Game
     }
 
     /**
+     *  Functionality for teleporting the player to a random room (functionality intended for magic transporter room)
+     * - Does not add the magic transporter room to the player's room history
+     */
+    public void teleportPlayer()
+    {   
+        System.out.println("<< You have entered the magic attic! You have been teleported to another room! >>");
+        System.out.println("<< Teleporting has cleared your room history! >>");
+
+        Random randomGen = new Random();
+        int generatedIndex;
+        ArrayList<Room> allRooms = Room.getAllRooms();
+        ArrayList<Enemy> allEnemies = Enemy.getAllEnemies();
+        int numRooms = allRooms.size();
+        boolean foundRoom = false;
+        boolean isValidRoom = false;
+        Room selectedRoom = null;
+
+        while (foundRoom == false)
+        {
+            // Select a random room to teleport the player to
+            generatedIndex = randomGen.nextInt(numRooms);
+            selectedRoom = allRooms.get(generatedIndex);
+
+            // For all enemies, check if the next room that the enemy will go to is the selected room that the player will be teleported to
+            isValidRoom = true; // Assume that the room selected is valid until proven false
+            for (Enemy e: allEnemies)
+            {
+                if (selectedRoom.equals(e.getNextRoom()))
+                {      
+                    // Exit, and try a different room index
+                    isValidRoom = false;
+                    break; 
+                }
+            }
+
+            // If the selected room is not any of the enemies' next rooms to move to, then this room is valid
+            if (isValidRoom == true)
+            {
+                foundRoom = true;
+            }
+        }
+        
+        // Teleport the player
+        currentRoom = selectedRoom;
+
+        // Clear the rooms history after teleporting (This is an intended side effect of the magic attic)
+        Room.clearRoomsHistory();
+    }
+
+    /**
      * Print out the opening message for the player.
      */
     private void printWelcome()
@@ -393,10 +446,13 @@ public class Game
             */
             if (parser.getCommandWords().isRepeatable(commandWord))
             {   
-                // New previous command to repeat
+                // Any command that isn't repeat
                 if (!command.getCommandWord().equals("repeat"))
                 {
-                    previousCommand = command;
+                    previousCommand = command; // Set this command as repeatable
+
+                    // Moving enemies if the command was successful (Placed in here because using "repeat" will move enemies twice)
+                    Enemy.moveAllEnemies();
                 }
                 // Otherwise, just keep the last previous command to repeat again
 
@@ -410,8 +466,7 @@ public class Game
                 previousCommand = null;
             }
 
-            // Moving enemies if the command was successful 
-            Enemy.moveAllEnemies();
+
         }
 
         // Return the result of this command
@@ -496,11 +551,21 @@ public class Game
             {}
         }
 
-        // Changing rooms if possible (Chek again in case the identifier was an index)
+        // Changing rooms if possible (Check again in case the identifier was an index)
         if (nextRoom != null) 
         {   
-            Room.addToRoomHistory(currentRoom); // Add to room history before moving rooms
-            currentRoom = nextRoom;
+            // Check if the player tried entering the magic transporter room
+            if (Room.isMagicTransporterRoom(nextRoom))
+            {   
+                // Teleport player to a random room (that all enemies will not go into next)
+                teleportPlayer();
+            }
+            else
+            {
+                Room.addToRoomHistory(currentRoom); // Add to room history before moving rooms
+                currentRoom = nextRoom;
+            }
+
             currentOptions.clear(); // Empty the list of options available to the player
             checkForNPC();
             checkForArtifact();

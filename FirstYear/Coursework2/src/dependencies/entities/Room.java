@@ -22,6 +22,8 @@ public class Room
     private static ArrayList<Room> roomsHistory = new ArrayList<Room>(); // Stores the history of all the rooms the player has visited (in order)
     public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that NPCs can spawn in (CHANGE TO PRIVATE LATER)
     public static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that artifacts can spawn in (CHANGE TO PRIVATE LATER)
+    private static ArrayList<Room> allRooms = new ArrayList<Room>(); // List of all rooms
+    private static Room magicTransporterRoom; // Pointer to Room set as the magic transporter room
 
     private String description;
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
@@ -49,6 +51,9 @@ public class Room
         {
             Room.artifactSpawnableRooms.add(this);
         }
+
+        // Add to list of all rooms (To teleport the player when entering the magic attic)
+        Room.allRooms.add(this);
     }
 
     /**
@@ -207,6 +212,40 @@ public class Room
         Room.roomsHistory = newHistory;
 
         return previousRoom;
+    }
+
+    /**
+     * Clears the player's room history
+     * - Executed after the player enters the magic attic / transporter room.
+     * - This is an intended side effect of teleporting.
+     */
+    public static void clearRoomsHistory()
+    {
+        Room.roomsHistory.clear();
+    }
+        
+    /**
+     * Sets a room as the magic transporter room
+     */
+    public static void setMagicTransporterRoom(Room selectedRoom)
+    {
+        Room.magicTransporterRoom = selectedRoom;
+    }
+
+    /**
+     * Method used to check if a passed in room is the magic transporter room
+     */
+    public static boolean isMagicTransporterRoom(Room roomToCheck)
+    {
+        return roomToCheck.equals(Room.magicTransporterRoom);
+    }
+
+    /**
+     * @return a list containing all of the room objects created
+     */
+    public static ArrayList<Room> getAllRooms()
+    {
+        return Room.allRooms;
     }
 }
 

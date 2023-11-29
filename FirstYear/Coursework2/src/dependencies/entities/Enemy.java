@@ -59,4 +59,13 @@ public class Enemy
             currentPathIndex = 0;
         }
     }
+
+    /**
+     * @return the next room that this enemy will move to
+     * - Used as part of the functionality for magic transporter room, to ensure that the player isn't teleported to a location where an enemy is about to go
+     */
+    public Room getNextRoom()
+    {
+        return pathToTraverse.get((currentPathIndex + 1) % pathToTraverse.size());
+    }
 }
