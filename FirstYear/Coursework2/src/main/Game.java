@@ -41,7 +41,10 @@ public class Game
     private ArrayList<String> currentOptions = new ArrayList<String>();
     private Room currentRoom;
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
-    public ArrayList<Artifact> inventory = new ArrayList<Artifact>();
+
+    private ArrayList<Artifact> inventory = new ArrayList<Artifact>();
+    private double totalWeight = 0.0;
+    public final double WEIGHT_LIMIT = 5.0; // Total amount of weight that the player can have
 
     public final int NUM_ARTIFACTS = 3;
     public final int NUM_NPCS = 2;
@@ -524,24 +527,36 @@ public class Game
         else
         {   
             // Check if there is an artifact in this room
-            if (currentRoom.hasArtifact())
-            {   
-                // Add artifact to the player's inventory
-                Artifact artifactToCollect = currentRoom.getAssignedArtifact();
-                inventory.add(artifactToCollect);
-
-                // Remove artifact from the room
-                currentRoom.assignArtifact(null);
-                for (Object o: inventory)
-                {
-                    System.out.println(o.getClass());
-                }
-                System.out.println("The '" + artifactToCollect.getName() +  "' artifact has been added to your inventory!");
-                return true;
-            }
-            else
+            if (!currentRoom.hasArtifact())
             {
                 System.out.println("There is no artifact to collect in this room!");
+            }
+            else
+            {   
+                Artifact artifactToCollect = currentRoom.getAssignedArtifact();
+                double newTotalWeight = totalWeight + artifactToCollect.getWeight();
+
+                 // Check if the player will exceed the weight restriction
+                if (newTotalWeight > WEIGHT_LIMIT)
+                {   
+                    System.out.println("Cannot pick up this artifact as you exceeding the weight limit of " + WEIGHT_LIMIT + "!\nCurrent total weight: " + totalWeight);
+                    // Exit at the bottom of method 
+                }
+                else
+                {
+                    // Add artifact to the player's inventory
+                    totalWeight = newTotalWeight;
+                    inventory.add(artifactToCollect);
+
+                    // Remove artifact from the room
+                    currentRoom.assignArtifact(null);
+                    for (Object o: inventory)
+                    {
+                        System.out.println(o.getClass());
+                    }
+                    System.out.println("The '" + artifactToCollect.getName() +  "' artifact has been added to your inventory!");
+                    return true;
+                }
             }
         }
         return false;
@@ -582,6 +597,7 @@ public class Game
                                 {
                                     // Drop item into this room and remove from inventory
                                     Artifact artifactToDrop = inventory.get(itemIndex);
+                                    totalWeight -= artifactToDrop.getWeight();
                                     inventory.remove(itemIndex);
                                     currentRoom.assignArtifact(artifactToDrop);
                                     System.out.println("Successfully dropped '" + artifactToDrop.getName() + "'!");
@@ -627,6 +643,9 @@ public class Game
             {   
                 inventory.get(i).printDetails(i);
             }
+            // Display current total weight of the player's inventory and the set weight limit
+            System.out.println("Current total weight: " + totalWeight);
+            System.out.println("Weight limit: " + WEIGHT_LIMIT);
         }
         return true;
     }
