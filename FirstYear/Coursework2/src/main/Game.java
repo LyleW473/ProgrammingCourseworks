@@ -87,43 +87,66 @@ public class Game
     private void createRooms()
     {
         // Create all rooms
-        Room outside, kitchen, mainHallway, bathroom, diningRoom, livingRoom, storageRoom, hallway1, bedroom1, hallway2, hallway3, bedroom2, attic;
+        Room
+        outside,
+        gamesRoom, kitchen, mainHallway, bathroom,
+        artRoom, diningRoom, livingRoom, storageRoom,
+        hallway1,
+        bedroom1, hallway2,
+        hallway3, bedroom2,
+        attic;
 
-        // description, can spawn NPCs in this room?, can spawn objects in this room?
+        // Parameters: description, can spawn NPCs in this room?, can spawn artifacts in this room?
         outside = new Room("outside the Smith's residence", true, false);
+
+        gamesRoom = new Room("in the games room", false, true);
         kitchen = new Room("in the kitchen", false, true);
         mainHallway = new Room("in the main hallway", false, false);
         bathroom = new Room("in the bathroom", true, true);
+
+        artRoom = new Room("in the art room", false, true);
         diningRoom = new Room("in the dining room", false, false);
-        livingRoom = new Room("in the living room", false, false);
+        livingRoom = new Room("in the living room", false, true);
         storageRoom = new Room("in the storage room", true, true);
+
         hallway1 = new Room("in the hallway (1)", false, false);
+
         bedroom1 = new Room("in bedroom 1", true, true);
         hallway2 = new Room("in the hallway (2)", false, false);
+
         hallway3 = new Room("in the hallway (3)", false, false);
         bedroom2 = new Room("in bedroom 2", true, true);
-        attic = new Room("in the attic", false, true);
+
+        attic = new Room("in the attic", false, false);
 
         // Initialise exits for each room
         outside.setExit("main hallway", mainHallway);
 
-        kitchen.setExit("main hallway", mainHallway);
+        gamesRoom.setExit("art room", artRoom);
+        gamesRoom.setExit("kitchen", kitchen);
+
+        kitchen.setExit("games room", gamesRoom);
         kitchen.setExit("dining room", diningRoom);
+        kitchen.setExit("main hallway", mainHallway);
 
         mainHallway.setExit("kitchen", kitchen);
-        mainHallway.setExit("bathroom", bathroom);
         mainHallway.setExit("living room", livingRoom);
+        mainHallway.setExit("bathroom", bathroom);
         mainHallway.setExit("outside", outside);
 
         bathroom.setExit("main hallway", mainHallway);
 
+        artRoom.setExit("dining room", diningRoom);
+        artRoom.setExit("games room", gamesRoom);
+
+        diningRoom.setExit("art room", artRoom);
         diningRoom.setExit("living room", livingRoom);
         diningRoom.setExit("kitchen", kitchen);
 
         livingRoom.setExit("dining room", diningRoom);
+        livingRoom.setExit("upstairs", hallway1); // Climb up the stairs
         livingRoom.setExit("storage room", storageRoom);
         livingRoom.setExit("main hallway", mainHallway);
-        livingRoom.setExit("upstairs", hallway1); // Climb up the stairs
 
         storageRoom.setExit("living room", livingRoom);
         
@@ -136,11 +159,11 @@ public class Game
         hallway2.setExit("forwards", hallway3);
         hallway2.setExit("backwards", hallway1);
 
-        bedroom2.setExit("bedroom 2", hallway3);
-
-        hallway3.setExit("bedroom 2", bedroom2);
         hallway3.setExit("upstairs", attic);
+        hallway3.setExit("bedroom 2", bedroom2);
         hallway3.setExit("backwards", hallway2);
+
+        bedroom2.setExit("bedroom 2", hallway3);
 
         attic.setExit("downstairs", hallway3);
 
