@@ -38,6 +38,7 @@ public class CommandWords
                                                                                         add("go");
                                                                                         add("collect");
                                                                                         add("drop");
+                                                                                        add("repeat");
                                                                                     }};
 
     /**

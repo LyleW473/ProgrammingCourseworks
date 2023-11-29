@@ -438,25 +438,20 @@ public class Game
             successfulCommand = dropArtifact(command);
         }
 
-        // If the command was successful and the command can be repeated
+        // If the command was successful
         if (successfulCommand == true)
         {   
-            /** Save it as the previous command
-            // - If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated)
-            */
+            // If the command is repeatable, set previousCommand as the current command
             if (parser.getCommandWords().isRepeatable(commandWord))
             {   
-                // Any command that isn't repeat
-                if (!command.getCommandWord().equals("repeat"))
-                {
-                    previousCommand = command; // Set this command as repeatable
-
-                    // Moving enemies if the command was successful (Placed in here because using "repeat" will move enemies twice)
-                    Enemy.moveAllEnemies();
-                }
-                // Otherwise, just keep the last previous command to repeat again
-
+                previousCommand = command; // Set this command as repeatable
+                Enemy.moveAllEnemies(); // Moving enemies if the command was successful (Placed in here because using "repeat" will move enemies twice)
             }
+            
+            // If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated), so do nothing
+            else if (commandWord.equalsIgnoreCase("repeat"))
+            {}
+
             /** Cannot repeat this command.
              * - Will always replace previousCommand
              * For example: Following a sequence of commands like: help, go 0, repeat, "help" should not be used again after a command that cannot be repeated ("go 0")
@@ -465,8 +460,6 @@ public class Game
             {
                 previousCommand = null;
             }
-
-
         }
 
         // Return the result of this command
