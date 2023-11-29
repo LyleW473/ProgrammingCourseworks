@@ -11,6 +11,7 @@ import java.util.HashSet;
 import dependencies.entities.Room;
 import dependencies.entities.NPC;
 import dependencies.entities.Artifact;
+import dependencies.entities.Enemy;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -167,6 +168,42 @@ public class Game
 
         attic.setExit("downstairs", hallway3);
 
+        // Create enemies
+        ArrayList<Room> enemy1Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(gamesRoom);
+                                                            add(artRoom);
+                                                            add(diningRoom);
+                                                            add(livingRoom);
+                                                            add(mainHallway);
+                                                            add(kitchen);
+                                                        }};
+        ArrayList<Room> enemy2Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(livingRoom);
+                                                            add(mainHallway);
+                                                            add(kitchen); 
+                                                            add(gamesRoom);
+                                                            add(artRoom);
+                                                            add(diningRoom);
+                                                        }};
+        ArrayList<Room> enemy3Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(attic);
+                                                            add(hallway3);
+                                                            add(bedroom2); 
+                                                            add(hallway3);
+                                                            add(hallway2);
+                                                            add(bedroom1);
+                                                            add(hallway2);
+                                                            add(hallway3);
+                                                            add(bedroom2);
+                                                            add(hallway3);
+                                                        }};              
+        new Enemy(enemy1Path);
+        new Enemy(enemy2Path);
+        new Enemy(enemy3Path);
+
         // Spawn the player outside
         currentRoom = outside;
     }
@@ -261,6 +298,7 @@ public class Game
             System.out.println();
             System.out.println("--------------------------------------------");
 
+            // Process player command
             finished = processCommand(command).wantsToQuit();
         }
         System.out.println("Thank you for playing.  Good bye.");
@@ -336,11 +374,12 @@ public class Game
             successfulCommand = dropArtifact(command);
         }
 
-        // If the command was successful and the command can be repeated, save it as the previous command
-        // Note: If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated)
-        if (successfulCommand == true){
-
-            // Repeatable command (includes "repeat" command)
+        // If the command was successful and the command can be repeated
+        if (successfulCommand == true)
+        {   
+            /** Save it as the previous command
+            // - If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated)
+            */
             if (parser.getCommandWords().isRepeatable(commandWord))
             {   
                 // New previous command to repeat
@@ -359,6 +398,9 @@ public class Game
             {
                 previousCommand = null;
             }
+
+            // Moving enemies if the command was successful 
+            Enemy.moveAllEnemies();
         }
 
         // Return the result of this command
