@@ -20,8 +20,8 @@ import java.util.HashMap;
 public class Room 
 {
     private static ArrayList<Room> roomsHistory = new ArrayList<Room>(); // Stores the history of all the rooms the player has visited (in order)
-    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that NPCs can spawn in (CHANGE TO PRIVATE LATER)
-    public static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores the number of rooms that artifacts can spawn in (CHANGE TO PRIVATE LATER)
+    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that NPCs can spawn in (CHANGE TO PRIVATE LATER)
+    public static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that artifacts can spawn in (CHANGE TO PRIVATE LATER)
 
     private String description;
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.

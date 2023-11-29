@@ -76,7 +76,7 @@ public class Game
         Artifact.createArtifactsDetails(textPrinter);
 
         // Create game world
-        createRooms();
+        createRooms(); // Note: Enemies are also spawned within this method call
         spawnArtifacts();
         spawnNPCs();
         
@@ -168,7 +168,19 @@ public class Game
 
         attic.setExit("downstairs", hallway3);
 
-        // Create enemies
+        // Spawn all enemies
+        spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
+
+        // Spawn the player outside
+        currentRoom = outside;
+    }
+
+    /**
+     * Creates enemies, passing in a defined path to traverse for each enemy (manually created for each enemy).
+     */
+    public void spawnEnemies(Room gamesRoom, Room artRoom, Room diningRoom, Room livingRoom, Room mainHallway, Room kitchen, Room attic, Room hallway3, Room bedroom2, Room hallway2, Room bedroom1)
+    {
+        // Define traversal paths for each enemy
         ArrayList<Room> enemy1Path = new ArrayList<Room>()
                                                         {{
                                                             add(gamesRoom);
@@ -199,13 +211,12 @@ public class Game
                                                             add(hallway3);
                                                             add(bedroom2);
                                                             add(hallway3);
-                                                        }};              
+                                                        }};
+
+        // Create/instantiate enemies
         new Enemy(enemy1Path);
         new Enemy(enemy2Path);
         new Enemy(enemy3Path);
-
-        // Spawn the player outside
-        currentRoom = outside;
     }
 
     /**
