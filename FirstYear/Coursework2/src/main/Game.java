@@ -186,21 +186,21 @@ public class Game
         // Define traversal paths for each enemy
         ArrayList<Room> enemy1Path = new ArrayList<Room>()
                                                         {{
+                                                            add(mainHallway);
+                                                            add(kitchen);
                                                             add(gamesRoom);
                                                             add(artRoom);
                                                             add(diningRoom);
                                                             add(livingRoom);
-                                                            add(mainHallway);
-                                                            add(kitchen);
                                                         }};
         ArrayList<Room> enemy2Path = new ArrayList<Room>()
                                                         {{
+                                                            add(artRoom);
+                                                            add(diningRoom);
                                                             add(livingRoom);
                                                             add(mainHallway);
                                                             add(kitchen); 
                                                             add(gamesRoom);
-                                                            add(artRoom);
-                                                            add(diningRoom);
                                                         }};
         ArrayList<Room> enemy3Path = new ArrayList<Room>()
                                                         {{
@@ -297,6 +297,27 @@ public class Game
     }
 
     /**
+     *  Checks if the player has lost the game
+     * @return true if the player lost
+     * @return false if the player has not lost
+     */
+    public boolean checkGameLoss()
+        {
+            
+            // Check if the player is in the same room as any of the enemies
+            for (Enemy e: Enemy.getAllEnemies())
+            {
+                if (currentRoom.equals(e.returnCurrentRoom()))
+                {
+                    // System.out.println("Player:" + currentRoom.getShortDescription());
+                    // System.out.println("Enemy:" + e.returnCurrentRoom().getShortDescription());
+                    return true;
+                }
+            }
+            return false;
+        }
+    
+    /**
      *  Main play routine.  Loops until end of play.
      */
     public void play() 
@@ -314,8 +335,17 @@ public class Game
 
             // Process player command
             finished = processCommand(command).wantsToQuit();
+
+            // Check if the player has lost the game
+            if (checkGameLoss() == true)
+            {
+                finished = true;
+                System.out.println("--------------------------------------------");
+                System.out.println("You have lost the game!");
+            }
+            
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing! Goodbye!");
     }
 
     /**
@@ -441,15 +471,16 @@ public class Game
         // If the command was successful
         if (successfulCommand == true)
         {   
+            boolean isRepeatCommand = commandWord.equalsIgnoreCase("repeat");
+
             // If the command is repeatable, set previousCommand as the current command
             if (parser.getCommandWords().isRepeatable(commandWord))
             {   
                 previousCommand = command; // Set this command as repeatable
-                Enemy.moveAllEnemies(); // Moving enemies if the command was successful (Placed in here because using "repeat" will move enemies twice)
             }
             
             // If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated), so do nothing
-            else if (commandWord.equalsIgnoreCase("repeat"))
+            else if (isRepeatCommand)
             {}
 
             /** Cannot repeat this command.
@@ -459,6 +490,12 @@ public class Game
             else
             {
                 previousCommand = null;
+            }  
+
+            // Moving enemies if the command was successful and the command isn't "repeat" (because using "repeat" will move enemies twice)
+            if (!isRepeatCommand)
+            {
+                Enemy.moveAllEnemies(); 
             }
         }
 
