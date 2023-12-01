@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import dependencies.entities.Room;
 import dependencies.entities.NPC;
+import dependencies.entities.Player;
 import dependencies.entities.Artifact;
 import dependencies.entities.Enemy;
 
@@ -40,7 +41,7 @@ public class Game
      * Uses: Names of rooms, Names of items
     */
     private ArrayList<String> currentOptions = new ArrayList<String>();
-    private Room currentRoom;
+    // private Room currentRoom;
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
 
     private ArrayList<Artifact> inventory = new ArrayList<Artifact>();
@@ -52,6 +53,8 @@ public class Game
     public final int NUM_ARTIFACTS = 3;
     public final int NUM_NPCS = 2;
     
+    public Player player1 = new Player();
+
     /**
      * Main method, for development
      */
@@ -180,7 +183,7 @@ public class Game
         spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
 
         // Spawn the player outside
-        currentRoom = outside;
+        player1.setCurrentRoom(outside);
     }
 
     /**
@@ -309,13 +312,14 @@ public class Game
     public boolean checkGameLoss()
     {
         // Check if the player is in the same room as any of the enemies
+        Room playerRoom = player1.getCurrentRoom();
         for (Enemy e: Enemy.getAllEnemies())
         {
-            if (currentRoom.equals(e.returnCurrentRoom()))
+            if (playerRoom.equals(e.returnCurrentRoom()))
             {
                 System.out.println("--------------------------------------------");
                 System.out.println("<<<< One of the maids have caught you red-handed! You have lost the game! >>>> ");
-                // System.out.println("Player:" + currentRoom.getShortDescription());
+                // System.out.println("Player:" + playerRoom.getShortDescription());
                 // System.out.println("Enemy:" + e.returnCurrentRoom().getShortDescription());
                 return true;
             }
@@ -413,7 +417,7 @@ public class Game
         }
         
         // Teleport the player
-        currentRoom = selectedRoom;
+        player1.setCurrentRoom(selectedRoom);
 
         // Clear the rooms history after teleporting (This is an intended side effect of the magic attic)
         Room.clearRoomsHistory();
@@ -537,12 +541,13 @@ public class Game
      * - All of the commands that the user can use
      * - All of the commands the user can use at the time of this being called.
      * - Information about the room and its contents
-     * "isInitialCall" is used so that when "printHelp" is called in "printWelcome", it will add elements to the currentOptions list (when currentRoom.getLongDescription is called)
+     * "isInitialCall" is used so that when "printHelp" is called in "printWelcome", it will add elements to the currentOptions list (when playerRoom.getLongDescription is called)
      * In any other case where "printHelp" is called, more options shouldn't be added to the currentOptions list 
      */
     private boolean printHelp(boolean isInitialCall) 
     {   
         // Used in the welcome message
+        Room playerRoom = player1.getCurrentRoom();
         if (isInitialCall == true)
         {
             System.out.println("Use the 'help' command for additional information and guidance!");
@@ -553,7 +558,7 @@ public class Game
         {
             parser.showAllCommands();
             System.out.println("\n");
-            parser.showApplicableCommands(this.currentRoom);
+            parser.showApplicableCommands(playerRoom);
             System.out.println("\n");
             System.out.println("<< For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go dining room' >>");
         }
@@ -562,7 +567,7 @@ public class Game
         checkForNPC();
         checkForArtifact();
         Enemy.displayEnemyLocations();
-        System.out.println(currentRoom.getLongDescription(currentOptions, isInitialCall));
+        System.out.println(playerRoom.getLongDescription(currentOptions, isInitialCall));
         return true;
     }
 
@@ -582,7 +587,8 @@ public class Game
         String selectedRoomName = command.getSecondWord();
 
         // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(selectedRoomName);
+        Room playerRoom = player1.getCurrentRoom();
+        Room nextRoom = playerRoom.getExit(selectedRoomName);
 
         // Check whether the user entered an index for the currentOptions (e.g., "go 0")
         if (nextRoom == null)
@@ -594,7 +600,7 @@ public class Game
                 if (optionIndex >= 0 && optionIndex < currentOptions.size())
                     {
                     String roomName = currentOptions.get(optionIndex);
-                    nextRoom = currentRoom.getExit(roomName);
+                    nextRoom = playerRoom.getExit(roomName);
                     }
                 // Case: If the index is out range then skip to bottom of method
                 }
@@ -614,15 +620,15 @@ public class Game
             }
             else
             {
-                Room.addToRoomHistory(currentRoom); // Add to room history before moving rooms
-                currentRoom = nextRoom;
+                Room.addToRoomHistory(playerRoom); // Add to room history before moving rooms
+                player1.setCurrentRoom(nextRoom);
             }
 
             currentOptions.clear(); // Empty the list of options available to the player
             checkForNPC();
             checkForArtifact();
             Enemy.displayEnemyLocations();
-            System.out.println(currentRoom.getLongDescription(currentOptions, true));
+            System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true)); // Called again because playerRoom points to the old room
             return true;
         }
 
@@ -640,14 +646,12 @@ public class Game
         // If there is a previous room to go to
         if (Room.getRoomHistory().size() > 0)
         {
-            currentRoom = Room.returnPrevious();
+            player1.setCurrentRoom(Room.returnPrevious()); // Go to the previous room
             checkForNPC();
             checkForArtifact();
-
-            // Refresh all the options available to the player
-            currentOptions.clear();
+            currentOptions.clear(); // Refresh all the options available to the player
             Enemy.displayEnemyLocations();
-            System.out.println(currentRoom.getLongDescription(currentOptions, true));
+            System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true));
             return true;
         }
 
@@ -688,14 +692,15 @@ public class Game
             }
         else{      
             // Check if this room has an NPC
-            if (!currentRoom.hasNPC()) 
+            Room playerRoom = player1.getCurrentRoom();
+            if (!playerRoom.hasNPC()) 
                 {
                     System.out.println("There is no NPC to interact with in this room!");
                     return true; // Allow for repeated commands
                 }
             else
                 {
-                NPC currentNPC = currentRoom.getAssignedNPC();
+                NPC currentNPC = playerRoom.getAssignedNPC();
                 System.out.println(currentNPC.getName() + ": " + currentNPC.getRandomConversation());
                 // for (String c: currentNPC.getPossibleConversations())
                 // {
@@ -722,13 +727,14 @@ public class Game
         else
         {   
             // Check if there is an artifact in this room
-            if (!currentRoom.hasArtifact())
+            Room playerRoom = player1.getCurrentRoom();
+            if (!playerRoom.hasArtifact())
             {
                 System.out.println("There is no artifact to collect in this room!");
             }
             else
             {   
-                Artifact artifactToCollect = currentRoom.getAssignedArtifact();
+                Artifact artifactToCollect = playerRoom.getAssignedArtifact();
                 double newTotalWeight = totalWeight + artifactToCollect.getWeight();
 
                  // Check if the player will exceed the weight restriction
@@ -744,7 +750,7 @@ public class Game
                     inventory.add(artifactToCollect);
 
                     // Remove artifact from the room
-                    currentRoom.assignArtifact(null);
+                    playerRoom.assignArtifact(null);
                     for (Object o: inventory)
                     {
                         System.out.println(o.getClass());
@@ -779,8 +785,10 @@ public class Game
                     }
                     else
                     {
+                        Room playerRoom = player1.getCurrentRoom();
+
                         // Cannot drop an artifact in this room if there is an artifact already in this room
-                        if (currentRoom.getAssignedArtifact() != null)
+                        if (playerRoom.getAssignedArtifact() != null)
                         {
                             System.out.println("Cannot drop another artifact in this room, there is already an artifact in this room!");
                             return false;
@@ -797,7 +805,7 @@ public class Game
                             System.out.println("Successfully dropped '" + artifactToDrop.getName() + "'!");
 
                             // If this is the goal room (i.e., outside)
-                            if (Room.isGoalRoom(currentRoom))
+                            if (Room.isGoalRoom(playerRoom))
                             {  
                                 // Note: Don't re-assign artifact to this room
                                 numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
@@ -806,7 +814,7 @@ public class Game
                             else 
                             {
                                 // Re-assign artifact to this room
-                                currentRoom.assignArtifact(artifactToDrop);
+                                playerRoom.assignArtifact(artifactToDrop);
                             }
                             return true;
                         }
@@ -863,10 +871,10 @@ public class Game
     public void checkForNPC()
     {
         // Check if there is an NPC in this room
-            if (currentRoom.hasNPC())
-                {
-                    System.out.println("<< There is an NPC in this room! >>");
-                }
+        if (player1.getCurrentRoom().hasNPC())
+            {
+                System.out.println("<< There is an NPC in this room! >>");
+            }
     }
     
     /**
@@ -875,11 +883,12 @@ public class Game
     public void checkForArtifact()
     {
         // Check if there is an artifact in this room
-            if (currentRoom.hasArtifact())
-                {
-                    System.out.println("<< There is an artifact in this room! >>");
-                    System.out.println(currentRoom.getAssignedArtifact().getName());
-                }
+        Room playerRoom = player1.getCurrentRoom();
+        if (playerRoom.hasArtifact())
+            {
+                System.out.println("<< There is an artifact in this room! >>");
+                System.out.println(playerRoom.getAssignedArtifact().getName());
+            }
     }
     
     /** 
