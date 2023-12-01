@@ -303,12 +303,13 @@ public class Game
      */
     public boolean checkGameLoss()
         {
-            
             // Check if the player is in the same room as any of the enemies
             for (Enemy e: Enemy.getAllEnemies())
             {
                 if (currentRoom.equals(e.returnCurrentRoom()))
                 {
+                    System.out.println("--------------------------------------------");
+                    System.out.println("One of the maids have caught you red-handed! You have lost the game!");
                     // System.out.println("Player:" + currentRoom.getShortDescription());
                     // System.out.println("Enemy:" + e.returnCurrentRoom().getShortDescription());
                     return true;
@@ -340,8 +341,6 @@ public class Game
             if (checkGameLoss() == true)
             {
                 finished = true;
-                System.out.println("--------------------------------------------");
-                System.out.println("You have lost the game!");
             }
             
         }
