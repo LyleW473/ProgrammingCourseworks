@@ -24,6 +24,7 @@ public class Room
     public static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that artifacts can spawn in (CHANGE TO PRIVATE LATER)
     private static ArrayList<Room> allRooms = new ArrayList<Room>(); // List of all rooms
     private static Room magicTransporterRoom; // Pointer to Room set as the magic transporter room
+    private static Room goalRoom; // Pointer to Room that the player needs to drop all artifacts inside in order to win
 
     private String description;
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
@@ -247,5 +248,20 @@ public class Room
     {
         return Room.allRooms;
     }
-}
 
+    /**
+     * Sets a room as the goal room
+     */
+    public static void setGoalRoom(Room selectedRoom)
+    {
+        Room.goalRoom = selectedRoom;
+    }
+
+    /**
+     * Method used to check if a passed in room is the goal room
+     */
+    public static boolean isGoalRoom(Room roomToCheck)
+    {
+        return roomToCheck.equals(Room.goalRoom);
+    }
+}

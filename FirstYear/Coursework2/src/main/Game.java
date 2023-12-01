@@ -46,6 +46,8 @@ public class Game
     private ArrayList<Artifact> inventory = new ArrayList<Artifact>();
     private double totalWeight = 0.0;
     public final double WEIGHT_LIMIT = 5.0; // Total amount of weight that the player can have
+    public int numCompletedArtifacts = 0; // Number of artifacts successfully dropped off at the goal room
+
 
     public final int NUM_ARTIFACTS = 3;
     public final int NUM_NPCS = 2;
@@ -170,6 +172,9 @@ public class Game
 
         // Set the attic as the magic transporter room
         Room.setMagicTransporterRoom(attic);
+    
+        // Set "outside" as the drop-off point for all the artifacts
+        Room.setGoalRoom(outside);
 
         // Spawn all enemies
         spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
@@ -302,22 +307,39 @@ public class Game
      * @return false if the player has not lost
      */
     public boolean checkGameLoss()
+    {
+        // Check if the player is in the same room as any of the enemies
+        for (Enemy e: Enemy.getAllEnemies())
         {
-            // Check if the player is in the same room as any of the enemies
-            for (Enemy e: Enemy.getAllEnemies())
+            if (currentRoom.equals(e.returnCurrentRoom()))
             {
-                if (currentRoom.equals(e.returnCurrentRoom()))
-                {
-                    System.out.println("--------------------------------------------");
-                    System.out.println("One of the maids have caught you red-handed! You have lost the game!");
-                    // System.out.println("Player:" + currentRoom.getShortDescription());
-                    // System.out.println("Enemy:" + e.returnCurrentRoom().getShortDescription());
-                    return true;
-                }
+                System.out.println("--------------------------------------------");
+                System.out.println("<<<< One of the maids have caught you red-handed! You have lost the game! >>>> ");
+                // System.out.println("Player:" + currentRoom.getShortDescription());
+                // System.out.println("Enemy:" + e.returnCurrentRoom().getShortDescription());
+                return true;
             }
-            return false;
         }
+        return false;
+    }
     
+    /**
+     *  Checks if the player has won the game
+     * @return true if the player won (Meaning the player successfully retrieved all artifacts and dropped them off in the goal room)
+     * @return false if the player has not won
+     */
+    public boolean checkGameWin()
+    {
+        boolean wonGame = (numCompletedArtifacts == NUM_ARTIFACTS); 
+        if (wonGame)
+        {
+            System.out.println();
+            System.out.println("--------------------------------------------");
+            System.out.println("<<<< Congratulations you have successfully completed the game! Hope it was fun! >>>>");
+        }
+        return wonGame;
+    }
+
     /**
      *  Main play routine.  Loops until end of play.
      */
@@ -336,13 +358,13 @@ public class Game
 
             // Process player command
             finished = processCommand(command).wantsToQuit();
-
-            // Check if the player has lost the game
-            if (checkGameLoss() == true)
-            {
-                finished = true;
-            }
             
+            // Check if the player has lost or won the game
+            if (!finished)
+            {
+                finished = (checkGameLoss() || checkGameWin());
+                // finished = checkGameWin() USED FOR TESTING, DELETE LATER
+            }
         }
         System.out.println("Thank you for playing! Goodbye!");
     }
@@ -741,45 +763,57 @@ public class Game
 
         // Check if there is a second word
         if (secondWord != null)
-            {
-                // Only acceptable input is the item number
-                try {
-                        int inventorySize = inventory.size();
+        {
+            // Only acceptable input is the item number
+            try {
+                    int inventorySize = inventory.size();
 
-                        // Check for empty inventory
-                        if (inventorySize == 0)
+                    // Check for empty inventory
+                    if (inventorySize == 0)
+                    {
+                        System.out.println("You have no items in your inventory!");
+                        return false;
+                    }
+                    else
+                    {
+                        // Cannot drop an artifact in this room if there is an artifact already in this room
+                        if (currentRoom.getAssignedArtifact() != null)
                         {
-                            System.out.println("You have no items in your inventory!");
+                            System.out.println("Cannot drop another artifact in this room, there is already an artifact in this room!");
                             return false;
                         }
-                        else
-                        {
-                            // Cannot drop an artifact in this room if there is an artifact already in this room
-                            if (currentRoom.getAssignedArtifact() != null)
-                            {
-                                System.out.println("Cannot drop another artifact in this room, there is already an artifact in this room!");
-                                return false;
-                            }
 
-                            // Check whether the index is in between in the range of the number of items in the inventory
-                            int itemIndex = Integer.parseInt(secondWord);
-                            if (itemIndex >= 0 && itemIndex < inventorySize)
-                                {
-                                    // Drop item into this room and remove from inventory
-                                    Artifact artifactToDrop = inventory.get(itemIndex);
-                                    totalWeight -= artifactToDrop.getWeight();
-                                    inventory.remove(itemIndex);
-                                    currentRoom.assignArtifact(artifactToDrop);
-                                    System.out.println("Successfully dropped '" + artifactToDrop.getName() + "'!");
-                                    return true;
-                                }
-                            // Case: If the index is out range then skip to bottom of method
+                        // Check whether the index is in between in the range of the number of items in the inventory
+                        int itemIndex = Integer.parseInt(secondWord);
+                        if (itemIndex >= 0 && itemIndex < inventorySize)
+                        {
+                            // Drop item into this room and remove from inventory
+                            Artifact artifactToDrop = inventory.get(itemIndex);
+                            totalWeight -= artifactToDrop.getWeight();
+                            inventory.remove(itemIndex);
+                            System.out.println("Successfully dropped '" + artifactToDrop.getName() + "'!");
+
+                            // If this is the goal room (i.e., outside)
+                            if (Room.isGoalRoom(currentRoom))
+                            {  
+                                // Note: Don't re-assign artifact to this room
+                                numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
+                                System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + NUM_ARTIFACTS + " artifacts! >>");
+                            }
+                            else 
+                            {
+                                // Re-assign artifact to this room
+                                currentRoom.assignArtifact(artifactToDrop);
+                            }
+                            return true;
                         }
+                        // Case: If the index is out range then skip to bottom of method
                     }
-                // Case: The second word was not an index, then skip to the bottom of the method
-                catch (NumberFormatException e)
-                {}
-            }
+                }
+            // Case: The second word was not an index, then skip to the bottom of the method
+            catch (NumberFormatException e)
+            {}
+        }
 
         // Invalid command
         System.out.println("Invalid command, use the 'drop {itemNumber}' command to collect artifacts!");
