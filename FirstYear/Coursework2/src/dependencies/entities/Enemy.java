@@ -25,15 +25,27 @@ public class Enemy
     }
 
     /**
-     * Getter method for accessing a list containing all instantiated enemies
+     * Method for moving all of their enemies to their next location in their set traversal path
      */
     public static void moveAllEnemies()
     {
         // Move enemy after every command
         for (Enemy e: Enemy.getAllEnemies())
         {
-            System.out.println("<< " + e.returnCurrentRoom().getShortDescription() + " >>");
             e.move();
+        }
+    }
+
+    /**
+     * Method for displaying the current locations of all enemies
+     */
+    public static void displayEnemyLocations()
+    {
+        // Move enemy after every command
+        for (int i = 0; i < Enemy.allEnemies.size(); i++)
+        {   
+            Enemy e = Enemy.allEnemies.get(i);
+            System.out.println("<< Maid " + (i + 1) + " is " + e.returnCurrentRoom().getShortDescription() + "! >>");
         }
     }
 

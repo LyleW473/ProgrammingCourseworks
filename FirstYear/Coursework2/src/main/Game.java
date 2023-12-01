@@ -561,6 +561,7 @@ public class Game
         System.out.println();
         checkForNPC();
         checkForArtifact();
+        Enemy.displayEnemyLocations();
         System.out.println(currentRoom.getLongDescription(currentOptions, isInitialCall));
         return true;
     }
@@ -620,6 +621,7 @@ public class Game
             currentOptions.clear(); // Empty the list of options available to the player
             checkForNPC();
             checkForArtifact();
+            Enemy.displayEnemyLocations();
             System.out.println(currentRoom.getLongDescription(currentOptions, true));
             return true;
         }
@@ -644,6 +646,7 @@ public class Game
 
             // Refresh all the options available to the player
             currentOptions.clear();
+            Enemy.displayEnemyLocations();
             System.out.println(currentRoom.getLongDescription(currentOptions, true));
             return true;
         }
