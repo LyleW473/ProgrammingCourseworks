@@ -517,10 +517,18 @@ public class Game
                 previousCommand = null;
             }  
 
-            // Moving enemies if the command was successful and the command isn't "repeat" (because using "repeat" will move enemies twice)
+
+            /** The following should only be performed once (should not be executed within a "repeat" command)
+             * - Moving enemies if the command was successful and the command isn't "repeat" (because using "repeat" will move enemies twice)
+             */ 
             if (!isRepeatCommand)
             {
                 Enemy.moveAllEnemies(); 
+                checkForNPC();
+                checkForArtifact();
+                Enemy.displayEnemyLocations();
+                currentOptions.clear(); // Empty the list of options available to the player
+                System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true)); // Refresh the list of options available to the player
             }
         }
 
@@ -551,6 +559,13 @@ public class Game
         if (isInitialCall == true)
         {
             System.out.println("Use the 'help' command for additional information and guidance!");
+
+            // Show initial information and options to player
+            checkForNPC();
+            checkForArtifact();
+            Enemy.displayEnemyLocations();
+            currentOptions.clear(); // Empty the list of options available to the player
+            System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true)); // Refresh the list of options available to the player
         }
         
         // Used whenever the help command is called manually by the player
@@ -561,13 +576,8 @@ public class Game
             parser.showApplicableCommands(playerRoom);
             System.out.println("\n");
             System.out.println("<< For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go dining room' >>");
+            System.out.println();
         }
-
-        System.out.println();
-        checkForNPC();
-        checkForArtifact();
-        Enemy.displayEnemyLocations();
-        System.out.println(playerRoom.getLongDescription(currentOptions, isInitialCall));
         return true;
     }
 
@@ -623,12 +633,6 @@ public class Game
                 Room.addToRoomHistory(playerRoom); // Add to room history before moving rooms
                 player1.setCurrentRoom(nextRoom);
             }
-
-            currentOptions.clear(); // Empty the list of options available to the player
-            checkForNPC();
-            checkForArtifact();
-            Enemy.displayEnemyLocations();
-            System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true)); // Called again because playerRoom points to the old room
             return true;
         }
 
@@ -647,11 +651,6 @@ public class Game
         if (Room.getRoomHistory().size() > 0)
         {
             player1.setCurrentRoom(Room.returnPrevious()); // Go to the previous room
-            checkForNPC();
-            checkForArtifact();
-            currentOptions.clear(); // Refresh all the options available to the player
-            Enemy.displayEnemyLocations();
-            System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true));
             return true;
         }
 
