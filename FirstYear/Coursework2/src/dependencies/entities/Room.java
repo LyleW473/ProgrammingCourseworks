@@ -55,6 +55,66 @@ public class Room
         // Add to list of all rooms (To teleport the player when entering the magic attic)
         Room.allRooms.add(this);
     }
+    
+    /**
+     * Sets a room as the magic transporter room
+     * @param selectedRoom The room (object) to set as the magic transporter room
+     */
+    public static void setMagicTransporterRoom(Room selectedRoom)
+    {
+        Room.magicTransporterRoom = selectedRoom;
+    }
+
+    /**
+     * @return A boolean indicating whether or not the room passed in is the magic transporter room
+     * @param RoomToCheck The room to check against
+     */
+    public static boolean isMagicTransporterRoom(Room roomToCheck)
+    {
+        return roomToCheck.equals(Room.magicTransporterRoom);
+    }
+
+    /**
+     * @return An ArrayList<Room> containing all of the room (objects) created in the world
+     */
+    public static ArrayList<Room> getAllRooms()
+    {
+        return Room.allRooms;
+    }
+
+    /**
+     * Sets a passed-in room as the goal room
+     * @param selectedRoom The room (object) to set as the goal room
+     */
+    public static void setGoalRoom(Room selectedRoom)
+    {
+        Room.goalRoom = selectedRoom;
+    }
+
+    /**
+     * @return A boolean indicating whether or not the room passed in is the goal room (i.e., the room that the player needs to drop all artifacts in to win)
+     * @param RoomToCheck The room to check against
+     */
+    public static boolean isGoalRoom(Room roomToCheck)
+    {
+        return roomToCheck.equals(Room.goalRoom);
+    }
+
+    /**
+     * @return An ArrayList<Room> containing the rooms that NPCs can spawn in
+     */
+    public static ArrayList<Room> getNPCSpawnableRooms()
+    {
+        return Room.NPCSpawnableRooms;
+    }
+
+    /**
+     * @return An ArrayList<Room> containing the rooms that artifacts can spawn in
+     */
+    public static ArrayList<Room> getArtifactSpawnableRooms()
+    {
+        return Room.artifactSpawnableRooms;
+    }
 
     /**
      * Define an exit from this room.
@@ -173,65 +233,5 @@ public class Room
     public Artifact getAssignedArtifact()
     {
         return assignedArtifact;
-    }
-        
-    /**
-     * Sets a room as the magic transporter room
-     * @param selectedRoom The room (object) to set as the magic transporter room
-     */
-    public static void setMagicTransporterRoom(Room selectedRoom)
-    {
-        Room.magicTransporterRoom = selectedRoom;
-    }
-
-    /**
-     * @return A boolean indicating whether or not the room passed in is the magic transporter room
-     * @param RoomToCheck The room to check against
-     */
-    public static boolean isMagicTransporterRoom(Room roomToCheck)
-    {
-        return roomToCheck.equals(Room.magicTransporterRoom);
-    }
-
-    /**
-     * @return An ArrayList<Room> containing all of the room (objects) created in the world
-     */
-    public static ArrayList<Room> getAllRooms()
-    {
-        return Room.allRooms;
-    }
-
-    /**
-     * Sets a passed-in room as the goal room
-     * @param selectedRoom The room (object) to set as the goal room
-     */
-    public static void setGoalRoom(Room selectedRoom)
-    {
-        Room.goalRoom = selectedRoom;
-    }
-
-    /**
-     * @return A boolean indicating whether or not the room passed in is the goal room (i.e., the room that the player needs to drop all artifacts in to win)
-     * @param RoomToCheck The room to check against
-     */
-    public static boolean isGoalRoom(Room roomToCheck)
-    {
-        return roomToCheck.equals(Room.goalRoom);
-    }
-
-    /**
-     * @return An ArrayList<Room> containing the rooms that NPCs can spawn in
-     */
-    public static ArrayList<Room> getNPCSpawnableRooms()
-    {
-        return Room.NPCSpawnableRooms;
-    }
-
-    /**
-     * @return An ArrayList<Room> containing the rooms that artifacts can spawn in
-     */
-    public static ArrayList<Room> getArtifactSpawnableRooms()
-    {
-        return Room.artifactSpawnableRooms;
     }
 }
