@@ -1,6 +1,7 @@
 package dependencies.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import core.TextPrinter;
@@ -81,6 +82,37 @@ public class NPC
                 }
             }
             NPC.allConversations = remainingConversations;
+        }
+    }
+
+    /**
+     * Used to randomly select n rooms (where allowed) to spawn the NPCs into
+     */
+    public static void spawnNPCs(int numNPCs)
+    {
+        for (Room room: Room.NPCSpawnableRooms)
+        {
+            System.out.println("NPC room: " + room.getShortDescription());
+        }
+
+        // Generate random indexes between 0 (inclusive) and the number of NPC spawnable rooms (exclusive) there are
+        HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
+        int generatedIndex;
+        int numNPCSpawnableRooms = Room.NPCSpawnableRooms.size();
+
+        while (uniqueIndexes.size() < numNPCs)
+        {
+            generatedIndex = NPC.randomGen.nextInt(numNPCSpawnableRooms);
+            uniqueIndexes.add(generatedIndex);
+        }
+
+        // Assign NPCs to the randomly selected rooms
+        Room roomToAssignNPC;
+        for (int idx: uniqueIndexes)
+        {
+            System.out.println(idx);
+            roomToAssignNPC = Room.NPCSpawnableRooms.get(idx);
+            roomToAssignNPC.assignNPC(new NPC());
         }
     }
     

@@ -50,6 +50,50 @@ public class Enemy
     }
 
     /**
+     * Creates enemies, passing in a defined path to traverse for each enemy (manually created for each enemy).
+     */
+    public static void spawnEnemies(Room gamesRoom, Room artRoom, Room diningRoom, Room livingRoom, Room mainHallway, Room kitchen, Room attic, Room hallway3, Room bedroom2, Room hallway2, Room bedroom1)
+    {
+        // Define traversal paths for each enemy
+        ArrayList<Room> enemy1Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(mainHallway);
+                                                            add(kitchen);
+                                                            add(gamesRoom);
+                                                            add(artRoom);
+                                                            add(diningRoom);
+                                                            add(livingRoom);
+                                                        }};
+        ArrayList<Room> enemy2Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(artRoom);
+                                                            add(diningRoom);
+                                                            add(livingRoom);
+                                                            add(mainHallway);
+                                                            add(kitchen); 
+                                                            add(gamesRoom);
+                                                        }};
+        ArrayList<Room> enemy3Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(attic);
+                                                            add(hallway3);
+                                                            add(bedroom2); 
+                                                            add(hallway3);
+                                                            add(hallway2);
+                                                            add(bedroom1);
+                                                            add(hallway2);
+                                                            add(hallway3);
+                                                            add(bedroom2);
+                                                            add(hallway3);
+                                                        }};
+
+        // Create/instantiate enemies
+        new Enemy(enemy1Path);
+        new Enemy(enemy2Path);
+        new Enemy(enemy3Path);
+    }
+
+    /**
      * @return the current room that this enemy is in
      */
     public Room returnCurrentRoom()

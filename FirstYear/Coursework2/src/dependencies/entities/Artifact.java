@@ -1,6 +1,8 @@
 package dependencies.entities;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 import java.util.ArrayList;
 
 import core.TextPrinter;
@@ -58,6 +60,48 @@ public class Artifact extends Object
         return artifact;
     }
 
+    /**
+     * Used to randomly select n rooms (where allowed) to spawn artifacts into
+     */
+    public static void spawnArtifacts(int numArtifacts)
+    {
+        for (Room room: Room.artifactSpawnableRooms)
+        {
+            System.out.println("Item room: " + room.getShortDescription());
+        }
+
+        // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
+        Random randomGen = new Random();
+        HashSet<Integer> uniqueIndexes = new HashSet<Integer>(); // Hashset for distinct values
+        int generatedIndex;
+        int numArtifactSpawnableRooms = Room.artifactSpawnableRooms.size();
+
+        while (uniqueIndexes.size() < numArtifacts) // Continue generating until we have enough indexes for all rooms
+        {
+            generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
+            uniqueIndexes.add(generatedIndex);
+        }
+        
+        // Assign artifacts to the randomly selected rooms
+        Room roomToAssignArtifact;
+        ArrayList<String> assignableArtifacts = Artifact.getAllArtifactNames(); // Ordered list of names of assignable artifacts
+        for (int roomIdx: uniqueIndexes)
+        {
+            // Generate random artifact to assign to this room
+            int randomArtifactIndex = randomGen.nextInt(assignableArtifacts.size());
+            String artifactName = assignableArtifacts.get(randomArtifactIndex);
+            Artifact artifactToAssign = Artifact.getArtifact(artifactName);
+            
+            // Assign artifact to the room
+            roomToAssignArtifact = Room.artifactSpawnableRooms.get(roomIdx);
+            roomToAssignArtifact.assignArtifact(artifactToAssign);
+
+            // Remove the artifact selected from the list of assignable artifacts
+            assignableArtifacts.remove(randomArtifactIndex);
+            System.out.println("Artifact name: " + artifactToAssign.getName() + "\nRoom name: " + roomToAssignArtifact.getShortDescription());
+        }
+    }
+    
     /**
     * @return the weight of this artifact
     */

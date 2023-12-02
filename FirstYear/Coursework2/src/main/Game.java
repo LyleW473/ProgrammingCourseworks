@@ -6,8 +6,6 @@ import core.Parser;
 import core.TextPrinter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import dependencies.entities.Room;
 import dependencies.entities.NPC;
 import dependencies.entities.Player;
@@ -77,9 +75,8 @@ public class Game
 
         // Create game world
         createRooms(); // Note: Enemies are also spawned within this method call
-        spawnArtifacts();
-        spawnNPCs();
-        
+        Artifact.spawnArtifacts(NUM_ARTIFACTS);
+        NPC.spawnNPCs(NUM_NPCS);
     }
 
     /**
@@ -175,128 +172,10 @@ public class Game
         Room.setGoalRoom(outside);
 
         // Spawn all enemies
-        spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
+        Enemy.spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
 
         // Spawn the player outside
         player1.setCurrentRoom(outside);
-    }
-
-    /**
-     * Creates enemies, passing in a defined path to traverse for each enemy (manually created for each enemy).
-     */
-    public void spawnEnemies(Room gamesRoom, Room artRoom, Room diningRoom, Room livingRoom, Room mainHallway, Room kitchen, Room attic, Room hallway3, Room bedroom2, Room hallway2, Room bedroom1)
-    {
-        // Define traversal paths for each enemy
-        ArrayList<Room> enemy1Path = new ArrayList<Room>()
-                                                        {{
-                                                            add(mainHallway);
-                                                            add(kitchen);
-                                                            add(gamesRoom);
-                                                            add(artRoom);
-                                                            add(diningRoom);
-                                                            add(livingRoom);
-                                                        }};
-        ArrayList<Room> enemy2Path = new ArrayList<Room>()
-                                                        {{
-                                                            add(artRoom);
-                                                            add(diningRoom);
-                                                            add(livingRoom);
-                                                            add(mainHallway);
-                                                            add(kitchen); 
-                                                            add(gamesRoom);
-                                                        }};
-        ArrayList<Room> enemy3Path = new ArrayList<Room>()
-                                                        {{
-                                                            add(attic);
-                                                            add(hallway3);
-                                                            add(bedroom2); 
-                                                            add(hallway3);
-                                                            add(hallway2);
-                                                            add(bedroom1);
-                                                            add(hallway2);
-                                                            add(hallway3);
-                                                            add(bedroom2);
-                                                            add(hallway3);
-                                                        }};
-
-        // Create/instantiate enemies
-        new Enemy(enemy1Path);
-        new Enemy(enemy2Path);
-        new Enemy(enemy3Path);
-    }
-
-    /**
-     * Used to randomly select n rooms (where allowed) to spawn the NPCs into
-     */
-    public void spawnNPCs()
-    {
-        for (Room room: Room.NPCSpawnableRooms)
-        {
-            System.out.println("NPC room: " + room.getShortDescription());
-        }
-
-        // Generate random indexes between 0 (inclusive) and the number of NPC spawnable rooms (exclusive) there are
-        Random randomGen = new Random();
-        HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
-        int generatedIndex;
-        int numNPCSpawnableRooms = Room.NPCSpawnableRooms.size();
-
-        while (uniqueIndexes.size() < NUM_NPCS)
-        {
-            generatedIndex = randomGen.nextInt(numNPCSpawnableRooms);
-            uniqueIndexes.add(generatedIndex);
-        }
-
-        // Assign NPCs to the randomly selected rooms
-        Room roomToAssignNPC;
-        for (int idx: uniqueIndexes)
-        {
-            System.out.println(idx);
-            roomToAssignNPC = Room.NPCSpawnableRooms.get(idx);
-            roomToAssignNPC.assignNPC(new NPC());
-        }
-    }
-
-    /**
-     * Used to randomly select n rooms (where allowed) to spawn artifacts into
-     */
-    public void spawnArtifacts()
-    {
-        for (Room room: Room.artifactSpawnableRooms)
-        {
-            System.out.println("Item room: " + room.getShortDescription());
-        }
-
-        // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
-        Random randomGen = new Random();
-        HashSet<Integer> uniqueIndexes = new HashSet<Integer>(); // Hashset for distinct values
-        int generatedIndex;
-        int numArtifactSpawnableRooms = Room.artifactSpawnableRooms.size();
-
-        while (uniqueIndexes.size() < NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
-        {
-            generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
-            uniqueIndexes.add(generatedIndex);
-        }
-        
-        // Assign artifacts to the randomly selected rooms
-        Room roomToAssignArtifact;
-        ArrayList<String> assignableArtifacts = Artifact.getAllArtifactNames(); // Ordered list of names of assignable artifacts
-        for (int roomIdx: uniqueIndexes)
-        {
-            // Generate random artifact to assign to this room
-            int randomArtifactIndex = randomGen.nextInt(assignableArtifacts.size());
-            String artifactName = assignableArtifacts.get(randomArtifactIndex);
-            Artifact artifactToAssign = Artifact.getArtifact(artifactName);
-            
-            // Assign artifact to the room
-            roomToAssignArtifact = Room.artifactSpawnableRooms.get(roomIdx);
-            roomToAssignArtifact.assignArtifact(artifactToAssign);
-
-            // Remove the artifact selected from the list of assignable artifacts
-            assignableArtifacts.remove(randomArtifactIndex);
-            System.out.println("Artifact name: " + artifactToAssign.getName() + "\nRoom name: " + roomToAssignArtifact.getShortDescription());
-        }
     }
 
     /**
