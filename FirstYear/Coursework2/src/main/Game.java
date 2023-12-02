@@ -74,15 +74,13 @@ public class Game
         Artifact.createArtifactsDetails(textPrinter);
 
         // Create game world
-        createRooms(); // Note: Enemies are also spawned within this method call
-        Artifact.spawnArtifacts(NUM_ARTIFACTS);
-        NPC.spawnNPCs(NUM_NPCS);
+        createGameWorld();
     }
 
     /**
-     * Create all the rooms and link their exits together.
+     * Initialises the game world, creating all the rooms, exits for each room, selection of special rooms and spawning of entities
      */
-    private void createRooms()
+    private void createGameWorld()
     {
         // Create all rooms
         Room
@@ -171,9 +169,11 @@ public class Game
         // Set "outside" as the drop-off point for all the artifacts
         Room.setGoalRoom(outside);
 
-        // Spawn all enemies
+        // Spawn entities into the world
         Enemy.spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
-
+        Artifact.spawnArtifacts(NUM_ARTIFACTS);
+        NPC.spawnNPCs(NUM_NPCS);
+        
         // Spawn the player outside
         player1.setCurrentRoom(outside);
     }
