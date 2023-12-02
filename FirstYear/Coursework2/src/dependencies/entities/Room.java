@@ -31,10 +31,10 @@ public class Room
     private Artifact assignedArtifact; // Pointer to Artifact assigned to this room
 
     /**
-     * Create a room described "description". Initially, it has
-     * no exits. "description" is something like "a kitchen" or
-     * "an open court yard".
-     * @param description The room's description.
+     * Creates a room object
+     * @param description The room's description (e.g., "in the kitchen" or "outside the Smith's residence")
+     * @param npcSpawnable Whether or not NPCs can spawn in this room
+     * @param artifactSpawnable Whether or not artifacts can spawn  in this room
      */
     public Room(String description, boolean npcSpawnable, boolean artifactSpawnable)
     {
@@ -77,21 +77,22 @@ public class Room
 
     /**
      * Return a description of the room in the form:
-     *     You are in the kitchen.
-     *     Exits: north west
+     *      You are in the main hallway.
+     *      Exits: outside (0) | living room (1) | kitchen (2) | bathroom (3)
      * @return A long description of this room
      */
-    public String getLongDescription(ArrayList<String> options, boolean shouldAdd)
+    public String getLongDescription(ArrayList<String> options)
     {
-        return "You are " + description + ".\n" + getExitString(options, shouldAdd);
+        return "You are " + description + ".\n" + getExitString(options);
     }
 
     /**
-     * @return a string describing the rooms this room connects to / details of the room's exits, e.g.
-     * Exits: dining room (0) | upstairs (1) | storage room (2) | main hallway (3)
-     * Takes in a list of options available to the player, and adds exits (the names of the rooms) to that list
+     * Adds all the options (exits) available to the player, and returns a string containing the exits available to the player when called.
+     * @return A string describing the rooms this room connects to / details of the room's exits, e.g.
+     *      Exits: outside (0) | living room (1) | kitchen (2) | bathroom (3)
+     * @param options A list of options (i.e., exits) available to the player
      */
-    private String getExitString(ArrayList<String> options, boolean shouldAdd)
+    private String getExitString(ArrayList<String> options)
     {
         String returnString = "Exits: ";
         int i = 0;
@@ -101,11 +102,7 @@ public class Room
             returnString += exit;
             returnString += " (" + i + ")";
 
-            // Should only add when specified (When the "help" command is used, there is no need to add more items)
-            if (shouldAdd == true)
-            {
-                options.add(exit);
-            }
+            options.add(exit); // Add this exit to the available options the player currently has
             
             if (i < numExits - 1)
             {   
@@ -144,7 +141,7 @@ public class Room
     }
 
     /**
-     * @return the assigned NPC to this room (should only be called if the assigned NPC is not null)
+     * @return The assigned NPC to this room (should only be called if the assigned NPC is not null)
      */
     public NPC getAssignedNPC()
     {   
@@ -152,7 +149,8 @@ public class Room
     }
 
     /**
-     * Called to assign an NPC to this room
+     * Assigns a passed-in NPC to this room
+     * @param NPCToAssign is the NPC to set as the assignedNPC for this room
      */
     public void assignNPC(NPC NPCToAssign) 
     {
@@ -160,7 +158,8 @@ public class Room
     }
 
     /**
-     * Called to assign an artifact to this room
+     * Assigns a passed-in artifact to this room
+     * @param artifactToAssign is the artifact to set as the assignedArtifact for this room
      */
     public void assignArtifact(Artifact artifactToAssign) 
     {
@@ -168,7 +167,8 @@ public class Room
     }
 
     /**
-     * @return the assigned artifact to this room (should only be called if the assigned artifact is not null)
+     * @return The assigned artifact to this room 
+     * (Should only be called if the assigned artifact is not null)
      */
     public Artifact getAssignedArtifact()
     {
@@ -177,6 +177,7 @@ public class Room
         
     /**
      * Sets a room as the magic transporter room
+     * @param selectedRoom The room (object) to set as the magic transporter room
      */
     public static void setMagicTransporterRoom(Room selectedRoom)
     {
@@ -184,7 +185,8 @@ public class Room
     }
 
     /**
-     * Method used to check if a passed in room is the magic transporter room
+     * @return A boolean indicating whether or not the room passed in is the magic transporter room
+     * @param RoomToCheck The room to check against
      */
     public static boolean isMagicTransporterRoom(Room roomToCheck)
     {
@@ -192,7 +194,7 @@ public class Room
     }
 
     /**
-     * @return a list containing all of the room objects created
+     * @return An ArrayList<Room> containing all of the room (objects) created in the world
      */
     public static ArrayList<Room> getAllRooms()
     {
@@ -200,7 +202,8 @@ public class Room
     }
 
     /**
-     * Sets a room as the goal room
+     * Sets a passed-in room as the goal room
+     * @param selectedRoom The room (object) to set as the goal room
      */
     public static void setGoalRoom(Room selectedRoom)
     {
@@ -208,7 +211,8 @@ public class Room
     }
 
     /**
-     * Method used to check if a passed in room is the goal room
+     * @return A boolean indicating whether or not the room passed in is the goal room (i.e., the room that the player needs to drop all artifacts in to win)
+     * @param RoomToCheck The room to check against
      */
     public static boolean isGoalRoom(Room roomToCheck)
     {
@@ -216,7 +220,7 @@ public class Room
     }
 
     /**
-     * @return an ArrayList<Room> containing the rooms that NPCs can spawn in
+     * @return An ArrayList<Room> containing the rooms that NPCs can spawn in
      */
     public static ArrayList<Room> getNPCSpawnableRooms()
     {
@@ -224,7 +228,7 @@ public class Room
     }
 
     /**
-     * @return an ArrayList<Room> containing the rooms that artifacts can spawn in
+     * @return An ArrayList<Room> containing the rooms that artifacts can spawn in
      */
     public static ArrayList<Room> getArtifactSpawnableRooms()
     {

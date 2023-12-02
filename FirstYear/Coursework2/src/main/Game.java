@@ -403,7 +403,7 @@ public class Game
                 checkForArtifact();
                 Enemy.displayEnemyLocations();
                 currentOptions.clear(); // Empty the list of options available to the player
-                System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true)); // Refresh the list of options available to the player
+                System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions)); // Refresh the list of options available to the player
             }
         }
 
@@ -439,7 +439,7 @@ public class Game
             checkForArtifact();
             Enemy.displayEnemyLocations();
             currentOptions.clear(); // Empty the list of options available to the player
-            System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions, true)); // Refresh the list of options available to the player
+            System.out.println(player1.getCurrentRoom().getLongDescription(currentOptions)); // Refresh the list of options available to the player
         }
         
         // Used whenever the help command is called manually by the player
