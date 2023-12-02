@@ -7,10 +7,13 @@ public class Enemy
     private static ArrayList<Enemy> allEnemies = new ArrayList<Enemy>(); // List containing all instantiated enemies
     private ArrayList<Room> pathToTraverse = new ArrayList<Room>();
     private int currentPathIndex = 0; // Starts at the first room given in the path
+    private int moveCounter = 1;
+    private int moveInterval; // How often the enemy will move
 
-    public Enemy(ArrayList<Room> entireTraversalPath)
+    public Enemy(ArrayList<Room> entireTraversalPath, int moveInterval)
     {
         pathToTraverse = entireTraversalPath;
+        this.moveInterval = moveInterval;
 
         // Add this enemy to list of all enemies
         Enemy.allEnemies.add(this);
@@ -88,9 +91,9 @@ public class Enemy
                                                         }};
 
         // Create/instantiate enemies
-        new Enemy(enemy1Path);
-        new Enemy(enemy2Path);
-        new Enemy(enemy3Path);
+        new Enemy(enemy1Path, 1);
+        new Enemy(enemy2Path, 1);
+        new Enemy(enemy3Path, 2);
     }
 
     /**
@@ -106,14 +109,26 @@ public class Enemy
      */
     public void move()
     {   
-        // Increment index 
-        currentPathIndex++;
+        // If enough turns have passed for this enemy to move
+        if (moveCounter == moveInterval)
+        {   
+            // Reset counter
+            moveCounter = 1;
 
-        // If this is the last room in the path, cycle back to the start
-        if (currentPathIndex == pathToTraverse.size())
-        {
-            currentPathIndex = 0;
+            // Increment index 
+            currentPathIndex++;
+
+            // If this is the last room in the path, cycle back to the start
+            if (currentPathIndex == pathToTraverse.size())
+            {
+                currentPathIndex = 0;
+            }
         }
+        else
+        {
+            moveCounter ++;
+        }
+        System.out.println(moveCounter + " " + moveInterval);
     }
 
     /**
