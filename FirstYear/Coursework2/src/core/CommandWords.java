@@ -1,6 +1,6 @@
 package core;
 
-import dependencies.entities.Room;
+import dependencies.entities.Player;
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -88,19 +88,19 @@ public class CommandWords
      * Print all valid commands that can be used right now to System.out.
      * - For example, sometimes the "interact with" should not be shown
      */
-    public void showApplicable(Room currentRoom)
+    public void showApplicable(Player chosenPlayer)
     {   
         System.out.println("Applicable commands:");
         
         ArrayList<String> commandsToIgnore = new ArrayList<String>();
         // Has no NPCs (Note: Add && OBJECT condition here once objects are added)
-        if (!currentRoom.hasNPC())
+        if (!chosenPlayer.getCurrentRoom().hasNPC())
         {
             commandsToIgnore.add("interact with");
         }  
         
         // There is no room history
-        if (Room.getRoomHistory().size() == 0)
+        if (chosenPlayer.getRoomHistory().size() == 0)
         {
             commandsToIgnore.add("back");
         }

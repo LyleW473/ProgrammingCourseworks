@@ -361,8 +361,8 @@ public class Game
             // Check if the player has lost or won the game
             if (!finished)
             {
-                finished = (checkGameLoss() || checkGameWin());
-                // finished = checkGameWin() USED FOR TESTING, DELETE LATER
+                // finished = (checkGameLoss() || checkGameWin());
+                finished = checkGameWin(); // USED FOR TESTING, DELETE LATER
             }
         }
         System.out.println("Thank you for playing! Goodbye!");
@@ -415,7 +415,7 @@ public class Game
         player1.setCurrentRoom(selectedRoom);
 
         // Clear the rooms history after teleporting (This is an intended side effect of the magic attic)
-        Room.clearRoomsHistory();
+        player1.clearRoomsHistory();
     }
 
     /**
@@ -550,7 +550,6 @@ public class Game
     private boolean printHelp(boolean isInitialCall) 
     {   
         // Used in the welcome message
-        Room playerRoom = player1.getCurrentRoom();
         if (isInitialCall == true)
         {
             System.out.println("Use the 'help' command for additional information and guidance!");
@@ -568,7 +567,7 @@ public class Game
         {
             parser.showAllCommands();
             System.out.println("\n");
-            parser.showApplicableCommands(playerRoom);
+            parser.showApplicableCommands(player1);
             System.out.println("\n");
             System.out.println("<< For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go dining room' >>");
             System.out.println();
@@ -625,7 +624,7 @@ public class Game
             }
             else
             {
-                Room.addToRoomHistory(playerRoom); // Add to room history before moving rooms
+                player1.addToRoomHistory(playerRoom); // Add to room history before moving rooms
                 player1.setCurrentRoom(nextRoom);
             }
             return true;
@@ -643,9 +642,9 @@ public class Game
     public boolean goBack()
     {   
         // If there is a previous room to go to
-        if (Room.getRoomHistory().size() > 0)
+        if (player1.getRoomHistory().size() > 0)
         {
-            player1.setCurrentRoom(Room.returnPrevious()); // Go to the previous room
+            player1.setCurrentRoom(player1.returnPrevious()); // Go to the previous room
             return true;
         }
 

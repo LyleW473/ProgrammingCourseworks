@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 public class Room 
 {
-    private static ArrayList<Room> roomsHistory = new ArrayList<Room>(); // Stores the history of all the rooms the player has visited (in order)
     public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that NPCs can spawn in (CHANGE TO PRIVATE LATER)
     public static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that artifacts can spawn in (CHANGE TO PRIVATE LATER)
     private static ArrayList<Room> allRooms = new ArrayList<Room>(); // List of all rooms
@@ -175,54 +174,6 @@ public class Room
     public Artifact getAssignedArtifact()
     {
         return assignedArtifact;
-    }
-
-    /**
-     * @return the history of all the rooms that the player has visited
-     */
-    public static ArrayList<Room> getRoomHistory()
-    {
-        return Room.roomsHistory;
-    }
-
-    /**
-     * Adds a room to the room history
-     */
-    public static void addToRoomHistory(Room roomToAdd)
-    {
-        Room.roomsHistory.add(roomToAdd);
-    }
-
-    /**
-     * @return the last room inside of the room history (i.e., the )
-     */
-    public static Room returnPrevious()
-    {      
-        // Create a new room history (every room in the list apart from the previous room)
-        int historyLength = Room.roomsHistory.size();
-        ArrayList<Room> newHistory = new ArrayList<Room>();
-        for (int i = 0; i < historyLength - 1; i++)
-        {
-            newHistory.add(roomsHistory.get(i));
-        }
-
-        // Save the previous room (And then return it after updating history)
-        Room previousRoom = Room.roomsHistory.get(Room.roomsHistory.size() - 1);
-        
-        // Update the room history
-        Room.roomsHistory = newHistory;
-
-        return previousRoom;
-    }
-
-    /**
-     * Clears the player's room history
-     * - Executed after the player enters the magic attic / transporter room.
-     * - This is an intended side effect of teleporting.
-     */
-    public static void clearRoomsHistory()
-    {
-        Room.roomsHistory.clear();
     }
         
     /**

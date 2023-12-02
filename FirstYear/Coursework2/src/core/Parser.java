@@ -1,6 +1,6 @@
 package core;
 
-import dependencies.entities.Room;
+import dependencies.entities.Player;
 import java.util.Scanner;
 
 /**
@@ -126,9 +126,9 @@ public class Parser
     /**
      * Print out a list of valid command words that can be applied right now.
      */
-    public void showApplicableCommands(Room currentRoom)
+    public void showApplicableCommands(Player chosenPlayer)
     {
-        commands.showApplicable(currentRoom);
+        commands.showApplicable(chosenPlayer);
     }
 
     /**
