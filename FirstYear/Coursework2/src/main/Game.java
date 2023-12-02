@@ -371,6 +371,7 @@ public class Game
     /**
      *  Functionality for teleporting the player to a random room (functionality intended for magic transporter room)
      * - Does not add the magic transporter room to the player's room history
+     * - Returns a room as long as it is not the magic transporter room or a room that any enemy is about to move to
      */
     public void teleportPlayer()
     {   
@@ -396,7 +397,7 @@ public class Game
             isValidRoom = true; // Assume that the room selected is valid until proven false
             for (Enemy e: allEnemies)
             {
-                if (selectedRoom.equals(e.getNextRoom()))
+                if (selectedRoom.equals(e.getNextRoom()) || Room.isMagicTransporterRoom(selectedRoom))
                 {      
                     // Exit, and try a different room index
                     isValidRoom = false;
