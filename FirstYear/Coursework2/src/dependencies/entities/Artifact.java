@@ -65,7 +65,8 @@ public class Artifact extends Object
      */
     public static void spawnArtifacts(int numArtifacts)
     {
-        for (Room room: Room.artifactSpawnableRooms)
+        ArrayList<Room> artifactSpawnableRooms = Room.getArtifactSpawnableRooms();
+        for (Room room: artifactSpawnableRooms)
         {
             System.out.println("Item room: " + room.getShortDescription());
         }
@@ -74,7 +75,7 @@ public class Artifact extends Object
         Random randomGen = new Random();
         HashSet<Integer> uniqueIndexes = new HashSet<Integer>(); // Hashset for distinct values
         int generatedIndex;
-        int numArtifactSpawnableRooms = Room.artifactSpawnableRooms.size();
+        int numArtifactSpawnableRooms = artifactSpawnableRooms.size();
 
         while (uniqueIndexes.size() < numArtifacts) // Continue generating until we have enough indexes for all rooms
         {
@@ -93,7 +94,7 @@ public class Artifact extends Object
             Artifact artifactToAssign = Artifact.getArtifact(artifactName);
             
             // Assign artifact to the room
-            roomToAssignArtifact = Room.artifactSpawnableRooms.get(roomIdx);
+            roomToAssignArtifact = artifactSpawnableRooms.get(roomIdx);
             roomToAssignArtifact.assignArtifact(artifactToAssign);
 
             // Remove the artifact selected from the list of assignable artifacts
@@ -101,7 +102,7 @@ public class Artifact extends Object
             System.out.println("Artifact name: " + artifactToAssign.getName() + "\nRoom name: " + roomToAssignArtifact.getShortDescription());
         }
     }
-    
+
     /**
     * @return the weight of this artifact
     */

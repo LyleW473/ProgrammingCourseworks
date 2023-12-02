@@ -19,8 +19,8 @@ import java.util.HashMap;
 
 public class Room 
 {
-    public static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that NPCs can spawn in (CHANGE TO PRIVATE LATER)
-    public static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores no.of rooms that artifacts can spawn in (CHANGE TO PRIVATE LATER)
+    private static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores all the rooms that NPCs can spawn in
+    private static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores all the rooms that artifacts can spawn in
     private static ArrayList<Room> allRooms = new ArrayList<Room>(); // List of all rooms
     private static Room magicTransporterRoom; // Pointer to Room set as the magic transporter room
     private static Room goalRoom; // Pointer to Room that the player needs to drop all artifacts inside in order to win
@@ -87,10 +87,9 @@ public class Room
     }
 
     /**
-     * Return a string describing the rooms this room connects to, e.g.
+     * @return a string describing the rooms this room connects to / details of the room's exits, e.g.
      * Exits: dining room (0) | upstairs (1) | storage room (2) | main hallway (3)
      * Takes in a list of options available to the player, and adds exits (the names of the rooms) to that list
-     * @return Details of the room's exits.
      */
     private String getExitString(ArrayList<String> options, boolean shouldAdd)
     {
@@ -214,5 +213,21 @@ public class Room
     public static boolean isGoalRoom(Room roomToCheck)
     {
         return roomToCheck.equals(Room.goalRoom);
+    }
+
+    /**
+     * @return an ArrayList<Room> containing the rooms that NPCs can spawn in
+     */
+    public static ArrayList<Room> getNPCSpawnableRooms()
+    {
+        return Room.NPCSpawnableRooms;
+    }
+
+    /**
+     * @return an ArrayList<Room> containing the rooms that artifacts can spawn in
+     */
+    public static ArrayList<Room> getArtifactSpawnableRooms()
+    {
+        return Room.artifactSpawnableRooms;
     }
 }

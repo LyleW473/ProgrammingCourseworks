@@ -90,7 +90,8 @@ public class NPC
      */
     public static void spawnNPCs(int numNPCs)
     {
-        for (Room room: Room.NPCSpawnableRooms)
+        ArrayList<Room> NPCSpawnableRooms = Room.getNPCSpawnableRooms();
+        for (Room room: NPCSpawnableRooms)
         {
             System.out.println("NPC room: " + room.getShortDescription());
         }
@@ -98,7 +99,7 @@ public class NPC
         // Generate random indexes between 0 (inclusive) and the number of NPC spawnable rooms (exclusive) there are
         HashSet<Integer> uniqueIndexes = new HashSet<Integer>();
         int generatedIndex;
-        int numNPCSpawnableRooms = Room.NPCSpawnableRooms.size();
+        int numNPCSpawnableRooms = NPCSpawnableRooms.size();
 
         while (uniqueIndexes.size() < numNPCs)
         {
@@ -111,7 +112,7 @@ public class NPC
         for (int idx: uniqueIndexes)
         {
             System.out.println(idx);
-            roomToAssignNPC = Room.NPCSpawnableRooms.get(idx);
+            roomToAssignNPC = NPCSpawnableRooms.get(idx);
             roomToAssignNPC.assignNPC(new NPC());
         }
     }
