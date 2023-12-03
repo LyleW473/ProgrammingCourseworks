@@ -2,9 +2,14 @@ package dependencies.entities;
 
 public class Object
 {
-    private String name;
-    private String description;
+    private String name; // Name of this object
+    private String description; // Description for this object
 
+    /**
+     * Constructor for Object class, initialises each object with a name and description.
+     * @param name The name assigned to this object.
+     * @param description The description assigned to this object.
+     */ 
     public Object(String name, String description)
     {
         this.name = name;
@@ -12,7 +17,7 @@ public class Object
     }
 
     /**
-     * @return the name of this object
+     * @return The name of this object
      */
     public String getName()
     {
@@ -20,7 +25,7 @@ public class Object
     }
 
     /**
-     * @return a description of this object
+     * @return A description of this object
      */
     public String getDescription()
     {
