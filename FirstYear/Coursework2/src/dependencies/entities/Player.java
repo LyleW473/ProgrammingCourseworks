@@ -28,6 +28,54 @@ public class Player
     }
 
     /**
+     * @return the history of all the rooms that the player has visited
+     */
+    public ArrayList<Room> getRoomHistory()
+    {
+        return roomsHistory;
+    }
+
+    /**
+     * Adds a room to the room history
+     */
+    public void addToRoomHistory(Room roomToAdd)
+    {
+        roomsHistory.add(roomToAdd);
+    }
+
+    /**
+     * @return the last room inside of the room history (i.e., the previous room the player was in)
+     */
+    public Room returnPrevious()
+    {      
+        // Create a new room history (every room in the list apart from the previous room)
+        int historyLength = roomsHistory.size();
+        ArrayList<Room> newHistory = new ArrayList<Room>();
+        for (int i = 0; i < historyLength - 1; i++)
+        {
+            newHistory.add(roomsHistory.get(i));
+        }
+
+        // Save the previous room (And then return it after updating history)
+        Room previousRoom = roomsHistory.get(roomsHistory.size() - 1);
+        
+        // Update the room history
+        roomsHistory = newHistory;
+
+        return previousRoom;
+    }
+
+    /**
+     * Clears the history of rooms that the player has visited
+     * - Executed after the player enters the magic attic / transporter room.
+     * - This is an intended side effect of teleporting.
+     */
+    public void clearRoomsHistory()
+    {
+        roomsHistory.clear();
+    }
+
+    /**
      * @return the inventory containing all of the player's collected artifacts
      */
     public ArrayList<Artifact> getInventory()
@@ -85,50 +133,35 @@ public class Player
     }
 
     /**
-     * @return the history of all the rooms that the player has visited
+     * Collects an artifact from the current room the player is in if one exists.
+     * - Called through the Game class whenever a "collect artifact" command is used.
      */
-    public ArrayList<Room> getRoomHistory()
+    public void collectArtifact()
     {
-        return roomsHistory;
-    }
-
-    /**
-     * Adds a room to the room history
-     */
-    public void addToRoomHistory(Room roomToAdd)
-    {
-        roomsHistory.add(roomToAdd);
-    }
-
-    /**
-     * @return the last room inside of the room history (i.e., the previous room the player was in)
-     */
-    public Room returnPrevious()
-    {      
-        // Create a new room history (every room in the list apart from the previous room)
-        int historyLength = roomsHistory.size();
-        ArrayList<Room> newHistory = new ArrayList<Room>();
-        for (int i = 0; i < historyLength - 1; i++)
+        // Check if there is an artifact in this room
+        if (!currentRoom.hasArtifact())
         {
-            newHistory.add(roomsHistory.get(i));
+            System.out.println("There is no artifact to collect in this room!");
         }
+        else
+        {   
+            Artifact artifactToCollect = currentRoom.getAssignedArtifact();
+            double newTotalWeight = inventoryWeight + artifactToCollect.getWeight();
 
-        // Save the previous room (And then return it after updating history)
-        Room previousRoom = roomsHistory.get(roomsHistory.size() - 1);
-        
-        // Update the room history
-        roomsHistory = newHistory;
+                // Check if the player will exceed the weight restriction
+            if (newTotalWeight > INVENTORY_WEIGHT_LIMIT)
+            {   
+                System.out.println("Cannot pick up this artifact as you exceeding the weight limit of " + INVENTORY_WEIGHT_LIMIT + "!\nCurrent total weight: " + inventoryWeight);
+                // Exit at the bottom of method 
+            }
+            else
+            {
+                // Add artifact to the player's inventory
+                this.addToInventory(newTotalWeight, artifactToCollect);
 
-        return previousRoom;
-    }
-
-    /**
-     * Clears the history of rooms that the player has visited
-     * - Executed after the player enters the magic attic / transporter room.
-     * - This is an intended side effect of teleporting.
-     */
-    public void clearRoomsHistory()
-    {
-        roomsHistory.clear();
+                // Remove artifact from the room
+                currentRoom.assignArtifact(null);
+            }
+        }
     }
 }

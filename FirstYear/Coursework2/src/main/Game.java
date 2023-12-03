@@ -599,34 +599,8 @@ public class Game
             }
         else
         {   
-            // Check if there is an artifact in this room
-            Room playerRoom = player1.getCurrentRoom();
-            if (!playerRoom.hasArtifact())
-            {
-                System.out.println("There is no artifact to collect in this room!");
-            }
-            else
-            {   
-                Artifact artifactToCollect = playerRoom.getAssignedArtifact();
-                double currentInventoryWeight = player1.getInventoryWeight();
-                double newTotalWeight = currentInventoryWeight + artifactToCollect.getWeight();
-
-                 // Check if the player will exceed the weight restriction
-                if (newTotalWeight > player1.INVENTORY_WEIGHT_LIMIT)
-                {   
-                    System.out.println("Cannot pick up this artifact as you exceeding the weight limit of " + player1.INVENTORY_WEIGHT_LIMIT + "!\nCurrent total weight: " + currentInventoryWeight);
-                    // Exit at the bottom of method 
-                }
-                else
-                {
-                    // Add artifact to the player's inventory
-                    player1.addToInventory(newTotalWeight, artifactToCollect);
-
-                    // Remove artifact from the room
-                    playerRoom.assignArtifact(null);
-                    return true;
-                }
-            }
+            player1.collectArtifact();
+            return true;
         }
         return false;
     }
