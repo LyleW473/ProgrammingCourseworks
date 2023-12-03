@@ -7,30 +7,38 @@ import java.util.ArrayList;
 
 import core.TextPrinter;
 
-public class Artifact extends Object
+public class Artifact extends Object // Inherit from the Object class
 {
-    private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // HashMap mapping each artifact name to an Artifact object
-    private static final int NUM_ARTIFACTS = 3;
+    private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // Maps each artifact name to an Artifact object
+    private static final int NUM_ARTIFACTS = 3; // Number of artifacts to spawn in the world
 
-    private double weight;
+    private double weight; // Weight assigned to this artifact
 
+    /**
+     * Constructor for Artifact class. Initialises the Artifact object with a passed-in name, description and weight.
+     * @param name The name of the artifact
+     * @param description A description of the artifact 
+     * @param weight The weight of the artifact
+     */
     public Artifact(String name, String description, double weight)
     {
-        // Inherits from Object class
-        super(name, description);
+        // Initialise all attributes
+        super(name, description); // Inherits from the Object class
         this.weight = weight;
     }
 
     /**
      * Initialises a static HashMap<String, Artifact>, mapping each artifact name to an Artifact object
+     * - The Artifact object will have the "details" e.g., the description and weight associated with each artifact name.
+     * - The Artifact object can then be retrieved using the artifact name through Artifact.artifactDetails.
      */
     public static void createArtifactsDetails(TextPrinter textPrinter)
-    {      
-        // Get lines consisting of "ArtifactName|ArtifactWeight"
+    {
+        // Get lines consisting of "ArtifactName|ArtifactWeight" e.g., "Golden Trophy|3.0"
         ArrayList<String> lines = textPrinter.returnContentsList("dependencies/texts/artifact_details.txt");
         for (String line: lines)
         {  
-            // Extract entities from each line into two separate variables
+            // Extract entities from each line into separate variables (name, description and weight)
             String[] detailsPerLine = line.split("@"); // Split using the "@" delimiter
             String name = detailsPerLine[0];
             String description = detailsPerLine[1];
@@ -39,13 +47,11 @@ public class Artifact extends Object
             
             // Create mapping
             Artifact.artifactsDetails.put(name, createdArtifact);
-
-            // System.out.println(name + " " + artifactsDetails.get(name));
         }
     }
 
     /**
-    * @return an ArrayList<String> containing all possible artifacts that can be created from the key set of artifactsDetails
+    * @return An ArrayList<String> containing the names of all the artifacts that can be created / instantiated
     */
     public static ArrayList<String> getAllArtifactNames()
     {
@@ -53,25 +59,23 @@ public class Artifact extends Object
     }
 
     /**
-    * @return the artifact with the corresponding artifact name.
+    * @return The artifact with the corresponding artifact name, to be assigned to a random room
+    * @param nameOfArtifact The name of the artifact to spawn into the game world (i.e., to be assigned to a random room).
     */
     public static Artifact getArtifact(String nameOfArtifact)
     {   
         Artifact artifact = Artifact.artifactsDetails.get(nameOfArtifact);
-        Artifact.artifactsDetails.remove(nameOfArtifact);
+        Artifact.artifactsDetails.remove(nameOfArtifact); // Remove from artifactDetails, meaning that this artifact cannot be spawned again
         return artifact;
     }
 
     /**
-     * Used to randomly select n rooms (where allowed) to spawn artifacts into
+     * Randomly selects "Artifact.NUM_ARTIFACTS" rooms to spawn artifacts into.
+     * - Selects random rooms that can have artifacts spawning in them and then randomly assigns artifacts to each room
      */
     public static void spawnArtifacts()
     {
         ArrayList<Room> artifactSpawnableRooms = Room.getArtifactSpawnableRooms();
-        for (Room room: artifactSpawnableRooms)
-        {
-            System.out.println("Item room: " + room.getShortDescription());
-        }
 
         // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
         Random randomGen = new Random();
@@ -106,7 +110,7 @@ public class Artifact extends Object
     }
 
     /**
-    * @return the number of artifacts that should be spawned inside of the world
+    * @return A constant representing the number of artifacts that should be spawned inside of the game world
     */
     public static int getNumArtifacts()
     {
@@ -114,7 +118,7 @@ public class Artifact extends Object
     }
 
     /**
-    * @return the weight of this artifact
+    * @return The weight of this artifact
     */
     public double getWeight()
     {
@@ -122,7 +126,8 @@ public class Artifact extends Object
     }
 
     /**
-    * Prints the name, description and weight of this artifact
+    * Prints the name, description, weight of this artifact and the itemNumber.
+    @param itemNumber A number representing which item this is in the inventory, e.g., if it is the first item then its itemNumber would be 1.
     */
     public void printDetails(int itemNumber)
     {
