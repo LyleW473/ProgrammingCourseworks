@@ -184,7 +184,7 @@ public class Game
         Room playerRoom = player1.getCurrentRoom();
         for (Enemy e: Enemy.getAllEnemies())
         {
-            if (playerRoom.equals(e.returnCurrentRoom()))
+            if (playerRoom.equals(e.getCurrentRoom()))
             {
                 System.out.println("--------------------------------------------");
                 System.out.println("<<<< One of the maids have caught you red-handed! You have lost the game! >>>> ");
