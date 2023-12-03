@@ -10,11 +10,11 @@ public class NPC
 {
     private static ArrayList<String> allConversations;
     private static ArrayList<String> allNames;
-
-    public static final int NUM_CONVOS_PER_NPC = 2;
-    public static Random randomGen = new Random();
+    private static final int NUM_CONVOS_PER_NPC = 2;
+    private static final int NUM_NPCS = 2;
+    private static Random randomGen = new Random();
     
-    public String name;
+    private String name;
     private ArrayList<String> possibleConversations = new ArrayList<String>();
 
     public NPC()
@@ -88,7 +88,7 @@ public class NPC
     /**
      * Used to randomly select n rooms (where allowed) to spawn the NPCs into
      */
-    public static void spawnNPCs(int numNPCs)
+    public static void spawnNPCs()
     {
         ArrayList<Room> NPCSpawnableRooms = Room.getNPCSpawnableRooms();
         for (Room room: NPCSpawnableRooms)
@@ -101,7 +101,7 @@ public class NPC
         int generatedIndex;
         int numNPCSpawnableRooms = NPCSpawnableRooms.size();
 
-        while (uniqueIndexes.size() < numNPCs)
+        while (uniqueIndexes.size() < NPC.NUM_NPCS)
         {
             generatedIndex = NPC.randomGen.nextInt(numNPCSpawnableRooms);
             uniqueIndexes.add(generatedIndex);

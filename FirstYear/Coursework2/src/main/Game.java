@@ -41,11 +41,6 @@ public class Game
     private ArrayList<String> currentOptions = new ArrayList<String>();
 
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
-    public int numCompletedArtifacts = 0; // Number of artifacts successfully dropped off at the goal room
-
-    public final int NUM_ARTIFACTS = 3;
-    public final int NUM_NPCS = 2;
-    
     public Player player1 = new Player();
 
     /**
@@ -171,8 +166,8 @@ public class Game
 
         // Spawn entities into the world
         Enemy.spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
-        Artifact.spawnArtifacts(NUM_ARTIFACTS);
-        NPC.spawnNPCs(NUM_NPCS);
+        Artifact.spawnArtifacts();
+        NPC.spawnNPCs();
         
         // Spawn the player outside
         player1.setCurrentRoom(outside);
@@ -208,7 +203,7 @@ public class Game
      */
     public boolean checkGameWin()
     {
-        boolean wonGame = (numCompletedArtifacts == NUM_ARTIFACTS); 
+        boolean wonGame = (player1.getNumCompletedArtifacts() == Artifact.getNumArtifacts()); 
         if (wonGame)
         {
             System.out.println();
@@ -641,21 +636,7 @@ public class Game
                         int itemIndex = Integer.parseInt(secondWord);
                         if (itemIndex >= 0 && itemIndex < inventorySize)
                         {
-                            // Drop item into this room and remove from inventory
-                            Artifact artifactToDrop = player1.removeFromInventory(itemIndex);
-
-                            // If this is the goal room (i.e., outside)
-                            if (Room.isGoalRoom(playerRoom))
-                            {  
-                                // Note: Don't re-assign artifact to this room
-                                numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
-                                System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + NUM_ARTIFACTS + " artifacts! >>");
-                            }
-                            else 
-                            {
-                                // Re-assign artifact to this room
-                                playerRoom.assignArtifact(artifactToDrop);
-                            }
+                            player1.dropArtifact(itemIndex);
                             return true;
                         }
                         // Case: If the index is out range then skip to bottom of method

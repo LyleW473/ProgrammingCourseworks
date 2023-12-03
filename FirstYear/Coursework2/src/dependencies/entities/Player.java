@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class Player 
 {
+    private static final double INVENTORY_WEIGHT_LIMIT = 5.0; // Total amount of weight that the player can have
+
     private Room currentRoom;
     private ArrayList<Artifact> inventory = new ArrayList<Artifact>();
     private double inventoryWeight = 0.0; // Current total weight of the player's inventory
-    public final double INVENTORY_WEIGHT_LIMIT = 5.0; // Total amount of weight that the player can have
     private ArrayList<Room> roomsHistory = new ArrayList<Room>(); // Stores the history of all the rooms the player has visited (in order)
+    private int numCompletedArtifacts = 0; // Number of artifacts successfully dropped off at the goal room
 
     /**
      * @return the current room that the player is in
@@ -163,5 +165,36 @@ public class Player
                 currentRoom.assignArtifact(null);
             }
         }
+    }
+    
+    /**
+     * Drops an artifact from the player's inventory based on the itemIndex provided.
+     * @param itemIndex The index of the artifact within the player's inventory that the player wants to drop / remove.
+     */
+    public void dropArtifact(int itemIndex)
+    {
+        // Drop item into this room and remove from inventory
+        Artifact artifactToDrop = this.removeFromInventory(itemIndex);
+
+        // If this is the goal room (i.e., outside)
+        if (Room.isGoalRoom(currentRoom))
+        {  
+            // Note: Don't re-assign artifact to this room
+            numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
+            System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + Artifact.getNumArtifacts() + " artifacts! >>");
+        }
+        else 
+        {
+            // Re-assign artifact to this room
+            currentRoom.assignArtifact(artifactToDrop);
+        }
+    }
+
+    /**
+     * @return the number of artifacts "completed", i.e., successfully dropped off at the goal room.
+     */
+    public int getNumCompletedArtifacts()
+    {
+        return numCompletedArtifacts;
     }
 }

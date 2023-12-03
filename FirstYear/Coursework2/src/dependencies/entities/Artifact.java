@@ -9,8 +9,10 @@ import core.TextPrinter;
 
 public class Artifact extends Object
 {
-    private double weight;
     private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // HashMap mapping each artifact name to an Artifact object
+    private static final int NUM_ARTIFACTS = 3;
+
+    private double weight;
 
     public Artifact(String name, String description, double weight)
     {
@@ -63,7 +65,7 @@ public class Artifact extends Object
     /**
      * Used to randomly select n rooms (where allowed) to spawn artifacts into
      */
-    public static void spawnArtifacts(int numArtifacts)
+    public static void spawnArtifacts()
     {
         ArrayList<Room> artifactSpawnableRooms = Room.getArtifactSpawnableRooms();
         for (Room room: artifactSpawnableRooms)
@@ -77,7 +79,7 @@ public class Artifact extends Object
         int generatedIndex;
         int numArtifactSpawnableRooms = artifactSpawnableRooms.size();
 
-        while (uniqueIndexes.size() < numArtifacts) // Continue generating until we have enough indexes for all rooms
+        while (uniqueIndexes.size() < Artifact.NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
         {
             generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
             uniqueIndexes.add(generatedIndex);
@@ -101,6 +103,14 @@ public class Artifact extends Object
             assignableArtifacts.remove(randomArtifactIndex);
             System.out.println("Artifact name: " + artifactToAssign.getName() + "\nRoom name: " + roomToAssignArtifact.getShortDescription());
         }
+    }
+
+    /**
+    * @return the number of artifacts that should be spawned inside of the world
+    */
+    public static int getNumArtifacts()
+    {
+        return Artifact.NUM_ARTIFACTS;
     }
 
     /**
