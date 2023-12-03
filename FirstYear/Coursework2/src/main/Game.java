@@ -41,7 +41,7 @@ public class Game
     private ArrayList<String> currentOptions = new ArrayList<String>();
 
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
-    public Player player1 = new Player();
+    public Player player1; // Pointer to the Player object
 
     /**
      * Main method, for development
@@ -169,8 +169,8 @@ public class Game
         Artifact.spawnArtifacts();
         NPC.spawnNPCs();
         
-        // Spawn the player outside
-        player1.setCurrentRoom(outside);
+        // Create the player, spawning them outside
+        player1 = new Player(outside);
     }
 
     /**
@@ -521,7 +521,7 @@ public class Game
         // If there is a previous room to go to
         if (player1.getRoomHistory().size() > 0)
         {
-            player1.setCurrentRoom(player1.returnPrevious()); // Go to the previous room
+            player1.setCurrentRoom(player1.getPreviousRoom()); // Go to the previous room
             return true;
         }
 
