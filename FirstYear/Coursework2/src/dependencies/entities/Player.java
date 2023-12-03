@@ -11,6 +11,14 @@ public class Player
     private double inventoryWeight = 0.0; // Current total weight of the player's inventory
     private ArrayList<Room> roomsHistory = new ArrayList<Room>(); // Stores the history of all the rooms the player has visited (in order)
     private int numCompletedArtifacts = 0; // Number of artifacts successfully dropped off at the goal room
+    
+    /**
+     * @return the number of artifacts "completed", i.e., successfully dropped off at the goal room.
+     */
+    public int getNumCompletedArtifacts()
+    {
+        return numCompletedArtifacts;
+    }
 
     /**
      * @return the current room that the player is in
@@ -169,32 +177,51 @@ public class Player
     
     /**
      * Drops an artifact from the player's inventory based on the itemIndex provided.
-     * @param itemIndex The index of the artifact within the player's inventory that the player wants to drop / remove.
+     * @param secondWord The second word that the player used within their "drop" command, which should be the index of the artifact that the player wants to drop.
+     * @return A boolean indicating whether dropping the artifact specified by the player is possible.
      */
-    public void dropArtifact(int itemIndex)
+    public boolean dropArtifact(String secondWord)
     {
-        // Drop item into this room and remove from inventory
-        Artifact artifactToDrop = this.removeFromInventory(itemIndex);
+        int inventorySize = inventory.size();
 
-        // If this is the goal room (i.e., outside)
-        if (Room.isGoalRoom(currentRoom))
-        {  
-            // Note: Don't re-assign artifact to this room
-            numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
-            System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + Artifact.getNumArtifacts() + " artifacts! >>");
-        }
-        else 
+        // Check for empty inventory
+        if (inventorySize == 0)
         {
-            // Re-assign artifact to this room
-            currentRoom.assignArtifact(artifactToDrop);
+            System.out.println("You have no items in your inventory!");
+            return false;
         }
-    }
+        else
+        {
+            // Cannot drop an artifact in this room if there is an artifact already in this room
+            if (currentRoom.getAssignedArtifact() != null)
+            {
+                System.out.println("Cannot drop another artifact in this room, there is already an artifact in this room!");
+                return false;
+            }
 
-    /**
-     * @return the number of artifacts "completed", i.e., successfully dropped off at the goal room.
-     */
-    public int getNumCompletedArtifacts()
-    {
-        return numCompletedArtifacts;
+            // Check whether the index is in between in the range of the number of items in the inventory
+            int itemIndex = Integer.parseInt(secondWord); // The index of the artifact within the player's inventory that the player wants to drop / remove.
+            if (itemIndex >= 0 && itemIndex < inventorySize)
+            {
+                // Drop item into this room and remove from inventory
+                Artifact artifactToDrop = this.removeFromInventory(itemIndex);
+
+                // If this is the goal room (i.e., outside)
+                if (Room.isGoalRoom(currentRoom))
+                {  
+                    // Note: Don't re-assign artifact to this room
+                    numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
+                    System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + Artifact.getNumArtifacts() + " artifacts! >>");
+                }
+                else 
+                {
+                    // Re-assign artifact to this room
+                    currentRoom.assignArtifact(artifactToDrop);
+                }
+                return true;
+            }
+        }
+        // Case: If the index is out range then skip to bottom of method
+        return false;
     }
 }

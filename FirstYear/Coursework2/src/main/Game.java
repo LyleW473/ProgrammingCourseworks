@@ -406,13 +406,15 @@ public class Game
         return new CommandResult(successfulCommand, wantToQuit);
     }
 
-    // implementations of user commands:
+    // Implementations of user commands:
     /**
      * All user commands will return a boolean, representing whether the command was successful or not.
      * @return true if the command was successful.
      * @return false if the command was unsuccessful.
      * Returning true will allow the command to be repeated if the "repeat" command is used (given that it is a repeatable command)
      */
+
+
 
     /**
      * Prints out:
@@ -612,34 +614,10 @@ public class Game
         {
             // Only acceptable input is the item number
             try {
-                    ArrayList<Artifact> inventory = player1.getInventory();
-                    int inventorySize = inventory.size();
-
-                    // Check for empty inventory
-                    if (inventorySize == 0)
+                    // Try dropping the artifact with the specified index
+                    if (player1.dropArtifact(secondWord) == true)
                     {
-                        System.out.println("You have no items in your inventory!");
-                        return false;
-                    }
-                    else
-                    {
-                        Room playerRoom = player1.getCurrentRoom();
-
-                        // Cannot drop an artifact in this room if there is an artifact already in this room
-                        if (playerRoom.getAssignedArtifact() != null)
-                        {
-                            System.out.println("Cannot drop another artifact in this room, there is already an artifact in this room!");
-                            return false;
-                        }
-
-                        // Check whether the index is in between in the range of the number of items in the inventory
-                        int itemIndex = Integer.parseInt(secondWord);
-                        if (itemIndex >= 0 && itemIndex < inventorySize)
-                        {
-                            player1.dropArtifact(itemIndex);
-                            return true;
-                        }
-                        // Case: If the index is out range then skip to bottom of method
+                        return true;
                     }
                 }
             // Case: The second word was not an index, then skip to the bottom of the method
@@ -651,7 +629,7 @@ public class Game
         System.out.println("Invalid command, use the 'drop {itemNumber}' command to collect artifacts!");
         return false;
     }
-    
+
     /**
      * Shows the contents of the player's inventory inside of the terminal
      */
