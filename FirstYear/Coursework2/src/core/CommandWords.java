@@ -1,7 +1,3 @@
-package core;
-
-import dependencies.entities.Player;
-
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.
@@ -13,12 +9,15 @@ import dependencies.entities.Player;
  * @version 2016.02.29
  */
 
+package core;
+
+import dependencies.entities.Player;
 import java.util.HashSet;
 import java.util.ArrayList;
 
 public class CommandWords
 {
-    // A hashset that holds all of the valid command words.
+    // A HashSet that holds all of the valid command words that can be used.
     private static final HashSet<String> validCommands = new HashSet<String>() 
                                                                             {{
                                                                                 add("go");
@@ -32,13 +31,13 @@ public class CommandWords
                                                                                 add("show");
                                                                                 add("drop");
                                                                             }};
-
+    // A HashSet containing the command words that cannot be repeated via the "repeat" command.                                        
     private static final HashSet<String> cannotRepeatCommands = new HashSet<String>() 
                                                                                     {{
                                                                                         add("go");
                                                                                         add("collect");
                                                                                         add("drop");
-                                                                                        add("repeat");
+                                                                                        add("repeat"); // Cannot repeat a "repeat" command
                                                                                     }};
 
     /**
@@ -58,7 +57,7 @@ public class CommandWords
     }
 
     /**
-     * Check whether a command is repeatable or not
+     * Check whether a command is repeatable or not.
      * @return true if it is, false if it isn't.
      */
     public boolean isRepeatable(String commandWord)
@@ -67,9 +66,9 @@ public class CommandWords
     }
 
     /**
-     * Print all valid commands to System.out.
+     * Prints all valid commands that the player can use to the terminal.
      */
-    public void showAll() 
+    public void showAllCommands() 
     {      
         System.out.println("All of your command words are:");
         int i = 0;
@@ -85,25 +84,38 @@ public class CommandWords
     }
 
     /**
-     * Print all valid commands that can be used right now to System.out.
-     * - For example, sometimes the "interact with" should not be shown
+     * Print all valid commands that the player can use in the current game state to the terminal.
+     * - For example, "collect artifact" will not show up as an applicable command in a room that does not contain an artifact.
      */
-    public void showApplicable(Player chosenPlayer)
+    public void showApplicableCommands(Player chosenPlayer)
     {   
         System.out.println("Applicable commands:");
         
         ArrayList<String> commandsToIgnore = new ArrayList<String>();
-        // Has no NPCs (Note: Add && OBJECT condition here once objects are added)
+
+        // Current room has no NPC
         if (!chosenPlayer.getCurrentRoom().hasNPC())
         {
             commandsToIgnore.add("interact with");
         }  
         
+        // Current room has no artifact
+        if (!chosenPlayer.getCurrentRoom().hasArtifact())
+        {
+            commandsToIgnore.add("collect");
+        }  
+
         // There is no room history
         if (chosenPlayer.getRoomHistory().size() == 0)
         {
             commandsToIgnore.add("back");
         }
+
+        // Empty inventory
+        if (chosenPlayer.getInventoryWeight() == 0)
+        {
+            commandsToIgnore.add("drop");
+        }  
 
         // Output all applicable commands
         int i = 0;
@@ -113,6 +125,8 @@ public class CommandWords
             if (!commandsToIgnore.contains(command))
             {
                 System.out.print(command);
+
+                // Printing separator between each command
                 if (i < numCommands - 1)
                 {
                     System.out.print(" | ");

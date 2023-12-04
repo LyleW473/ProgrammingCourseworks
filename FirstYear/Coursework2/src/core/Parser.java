@@ -120,7 +120,7 @@ public class Parser
      */
     public void showAllCommands()
     {
-        commands.showAll();
+        commands.showAllCommands();
     }
 
     /**
@@ -128,7 +128,7 @@ public class Parser
      */
     public void showApplicableCommands(Player chosenPlayer)
     {
-        commands.showApplicable(chosenPlayer);
+        commands.showApplicableCommands(chosenPlayer);
     }
 
     /**
