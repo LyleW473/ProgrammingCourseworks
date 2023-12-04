@@ -64,7 +64,7 @@ public class Game
         parser = new Parser();
 
         // Initialise details for all artifacts
-        Artifact.createArtifactsDetails(textPrinter);
+        Artifact.createArtifactsDetails();
 
         // Create game world
         createGameWorld();
@@ -340,7 +340,7 @@ public class Game
         System.out.println("--------------------------------------------");
         printHelp(true);
     }
-    
+
     /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.

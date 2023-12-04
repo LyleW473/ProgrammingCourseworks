@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.ArrayList;
 
-import core.TextPrinter;
-
 public class Artifact extends Object // Inherit from the Object class
 {
     private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // Maps each artifact name to an Artifact object
@@ -27,26 +25,32 @@ public class Artifact extends Object // Inherit from the Object class
     }
 
     /**
-     * Initialises a static HashMap<String, Artifact>, mapping each artifact name to an Artifact object
+     * Initialises a static HashMap<String, Artifact>, mapping each artifact name to an Artifact object.
      * - The Artifact object will have the "details" e.g., the description and weight associated with each artifact name.
      * - The Artifact object can then be retrieved using the artifact name through Artifact.artifactDetails.
      */
-    public static void createArtifactsDetails(TextPrinter textPrinter)
+    public static void createArtifactsDetails()
     {
-        // Get lines consisting of "ArtifactName|ArtifactWeight" e.g., "Golden Trophy|3.0"
-        ArrayList<String> lines = textPrinter.returnContentsList("dependencies/texts/artifact_details.txt");
-        for (String line: lines)
-        {  
-            // Extract entities from each line into separate variables (name, description and weight)
-            String[] detailsPerLine = line.split("@"); // Split using the "@" delimiter
-            String name = detailsPerLine[0];
-            String description = detailsPerLine[1];
-            Double weight = Double.parseDouble(detailsPerLine[2]);
-            Artifact createdArtifact = new Artifact(name, description, weight);
-            
-            // Create mapping
-            Artifact.artifactsDetails.put(name, createdArtifact);
-        }
+        // Create artifacts (Artifact objects), giving each artifact a name, description and a weight.
+        String artifactName1 = "Golden Trophy";
+        String goldenTrophyDescription = "A golden trophy with a shiny finish.";
+        double goldenTrophyWeight = 3.0;
+        Artifact goldenTrophy = new Artifact(artifactName1, goldenTrophyDescription, goldenTrophyWeight);
+
+        String artifactName2 = "Expensive Painting";
+        String expensivePaintingDescription = "A painting worth a large fortune.";
+        double expensivePaintingWeight = 2.0;
+        Artifact expensivePainting = new Artifact(artifactName2, expensivePaintingDescription, expensivePaintingWeight);
+
+        String artifactName3 = "Treasure Chest";
+        String treasureChestDescription = "A treasure chest containing precious gems!";
+        double treasureChestWeight = 5.0;
+        Artifact treasureChest = new Artifact(artifactName3, treasureChestDescription, treasureChestWeight);
+
+        // Create mappings for each artifact
+        Artifact.artifactsDetails.put(artifactName1, goldenTrophy);
+        Artifact.artifactsDetails.put(artifactName2, expensivePainting);
+        Artifact.artifactsDetails.put(artifactName3, treasureChest);
     }
 
     /**
