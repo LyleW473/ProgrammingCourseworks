@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class CommandWords
 {
     // A HashSet that holds all of the valid command words that can be used.
-    private static final HashSet<String> validCommands = new HashSet<String>() 
+    private final HashSet<String> validCommands = new HashSet<String>() 
                                                                             {{
                                                                                 add("go");
                                                                                 add("quit");
@@ -32,7 +32,7 @@ public class CommandWords
                                                                                 add("drop");
                                                                             }};
     // A HashSet containing the command words that cannot be repeated via the "repeat" command.                                        
-    private static final HashSet<String> cannotRepeatCommands = new HashSet<String>() 
+    private final HashSet<String> cannotRepeatCommands = new HashSet<String>() 
                                                                                     {{
                                                                                         add("go");
                                                                                         add("collect");
@@ -84,8 +84,9 @@ public class CommandWords
     }
 
     /**
-     * Print all valid commands that the player can use in the current game state to the terminal.
+     * Prints all valid commands that the player can use in the current game state to the terminal.
      * - For example, "collect artifact" will not show up as an applicable command in a room that does not contain an artifact.
+     * @param chosenPlayer The player object, used to access its attributes to identify which commands are applicable in the current game state.
      */
     public void showApplicableCommands(Player chosenPlayer)
     {   

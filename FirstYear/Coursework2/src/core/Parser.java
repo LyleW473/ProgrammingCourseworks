@@ -1,8 +1,3 @@
-package core;
-
-import dependencies.entities.Player;
-import java.util.Scanner;
-
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -19,13 +14,20 @@ import java.util.Scanner;
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
+
+package core;
+
+import dependencies.entities.Player;
+import java.util.Scanner;
+
 public class Parser 
 {
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
     /**
-     * Create a parser to read from the terminal window.
+     * Constructor for Parser class.
+     * Creates a parser to read from the terminal window.
      */
     public Parser() 
     {
@@ -34,7 +36,7 @@ public class Parser
     }
 
     /**
-     * @return The next command from the user.
+     * @return The command the player inputted into the terminal as a Command object.
      */
     public Command getCommand() 
     {
@@ -56,23 +58,23 @@ public class Parser
                 if (tokenizer.hasNext())            
                     word3 = tokenizer.next();       // get third word
 
-                // note: we just ignore the rest of the input line.
+                    // note: we just ignore the rest of the input line.
             }
         }
 
-        // Clean the word (i.e., remove trailing/leading spaces and convert to lowercase)
+        // Clean the words
         if (word1 != null)
         {
-            word1 = cleanWord(word1);
+            word1 = getCleanWord(word1);
         }
         if (word2 != null)
         {
-            word2 = cleanWord(word2);
+            word2 = getCleanWord(word2);
         }
 
         if (word3 != null)
         {
-            word3 = cleanWord(word3);
+            word3 = getCleanWord(word3);
         }
 
         // Command validation
@@ -116,7 +118,26 @@ public class Parser
     }
 
     /**
-     * Print out a list of valid command words.
+     * Applies transformations to a passed-in word.
+     * - Used to allow commands like "GO maIN HallWAY", which means the same thing as "go main hallway".
+     * @param wordToClean The word to apply the transformations to.
+     * @return The passed in word, removing any trailing or leading spaces and converting it to lower case.
+     */
+    public String getCleanWord(String wordToClean)
+    {  
+        return wordToClean.trim().toLowerCase();
+    }
+
+    /**
+     * @return The CommandWords attribute (Used to access the CommandWords.isRepeatable() method through a Parser object)
+     */
+    public CommandWords getCommandWords()
+    {
+        return commands;
+    }
+    
+    /**
+     * Prints all valid commands that the player can use to the terminal.
      */
     public void showAllCommands()
     {
@@ -124,27 +145,12 @@ public class Parser
     }
 
     /**
-     * Print out a list of valid command words that can be applied right now.
+     * Prints all valid commands that the player can use in the current game state to the terminal.
+     * - For example, "collect artifact" will not show up as an applicable command in a room that does not contain an artifact.
+     * @param chosenPlayer The player object, used to access its attributes to identify which commands are applicable in the current game state.
      */
     public void showApplicableCommands(Player chosenPlayer)
     {
         commands.showApplicableCommands(chosenPlayer);
-    }
-
-    /**
-     * Applies transformation to a passed in word
-     * - Used to allow commands like "GO NorTh", which means the same thing as "go north"
-     */
-    public String cleanWord(String word)
-    {  
-        return word.trim().toLowerCase();
-    }
-
-    /**
-     * @return the CommandWords attribute (used to access the CommandWords.isRepeatable() method)
-     */
-    public CommandWords getCommandWords()
-    {
-        return commands;
     }
 }
