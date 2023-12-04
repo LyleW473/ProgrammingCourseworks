@@ -369,11 +369,6 @@ public class Game
         {
             successfulCommand = wantToQuit = quit(command);
         }
-        else if (commandWord.equals("print out"))
-        {  
-            System.out.println(command.getSecondWord());
-            System.out.println("Three word command working!" + " " + command.getSecondWord());
-        }
         else if (commandWord.equals("interact with"))
         {   
             successfulCommand = interactWithNote(command);

@@ -23,7 +23,6 @@ public class CommandWords
                                                                                 add("go");
                                                                                 add("quit");
                                                                                 add("help");
-                                                                                add("print out");
                                                                                 add("interact with"); // Able to interact with: "note"
                                                                                 add("back");
                                                                                 add("repeat");
