@@ -331,10 +331,16 @@ public class Game
      */
     private void printWelcome()
     {
-        this.textPrinter.outputContentsFile("dependencies/texts/welcome_message.txt");
+        System.out.println("It is a quiet night outside the Smith residence.");
+        System.out.println("Inside the residence are some precious artifacts which will set you for life!");
+        System.out.println("However, I've heard that the Smith's have hired maids to patrol the house.\n");
+        System.out.println("Objective:");
+        System.out.println("- Find artifacts inside of the house and return them to me, I will be waiting outside for you.");
+        System.out.println("- Avoid getting caught by the maids.\n");
+        System.out.println("--------------------------------------------");
         printHelp(true);
     }
-
+    
     /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
