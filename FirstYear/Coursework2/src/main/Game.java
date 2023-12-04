@@ -35,8 +35,8 @@ public class Game
     private TextPrinter textPrinter;
 
     /** 
-     * List containing the names/ identities of the options available to the player (So that commands like "go 0" can be used)
-     * Uses: Names of rooms, Names of items
+     * List containing the names/identities of the options available to the player (So that commands like "go 0" can be used)
+     * Uses: Names of rooms, accessing items in inventory
     */
     private ArrayList<String> currentOptions = new ArrayList<String>();
 
@@ -52,8 +52,10 @@ public class Game
         Game myGame = new Game();
         myGame.play();
     }
+    
     /**
-     * Create the game and initialise its internal map.
+     * Constructor for Game class.
+     * Creates and initialises the game world.
      */
     public Game() 
     {   
@@ -161,7 +163,7 @@ public class Game
         // Set the attic as the magic transporter room
         Room.setMagicTransporterRoom(attic);
     
-        // Set "outside" as the drop-off point for all the artifacts
+        // Set "outside" as the drop-off point for all the artifacts (for the player to win the game)
         Room.setGoalRoom(outside);
 
         // Spawn entities into the world
@@ -174,9 +176,9 @@ public class Game
     }
 
     /**
-     *  Checks if the player has lost the game
-     * @return true if the player lost
-     * @return false if the player has not lost
+     * Checks if the player has lost the game.
+     * @return true if the player lost.
+     * @return false if the player has not lost.
      */
     public boolean checkGameLoss()
     {
@@ -188,8 +190,6 @@ public class Game
             {
                 System.out.println("--------------------------------------------");
                 System.out.println("<<<< One of the maids have caught you red-handed! You have lost the game! >>>> ");
-                // System.out.println("Player:" + playerRoom.getShortDescription());
-                // System.out.println("Enemy:" + e.returnCurrentRoom().getShortDescription());
                 return true;
             }
         }
@@ -197,13 +197,13 @@ public class Game
     }
     
     /**
-     *  Checks if the player has won the game
-     * @return true if the player won (Meaning the player successfully retrieved all artifacts and dropped them off in the goal room)
-     * @return false if the player has not won
+     * Checks if the player has won the game.
+     * @return true if the player won (Meaning the player successfully retrieved all artifacts and dropped them off in the goal room).
+     * @return false if the player has not won.
      */
     public boolean checkGameWin()
     {
-        boolean wonGame = (player1.getNumCompletedArtifacts() == Artifact.getNumArtifacts()); 
+        boolean wonGame = (player1.getNumCompletedArtifacts() == Artifact.getNumArtifacts());
         if (wonGame)
         {
             System.out.println();
@@ -214,13 +214,13 @@ public class Game
     }
 
     /**
-     *  Main play routine.  Loops until end of play.
+     * Main play routine. Loops until end of play.
      */
     public void play() 
     {            
         printWelcome();
 
-        //  Main game loop, which will process commands until the player "quits" the game
+        // Main game loop, which will process commands until the player "quits" the game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -235,17 +235,16 @@ public class Game
             // Check if the player has lost or won the game
             if (!finished)
             {
-                // finished = (checkGameLoss() || checkGameWin());
-                finished = checkGameWin(); // USED FOR TESTING, DELETE LATER
+                finished = (checkGameLoss() || checkGameWin());
             }
         }
         System.out.println("Thank you for playing! Goodbye!");
     }
 
     /**
-     *  Functionality for teleporting the player to a random room (functionality intended for magic transporter room)
-     * - Does not add the magic transporter room to the player's room history
-     * - Returns a room as long as it is not the magic transporter room or a room that any enemy is about to move to
+     *  Teleports the player to a random room (functionality intended for magic transporter room).
+     * - Does not add the magic transporter room to the player's room history.
+     * - Selects a room as long as it is not the magic transporter room or a room that any enemy is about to move to.
      */
     public void teleportPlayer()
     {   
@@ -254,8 +253,8 @@ public class Game
 
         Random randomGen = new Random();
         int generatedIndex;
-        ArrayList<Room> allRooms = Room.getAllRooms();
-        ArrayList<Enemy> allEnemies = Enemy.getAllEnemies();
+        ArrayList<Room> allRooms = Room.getAllRooms(); // List of all rooms
+        ArrayList<Enemy> allEnemies = Enemy.getAllEnemies(); // List of all enemies
         int numRooms = allRooms.size();
         boolean foundRoom = false;
         boolean isValidRoom = false;
@@ -267,7 +266,7 @@ public class Game
             generatedIndex = randomGen.nextInt(numRooms);
             selectedRoom = allRooms.get(generatedIndex);
 
-            // For all enemies, check if the next room that the enemy will go to is the selected room that the player will be teleported to
+            // For all enemies, check if the selected room is a magic transporter room or if it is a room that it is about to move to
             isValidRoom = true; // Assume that the room selected is valid until proven false
             for (Enemy e: allEnemies)
             {
@@ -279,7 +278,7 @@ public class Game
                 }
             }
 
-            // If the selected room is not any of the enemies' next rooms to move to, then this room is valid
+            // If the selected room is not any of the enemies' next rooms to move to and also not the magic transporter room, then this room is valid
             if (isValidRoom == true)
             {
                 foundRoom = true;
@@ -294,7 +293,7 @@ public class Game
     }
 
     /**
-     * Print out the opening message for the player.
+     * Print out the opening/welcome message for the player.
      */
     private void printWelcome()
     {
@@ -305,16 +304,19 @@ public class Game
     /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
-     * @return true If the command ends the game, false otherwise.
+     * @return CommandResult(successfulCommand, wantToQuit), with each parameter being a boolean describing whether:
+     * - The command executed successfully.
+     * - The player wants to quit the game.
      */
     private CommandResult processCommand(Command command) 
     {   
         // Result variables
-        boolean wantToQuit = false;
-        boolean successfulCommand = false;
+        boolean wantToQuit = false; // The user wants to quit
+        boolean successfulCommand = false; // The command executed successfully (i.e., valid command)
 
         // Unknown command
-        if(command.isUnknown()) {
+        if(command.isUnknown()) 
+        {
             System.out.println("Unknown command, please enter a valid command, type 'help' to see all valid commands.");
             return new CommandResult(successfulCommand, wantToQuit);
         }
@@ -371,10 +373,10 @@ public class Game
             // If the command is repeatable, set previousCommand as the current command
             if (parser.getCommandWords().isRepeatable(commandWord))
             {   
-                previousCommand = command; // Set this command as repeatable
+                previousCommand = command; // Sets this command as repeatable
             }
             
-            // If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., to repeat the last successful command that can be repeated), so do nothing
+            // If the command is "repeat", the previousCommand that was executed successfully will not be overwritten (i.e., in order to repeat the last successful command that can be repeated), so do nothing
             else if (isRepeatCommand)
             {}
 
@@ -387,8 +389,7 @@ public class Game
                 previousCommand = null;
             }  
 
-
-            /** The following should only be performed once (should not be executed within a "repeat" command)
+            /** The following should only be performed once instead of twice (i.e., should not be executed within a "repeat" command)
              * - Moving enemies if the command was successful and the command isn't "repeat" (because using "repeat" will move enemies twice)
              */ 
             if (!isRepeatCommand)
@@ -411,18 +412,15 @@ public class Game
      * All user commands will return a boolean, representing whether the command was successful or not.
      * @return true if the command was successful.
      * @return false if the command was unsuccessful.
-     * Returning true will allow the command to be repeated if the "repeat" command is used (given that it is a repeatable command)
+     * If any command returns true, it will allow the command to be repeated if the "repeat" command is used (given that it is a repeatable command).
      */
-
-
 
     /**
      * Prints out:
-     * - All of the commands that the user can use
-     * - All of the commands the user can use at the time of this being called.
-     * - Information about the room and its contents
-     * "isInitialCall" is used so that when "printHelp" is called in "printWelcome", it will add elements to the currentOptions list (when playerRoom.getLongDescription is called)
-     * In any other case where "printHelp" is called, more options shouldn't be added to the currentOptions list 
+     * - All of the commands that the user can use.
+     * - All of the commands the user can use in the current game state.
+     * - Information about the room and its contents (e.g., exits).
+     * @param isInitialCall Boolean used to display different messages to the player (The initial call will be within printWelcome).
      */
     private boolean printHelp(boolean isInitialCall) 
     {   
@@ -453,14 +451,14 @@ public class Game
     }
 
     /** 
-     * Try to enter the room with the corresponding "selectedRoomName". If there is an exit, try to enter the room, otherwise print an error message.
+     * Try to enter the room with the corresponding "selectedRoomName". Otherwise print an error message.
      */
     private boolean goRoom(Command command) 
     {   
         // No location given by the player to go to
         if(!command.hasSecondWord()) 
         {
-            System.out.println("Go where? Missing location to go to.");
+            System.out.println("Go where? Your command is missing a location to go to.");
             System.out.println("Use the 'help' command for additional guidance.");
             return false;
         }
@@ -477,20 +475,21 @@ public class Game
             try {
                 int optionIndex = Integer.parseInt(selectedRoomName);
                 
-                // Check whether the index is in between in the range of options
+                // Check whether the index is in between the range of options
                 if (optionIndex >= 0 && optionIndex < currentOptions.size())
                     {
+                    // Retrieve room exit via the optionIndex
                     String roomName = currentOptions.get(optionIndex);
                     nextRoom = playerRoom.getExit(roomName);
                     }
-                // Case: If the index is out range then skip to bottom of method
+                // Case: If the index is out of range then skip to bottom of method
                 }
             // Case: The second word was not an index or a valid location
             catch (NumberFormatException e)
             {}
         }
 
-        // Changing rooms if possible (Check again in case the identifier was an index)
+        // Try changing rooms if possible
         if (nextRoom != null) 
         {   
             // Check if the player tried entering the magic transporter room
@@ -507,14 +506,14 @@ public class Game
             return true;
         }
 
-        // Cases: Index out of range or Room is not reachable
+        // Cases: Index out of range, room is not reachable or room does not exist.
         System.out.println("Invalid input! A room with the name/identifier '" + selectedRoomName + "' does not exist or is not accessible from this room!");
         System.out.println("Use the 'help' command for additional guidance.");
         return false;
     }
 
     /** 
-     * Try to go back to the previous room that the player was in
+     * Try to go back to the previous room that the player was in.
      */
     public boolean goBack()
     {   
@@ -532,13 +531,14 @@ public class Game
     }
 
     /** 
-     * Try to repeat the previous command executed if possible
+     * Try to repeat the previous command executed if possible.
      */
     public boolean repeatPrevCommand()
     {   
         // If there was a previous command
         if (!(previousCommand == null))
         {   
+            // Try repeating the previous command
             return processCommand(previousCommand).wasSuccessful(); // Return whether the repeat command was successful executed or not
         }
 
@@ -549,7 +549,8 @@ public class Game
     }
 
     /**
-     * Prints the conversation from the assigned NPC in the current room when interacted with, if there is an NPC in this room
+     * Prints the conversation from the assigned NPC in the current room when interacted with, if there is an NPC in this room.
+     * @param command The command created from the user's input into the terminal.
      */
     public boolean interactWithNPC(Command command)
     {
@@ -584,6 +585,7 @@ public class Game
 
     /**
      * Method to collect an artifact if the requirements are satisfied
+     * @param command The command created from the user's input into the terminal.
      */
     public boolean collectArtifact(Command command)
     {  
@@ -604,6 +606,7 @@ public class Game
    
     /**
      * Method to drop an artifact if the requirements are satisfied
+     * @param command The command created from the user's input into the terminal.
      */
     public boolean dropArtifact(Command command)
     {
@@ -612,7 +615,7 @@ public class Game
         // Check if there is a second word
         if (secondWord != null)
         {
-            // Only acceptable input is the item number
+            // Only acceptable input is the item number / index
             try {
                     // Try dropping the artifact with the specified index
                     if (player1.dropArtifact(secondWord) == true)
@@ -620,7 +623,7 @@ public class Game
                         return true;
                     }
                 }
-            // Case: The second word was not an index, then skip to the bottom of the method
+            // Case: The second word was not an index/number, then skip to the bottom of the method
             catch (NumberFormatException e)
             {}
         }
@@ -631,7 +634,8 @@ public class Game
     }
 
     /**
-     * Shows the contents of the player's inventory inside of the terminal
+     * Shows the contents of the player's inventory inside of the terminal.
+     * @param command The command created from the user's input into the terminal.
      */
     public boolean showInventory(Command command)
     {
@@ -657,7 +661,7 @@ public class Game
     }
 
     /**
-     * Check if this room has an NPC, output a comment 
+     * Displays a message indicating that there is an NPC in the room if there is one.
      */
     public void checkForNPC()
     {
@@ -669,7 +673,7 @@ public class Game
     }
     
     /**
-     * Check if this room has an artifact, output a comment 
+     * Displays a message indicating that there is an artifact in the room if there is one.
      */
     public void checkForArtifact()
     {
@@ -677,15 +681,14 @@ public class Game
         Room playerRoom = player1.getCurrentRoom();
         if (playerRoom.hasArtifact())
             {
-                System.out.println("<< There is an artifact in this room! >>");
-                System.out.println(playerRoom.getAssignedArtifact().getName());
+                String artifactName = playerRoom.getAssignedArtifact().getName();
+                System.out.println("<< The '" + artifactName + "' artifact in this room! >>");
             }
     }
-    
+
     /** 
-     * "Quit" was entered. Check the rest of the command to see
-     * whether we really quit the game.
-     * @return true, if this command quits the game, false otherwise.
+     * If the "quit" command was used, quit the game. (Without a second word)
+     * @return true if the command is valid (i.e., "quit" is the only acceptable input, with any lettercase).
      */
     private boolean quit(Command command) 
     {
