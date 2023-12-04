@@ -7,36 +7,11 @@ import java.util.ArrayList;
 
 public class TextPrinter 
 {
-    /**
-     * Prints all of the lines inside of a file into the terminal
-     */
-    public void outputContentsFile(String pathOfFile)
-    {   
-        try 
-        {
-            // Initialise reader and line
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(pathOfFile));
-            String line;
-
-            // While there are still lines in the file to read
-            while ((line = bufferedReader.readLine()) != null)
-            {
-                System.out.println(line);
-            }
-
-            // Close reader
-            bufferedReader.close();
-        } 
-
-        // Catch any exceptions
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-        }
-    }
+    // Note: No custom constructor as no attributes needed.
 
     /**
-     * @return ArrayList<String> containing lines (strings) from a text file
+     * @return ArrayList<String> containing strings which are the contents (lines) of a text file.
+     * @param pathOfFile The path of the text file to read from.
      */
     public ArrayList<String> returnContentsList(String pathOfFile)
     {
@@ -69,4 +44,32 @@ public class TextPrinter
         return lines;
     }
     
+    /**
+     * Prints all of the contents (lines) inside of a text file into the terminal.
+     * @param pathOfFile The path of the text file to read from.
+     */
+    public void outputContentsFile(String pathOfFile)
+    {   
+        try 
+        {
+            // Initialise reader and line
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(pathOfFile));
+            String line;
+
+            // While there are still lines in the file to read
+            while ((line = bufferedReader.readLine()) != null)
+            {
+                System.out.println(line);
+            }
+
+            // Close reader
+            bufferedReader.close();
+        } 
+
+        // Catch any exceptions
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+    }
 }
