@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class Game 
 {
     private Parser parser;
-    private TextPrinter textPrinter;
 
     /** 
      * List containing the names/identities of the options available to the player (So that commands like "go 0" can be used)
@@ -48,8 +47,7 @@ public class Game
      */
     public Game() 
     {   
-        // Text printer and parser
-        textPrinter = new TextPrinter();
+        // Create parser to read user input
         parser = new Parser();
 
         // Initialise details for all artifacts
