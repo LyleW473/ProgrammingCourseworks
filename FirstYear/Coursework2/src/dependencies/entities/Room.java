@@ -28,7 +28,7 @@ public class Room
     private String description; // Description of this room.
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
     private Note assignedNote; // Pointer to Note assigned to this room.
-    private Artifact assignedArtifact; // Pointer to Artifact assigned to this room.
+    private ArrayList<Artifact> artifactsInRoom = new ArrayList<Artifact>(); // A list of artifacts that are in this room.
 
     /**
      * Constructor for Room class. 
@@ -190,7 +190,7 @@ public class Room
      */
     public boolean hasArtifact()
     {
-        return (assignedArtifact != null);
+        return (artifactsInRoom.size() > 0);
     }
 
     /**
@@ -203,12 +203,22 @@ public class Room
     }
 
     /**
-     * @return The assigned artifact to this room.
-     * (Should only be called if the assigned artifact is not null)
+     * @return The number of artifacts in this room.
      */
-    public Artifact getAssignedArtifact()
+    public int getNumArtifactsInRoom()
     {
-        return assignedArtifact;
+        return artifactsInRoom.size();
+    }
+
+    /**
+     * @return The assigned artifact to this room at the specified artifactIndex.
+     * @param artifactIndex The index of the artifact to retrieve within the list of artifacts in this room.
+
+     */
+    public Artifact getAssignedArtifact(int artifactIndex)
+    {
+        
+        return artifactsInRoom.get(artifactIndex);
     }
 
     /**
@@ -231,11 +241,20 @@ public class Room
     }
 
     /**
-     * Assigns a passed-in artifact to this room.
-     * @param artifactToAssign The artifact to set as the assignedArtifact for this room.
+     * Adds a passed-in artifact to the list of artifacts in this room.
+     * @param artifactToAdd The artifact to add into the list of artifacts in this room.
      */
-    public void assignArtifact(Artifact artifactToAssign) 
+    public void addArtifact(Artifact artifactToAdd) 
     {
-        assignedArtifact = artifactToAssign;
+        artifactsInRoom.add(artifactToAdd);
+    }
+
+    /**
+     * Adds a passed-in artifact to the list of artifacts in this room.
+     * @param artifactToRemove The artifact to remove from the list of artifacts in this room.
+     */
+    public void removeArtifact(Artifact artifactToRemove)
+    {
+        artifactsInRoom.remove(artifactToRemove);
     }
 }

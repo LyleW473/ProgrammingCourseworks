@@ -1,7 +1,6 @@
 package dependencies.entities;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -79,20 +78,20 @@ public class Artifact extends Object // Inherit from the Object class
 
         // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
         Random randomGen = new Random();
-        HashSet<Integer> uniqueIndexes = new HashSet<Integer>(); // Hashset for distinct values
+        ArrayList<Integer> roomIndexes = new ArrayList<Integer>(); // The same room can have multiple artifacts spawning in them
         int generatedIndex;
         int numArtifactSpawnableRooms = artifactSpawnableRooms.size();
-
-        while (uniqueIndexes.size() < Artifact.NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
+        
+        while (roomIndexes.size() < Artifact.NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
         {
             generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
-            uniqueIndexes.add(generatedIndex);
+            roomIndexes.add(generatedIndex);
         }
         
         // Assign artifacts to the randomly selected rooms
         Room roomToAssignArtifact;
         ArrayList<String> assignableArtifacts = Artifact.getAllArtifactNames(); // Ordered list of names of assignable artifacts
-        for (int roomIdx: uniqueIndexes)
+        for (int roomIdx: roomIndexes)
         {
             // Generate random artifact to assign to this room
             int randomArtifactIndex = randomGen.nextInt(assignableArtifacts.size());
@@ -101,7 +100,7 @@ public class Artifact extends Object // Inherit from the Object class
             
             // Assign artifact to the room
             roomToAssignArtifact = artifactSpawnableRooms.get(roomIdx);
-            roomToAssignArtifact.assignArtifact(artifactToAssign);
+            roomToAssignArtifact.addArtifact(artifactToAssign);
 
             // Remove the artifact selected from the list of assignable artifacts
             assignableArtifacts.remove(randomArtifactIndex);

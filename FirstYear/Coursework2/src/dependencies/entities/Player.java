@@ -168,13 +168,13 @@ public class Player
         }
         else
         {   
-            Artifact artifactToCollect = currentRoom.getAssignedArtifact();
+            Artifact artifactToCollect = currentRoom.getAssignedArtifact(0); // Take the first artifact in the room
             double newTotalWeight = inventoryWeight + artifactToCollect.getWeight();
 
             // Check if the collecting the artifact will exceed the weight restriction
             if (newTotalWeight > INVENTORY_WEIGHT_LIMIT)
             {   
-                System.out.println("Cannot pick up this artifact as you exceeding the weight limit of " + INVENTORY_WEIGHT_LIMIT + "!\nCurrent total weight: " + inventoryWeight);
+                System.out.println("Cannot pick up this artifact as you will exceed the weight limit of " + INVENTORY_WEIGHT_LIMIT + "!\nCurrent total weight: " + inventoryWeight);
                 // Exit at the bottom of method 
             }
             else
@@ -183,7 +183,7 @@ public class Player
                 this.addToInventory(newTotalWeight, artifactToCollect);
 
                 // Remove artifact from the room
-                currentRoom.assignArtifact(null);
+                currentRoom.removeArtifact(artifactToCollect);
             }
         }
     }
@@ -205,13 +205,6 @@ public class Player
         }
         else
         {
-            // Cannot drop an artifact in this room if there is an artifact already in this room
-            if (currentRoom.getAssignedArtifact() != null)
-            {
-                System.out.println("Cannot drop another artifact in this room, there is already an artifact in this room!");
-                return false;
-            }
-
             // Check whether the index is in between in the range of the number of items in the inventory.
             int itemIndex = Integer.parseInt(secondWord); // If this fails, then the exception is caught within Game.dropArtifact() method call
             if (itemIndex >= 0 && itemIndex < inventorySize)
@@ -229,7 +222,7 @@ public class Player
                 else 
                 {
                     // Re-assign artifact to this room
-                    currentRoom.assignArtifact(artifactToDrop);
+                    currentRoom.addArtifact(artifactToDrop);
                 }
                 return true;
             }

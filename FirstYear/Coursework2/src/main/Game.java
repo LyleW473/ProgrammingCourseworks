@@ -128,9 +128,21 @@ public class Game
         // Check if there is an artifact in this room
         Room playerRoom = player1.getCurrentRoom();
         if (playerRoom.hasArtifact())
-            {
-                String artifactName = playerRoom.getAssignedArtifact().getName();
-                System.out.println("<< The '" + artifactName + "' artifact in this room! Use the 'collect artifact' command to add it to your inventory! >>");
+            {   
+                int numArtifactsInRoom = playerRoom.getNumArtifactsInRoom();
+                if (numArtifactsInRoom == 1)
+                {
+                    System.out.print("<< There is " + numArtifactsInRoom + " artifact in this room! Use the 'collect artifact' command to add it to your inventory! >>\n");
+                }
+                else
+                {
+                    System.out.print("<< There are " + numArtifactsInRoom + " artifacts in this room! Use the 'collect artifact' command to add them one-by-one to your inventory! >>\n");
+                }
+                for (int idx = 0; idx < numArtifactsInRoom; idx++)
+                {
+                    String artifactName = playerRoom.getAssignedArtifact(idx).getName();
+                    System.out.println("    Artifact " + (idx + 1) + ": The '" + artifactName + "' artifact");
+                }
             }
     }
     
