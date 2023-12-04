@@ -577,7 +577,7 @@ public class Game
         }
 
         // Otherwise:
-        System.out.println("There is no previous command to repeat / execute again or the previous command cannot be repeateed!");
+        System.out.println("There is no previous command to repeat / execute again or the previous command cannot be repeated!");
         System.out.println("Use the 'help' command for additional guidance.");
         return false;
     }

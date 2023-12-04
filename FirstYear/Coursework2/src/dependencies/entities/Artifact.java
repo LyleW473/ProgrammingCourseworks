@@ -81,7 +81,7 @@ public class Artifact extends Object // Inherit from the Object class
         ArrayList<Integer> roomIndexes = new ArrayList<Integer>(); // The same room can have multiple artifacts spawning in them
         int generatedIndex;
         int numArtifactSpawnableRooms = artifactSpawnableRooms.size();
-        
+
         while (roomIndexes.size() < Artifact.NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
         {
             generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
@@ -104,7 +104,6 @@ public class Artifact extends Object // Inherit from the Object class
 
             // Remove the artifact selected from the list of assignable artifacts
             assignableArtifacts.remove(randomArtifactIndex);
-            System.out.println("Artifact name: " + artifactToAssign.getName() + "\nRoom name: " + roomToAssignArtifact.getShortDescription());
         }
     }
 

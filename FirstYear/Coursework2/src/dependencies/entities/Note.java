@@ -93,7 +93,6 @@ public class Note
         Room roomToAssignNote;
         for (int idx: uniqueIndexes)
         {
-            System.out.println(idx);
             roomToAssignNote = noteSpawnableRooms.get(idx); // Get the randomly selected room
             roomToAssignNote.assignNote(new Note()); // Assign note to the room
         }
