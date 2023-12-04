@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 
 public class Note
@@ -24,7 +23,6 @@ public class Note
                                                                         add("John");
                                                                         add("Albert");
                                                                         }};
-    private static final int NUM_NOTES = 3; // The number of notes that should be spawned into the game world.
     private static Random randomGen = new Random(); // Random number generator
     
     private String owner; // The note that this belongs to (the name of the person).
@@ -67,33 +65,6 @@ public class Note
         String randomText = allTexts.get(contentsIndex);
         subjectNote.setContents(randomText); // Set the "contents" attribute of this note to the selected text.
         allTexts.remove(contentsIndex); // Remove this text from the possible texts that other notes can have assigned.
-    }
-
-    /**
-     * Randomly selects "Note.NUM_NOTES" rooms and spawns notes into them.
-     * - Only spawns notes into rooms that can have notes spawning in them (i.e., Room.noteSpawnable == true)
-     */
-    public static void spawnNotes()
-    {
-        ArrayList<Room> noteSpawnableRooms = Room.getNoteSpawnableRooms();
-
-        // For each note: Generate random indexes between 0 (inclusive) and the number of note spawnable rooms (exclusive)
-        HashSet<Integer> uniqueIndexes = new HashSet<Integer>(); // HashSet for unique indexes
-        int randomRoomIndex;
-        int numNoteSpawnableRooms = noteSpawnableRooms.size();
-        while (uniqueIndexes.size() < Note.NUM_NOTES)
-        {
-            randomRoomIndex = Note.randomGen.nextInt(numNoteSpawnableRooms);
-            uniqueIndexes.add(randomRoomIndex);
-        }
-
-        // Assign notes to the randomly selected rooms
-        Room roomToAssignNote;
-        for (int idx: uniqueIndexes)
-        {
-            roomToAssignNote = noteSpawnableRooms.get(idx); // Get the randomly selected room
-            roomToAssignNote.assignNote(new Note()); // Assign note to the room
-        }
     }
 
     /**

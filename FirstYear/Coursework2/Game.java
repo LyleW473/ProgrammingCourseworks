@@ -17,9 +17,11 @@
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Game 
 {
+    
     private Parser parser;
 
     /** 
@@ -29,7 +31,11 @@ public class Game
     private ArrayList<String> currentOptions = new ArrayList<String>();
 
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
-    public Player player1; // Pointer to the Player object
+    private Player player1; // Pointer to the Player object
+
+    private final int NUM_ARTIFACTS = 3; // Number of artifacts to spawn in the world
+    public final int NUM_NOTES = 3; // The number of notes that should be spawned into the game world.
+    private Random randomGen = new Random();
 
     /**
      * Main method, for development
@@ -85,7 +91,7 @@ public class Game
      */
     public boolean checkGameWin()
     {
-        boolean wonGame = (player1.getNumCompletedArtifacts() == Artifact.getNumArtifacts());
+        boolean wonGame = (player1.getNumCompletedArtifacts() == NUM_ARTIFACTS);
         if (wonGame)
         {
             System.out.println();
@@ -255,12 +261,123 @@ public class Game
         Room.setGoalRoom(outside);
 
         // Spawn entities into the world
-        Enemy.spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
-        Artifact.spawnArtifacts();
-        Note.spawnNotes();
+        spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
+        spawnArtifacts();
+        spawnNotes();
         
         // Create the player, spawning them outside
         player1 = new Player(outside);
+    }
+
+    /**
+     * Spawns enemies, passing in a defined path to traverse for each enemy (manually created for each enemy) and a moveInterval.
+     * - Enemies are spawned in the first room defined in their traversal path
+     * Parameters used: The rooms that are used in the traversal paths of any enemy.
+     */
+    public void spawnEnemies(Room gamesRoom, Room artRoom, Room diningRoom, Room livingRoom, Room mainHallway, Room kitchen, Room attic, Room hallway3, Room bedroom2, Room hallway2, Room bedroom1)
+    {
+        // Define traversal paths for each enemy
+        ArrayList<Room> enemy1Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(mainHallway);
+                                                            add(kitchen);
+                                                            add(gamesRoom);
+                                                            add(artRoom);
+                                                            add(diningRoom);
+                                                            add(livingRoom);
+                                                        }};
+        ArrayList<Room> enemy2Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(artRoom);
+                                                            add(diningRoom);
+                                                            add(livingRoom);
+                                                            add(mainHallway);
+                                                            add(kitchen); 
+                                                            add(gamesRoom);
+                                                        }};
+        ArrayList<Room> enemy3Path = new ArrayList<Room>()
+                                                        {{
+                                                            add(attic);
+                                                            add(hallway3);
+                                                            add(bedroom2); 
+                                                            add(hallway3);
+                                                            add(hallway2);
+                                                            add(bedroom1);
+                                                            add(hallway2);
+                                                            add(hallway3);
+                                                            add(bedroom2);
+                                                            add(hallway3);
+                                                        }};
+
+        // Create/instantiate enemies (passing in their traversal path and a moveInterval)
+        new Enemy(enemy1Path, 1);
+        new Enemy(enemy2Path, 1);
+        new Enemy(enemy3Path, 2);
+    }
+
+    /**
+     * Randomly selects "Artifact.NUM_ARTIFACTS" rooms to spawn artifacts into.
+     * - Selects random rooms that can have artifacts spawning in them and then randomly assigns artifacts to each room
+     */
+    public void spawnArtifacts()
+    {
+        ArrayList<Room> artifactSpawnableRooms = Room.getArtifactSpawnableRooms();
+
+        // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
+        ArrayList<Integer> roomIndexes = new ArrayList<Integer>(); // The same room can have multiple artifacts spawning in them
+        int generatedIndex;
+        int numArtifactSpawnableRooms = artifactSpawnableRooms.size();
+
+        while (roomIndexes.size() < NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
+        {
+            generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
+            roomIndexes.add(generatedIndex);
+        }
+        
+        // Assign artifacts to the randomly selected rooms
+        Room roomToAssignArtifact;
+        ArrayList<String> assignableArtifacts = Artifact.getAllArtifactNames(); // Ordered list of names of assignable artifacts
+        for (int roomIdx: roomIndexes)
+        {
+            // Generate random artifact to assign to this room
+            int randomArtifactIndex = randomGen.nextInt(assignableArtifacts.size());
+            String artifactName = assignableArtifacts.get(randomArtifactIndex);
+            Artifact artifactToAssign = Artifact.getArtifact(artifactName);
+            
+            // Assign artifact to the room
+            roomToAssignArtifact = artifactSpawnableRooms.get(roomIdx);
+            roomToAssignArtifact.addArtifact(artifactToAssign);
+
+            // Remove the artifact selected from the list of assignable artifacts
+            assignableArtifacts.remove(randomArtifactIndex);
+        }
+    }
+
+    /**
+     * Randomly selects "Note.NUM_NOTES" rooms and spawns notes into them.
+     * - Only spawns notes into rooms that can have notes spawning in them (i.e., Room.noteSpawnable == true)
+     */
+    public void spawnNotes()
+    {
+        ArrayList<Room> noteSpawnableRooms = Room.getNoteSpawnableRooms();
+
+        // For each note: Generate random indexes between 0 (inclusive) and the number of note spawnable rooms (exclusive)
+        HashSet<Integer> uniqueIndexes = new HashSet<Integer>(); // HashSet for unique indexes
+        int randomRoomIndex;
+        int numNoteSpawnableRooms = noteSpawnableRooms.size();
+        while (uniqueIndexes.size() < NUM_NOTES)
+        {
+            randomRoomIndex = randomGen.nextInt(numNoteSpawnableRooms);
+            uniqueIndexes.add(randomRoomIndex);
+        }
+
+        // Assign notes to the randomly selected rooms
+        Room roomToAssignNote;
+        for (int idx: uniqueIndexes)
+        {
+            roomToAssignNote = noteSpawnableRooms.get(idx); // Get the randomly selected room
+            roomToAssignNote.assignNote(new Note()); // Assign note to the room
+        }
     }
 
     /**
@@ -637,7 +754,7 @@ public class Game
             // Only acceptable input is the item number / index
             try {
                     // Try dropping the artifact with the specified index
-                    if (player1.dropArtifact(secondWord) == true)
+                    if (player1.dropArtifact(secondWord, NUM_ARTIFACTS) == true)
                     {
                         return true;
                     }

@@ -1,11 +1,9 @@
 import java.util.HashMap;
-import java.util.Random;
 import java.util.ArrayList;
 
 public class Artifact extends Object // Inherit from the Object class
 {
     private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // Maps each artifact name to an Artifact object
-    private static final int NUM_ARTIFACTS = 3; // Number of artifacts to spawn in the world
 
     private double weight; // Weight assigned to this artifact
 
@@ -68,53 +66,6 @@ public class Artifact extends Object // Inherit from the Object class
         Artifact artifact = Artifact.artifactsDetails.get(nameOfArtifact);
         Artifact.artifactsDetails.remove(nameOfArtifact); // Remove from artifactDetails, meaning that this artifact cannot be spawned again
         return artifact;
-    }
-
-    /**
-     * Randomly selects "Artifact.NUM_ARTIFACTS" rooms to spawn artifacts into.
-     * - Selects random rooms that can have artifacts spawning in them and then randomly assigns artifacts to each room
-     */
-    public static void spawnArtifacts()
-    {
-        ArrayList<Room> artifactSpawnableRooms = Room.getArtifactSpawnableRooms();
-
-        // Generate random indexes between 0 (inclusive) and the number of artifact spawnable rooms (exclusive) there are
-        Random randomGen = new Random();
-        ArrayList<Integer> roomIndexes = new ArrayList<Integer>(); // The same room can have multiple artifacts spawning in them
-        int generatedIndex;
-        int numArtifactSpawnableRooms = artifactSpawnableRooms.size();
-
-        while (roomIndexes.size() < Artifact.NUM_ARTIFACTS) // Continue generating until we have enough indexes for all rooms
-        {
-            generatedIndex = randomGen.nextInt(numArtifactSpawnableRooms);
-            roomIndexes.add(generatedIndex);
-        }
-        
-        // Assign artifacts to the randomly selected rooms
-        Room roomToAssignArtifact;
-        ArrayList<String> assignableArtifacts = Artifact.getAllArtifactNames(); // Ordered list of names of assignable artifacts
-        for (int roomIdx: roomIndexes)
-        {
-            // Generate random artifact to assign to this room
-            int randomArtifactIndex = randomGen.nextInt(assignableArtifacts.size());
-            String artifactName = assignableArtifacts.get(randomArtifactIndex);
-            Artifact artifactToAssign = Artifact.getArtifact(artifactName);
-            
-            // Assign artifact to the room
-            roomToAssignArtifact = artifactSpawnableRooms.get(roomIdx);
-            roomToAssignArtifact.addArtifact(artifactToAssign);
-
-            // Remove the artifact selected from the list of assignable artifacts
-            assignableArtifacts.remove(randomArtifactIndex);
-        }
-    }
-
-    /**
-    * @return A constant representing the number of artifacts that should be spawned inside of the game world
-    */
-    public static int getNumArtifacts()
-    {
-        return Artifact.NUM_ARTIFACTS;
     }
 
     /**

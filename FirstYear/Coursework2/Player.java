@@ -190,9 +190,10 @@ public class Player
     /**
      * Drops an artifact from the player's inventory based on the itemIndex defined by the player in their "drop" command.
      * @param secondWord The second word that the player used within their "drop" command, which should be the index of the artifact that the player wants to drop.
+     * @param totalArtifactsSpawned The total number of artifacts that were spawned into the game world.
      * @return A boolean indicating whether dropping the artifact specified by the player is possible.
      */
-    public boolean dropArtifact(String secondWord)
+    public boolean dropArtifact(String secondWord, int totalArtifactsSpawned)
     {
         int inventorySize = inventory.size();
 
@@ -216,7 +217,7 @@ public class Player
                 {  
                     // Note: Don't re-assign artifact to this room (as it is the goal room)
                     numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
-                    System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + Artifact.getNumArtifacts() + " artifacts! >>\n");
+                    System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + totalArtifactsSpawned + " artifacts! >>\n");
                 }
                 else 
                 {
