@@ -446,6 +446,16 @@ public class Game
         printHelp(true);
     }
 
+    /** 
+     * Prints all of valid commands that the player can use into the terminal.
+     */
+    public void showAllValidCommands()
+    {
+        System.out.println("All user commands:\ngo {location / optionNumber} | back | repeat | help | quit | show inventory | drop {itemNumber} | interact with note | collect artifact\n");
+        System.out.println("For the 'go' command, you can use the the corresponding room / option number in the command, e.g., 'go 1' instead of 'go dining room'");
+        System.out.println("For the 'drop' command, you can have to use the itemNumber (displayed in the inventory) in the command, e.g., 'drop 1' to drop the 2nd artifact in your inventory\n");
+    }
+
     /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
@@ -580,12 +590,7 @@ public class Game
         // Used whenever the help command is called manually by the player
         else
         {
-            parser.showAllCommands();
-            System.out.println("\n");
-            parser.showApplicableCommands(player1);
-            System.out.println("\n");
-            System.out.println("<< For commands: 'go', you can use the option number in the command e.g., 'go 1' instead of 'go dining room' >>");
-            System.out.println();
+            showAllValidCommands();
         }
         return true;
     }

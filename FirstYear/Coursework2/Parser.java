@@ -132,22 +132,4 @@ public class Parser
     {
         return commands;
     }
-    
-    /**
-     * Prints all valid commands that the player can use to the terminal.
-     */
-    public void showAllCommands()
-    {
-        commands.showAllCommands();
-    }
-
-    /**
-     * Prints all valid commands that the player can use in the current game state to the terminal.
-     * - For example, "collect artifact" will not show up as an applicable command in a room that does not contain an artifact.
-     * @param chosenPlayer The player object, used to access its attributes to identify which commands are applicable in the current game state.
-     */
-    public void showApplicableCommands(Player chosenPlayer)
-    {
-        commands.showApplicableCommands(chosenPlayer);
-    }
 }

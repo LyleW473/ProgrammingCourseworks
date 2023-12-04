@@ -10,7 +10,6 @@
  */
 
 import java.util.HashSet;
-import java.util.ArrayList;
 
 public class CommandWords
 {
@@ -59,78 +58,5 @@ public class CommandWords
     public boolean isRepeatable(String commandWord)
     {   
         return !cannotRepeatCommands.contains(commandWord);
-    }
-
-    /**
-     * Prints all valid commands that the player can use to the terminal.
-     */
-    public void showAllCommands() 
-    {      
-        System.out.println("All of your command words are:");
-        int i = 0;
-        int numCommands = validCommands.size(); // Save so this does not need to be calculated at every iteration
-        for(String command: validCommands) {
-            System.out.print(command);
-            if (i < numCommands - 1)
-            {
-                System.out.print(" | ");
-            }
-            i ++;
-        }
-    }
-
-    /**
-     * Prints all valid commands that the player can use in the current game state to the terminal.
-     * - For example, "collect artifact" will not show up as an applicable command in a room that does not contain an artifact.
-     * @param chosenPlayer The player object, used to access its attributes to identify which commands are applicable in the current game state.
-     */
-    public void showApplicableCommands(Player chosenPlayer)
-    {   
-        System.out.println("Applicable commands:");
-        
-        ArrayList<String> commandsToIgnore = new ArrayList<String>();
-
-        // Current room has no note
-        if (!chosenPlayer.getCurrentRoom().hasNote())
-        {
-            commandsToIgnore.add("interact with");
-        }  
-        
-        // Current room has no artifact
-        if (!chosenPlayer.getCurrentRoom().hasArtifact())
-        {
-            commandsToIgnore.add("collect");
-        }  
-
-        // There is no room history
-        if (chosenPlayer.getRoomHistory().size() == 0)
-        {
-            commandsToIgnore.add("back");
-        }
-
-        // Empty inventory
-        if (chosenPlayer.getInventoryWeight() == 0)
-        {
-            commandsToIgnore.add("drop");
-        }  
-
-        // Output all applicable commands
-        int i = 0;
-        int numCommands = validCommands.size() - commandsToIgnore.size();
-        for (String command: validCommands)
-        {
-            if (!commandsToIgnore.contains(command))
-            {
-                System.out.print(command);
-
-                // Printing separator between each command
-                if (i < numCommands - 1)
-                {
-                    System.out.print(" | ");
-                }
-                i ++;
-            }
-
-        }
     }
 }
