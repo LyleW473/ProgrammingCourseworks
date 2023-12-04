@@ -311,7 +311,7 @@ public class Game
         // Create/instantiate enemies (passing in their traversal path and a moveInterval)
         new Enemy(enemy1Path, 1);
         new Enemy(enemy2Path, 1);
-        new Enemy(enemy3Path, 2);
+        new Enemy(enemy3Path, 3); // Moves after every 3 successful commands
     }
 
     /**
