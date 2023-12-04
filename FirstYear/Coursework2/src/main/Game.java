@@ -75,6 +75,98 @@ public class Game
     }
 
     /**
+     * Checks if the player has lost the game.
+     * @return true if the player lost.
+     * @return false if the player has not lost.
+     */
+    public boolean checkGameLoss()
+    {
+        // Check if the player is in the same room as any of the enemies
+        Room playerRoom = player1.getCurrentRoom();
+        for (Enemy e: Enemy.getAllEnemies())
+        {
+            if (playerRoom.equals(e.getCurrentRoom()))
+            {
+                System.out.println("--------------------------------------------");
+                System.out.println("<<<< One of the maids have caught you red-handed! You have lost the game! >>>> ");
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Checks if the player has won the game.
+     * @return true if the player won (Meaning the player successfully retrieved all artifacts and dropped them off in the goal room).
+     * @return false if the player has not won.
+     */
+    public boolean checkGameWin()
+    {
+        boolean wonGame = (player1.getNumCompletedArtifacts() == Artifact.getNumArtifacts());
+        if (wonGame)
+        {
+            System.out.println();
+            System.out.println("--------------------------------------------");
+            System.out.println("<<<< Congratulations you have successfully completed the game! Hope it was fun! >>>>");
+        }
+        return wonGame;
+    }
+
+    /**
+     * Displays a message indicating that there is an NPC in the room if there is one.
+     */
+    public void checkForNPC()
+    {
+        // Check if there is an NPC in this room
+        if (player1.getCurrentRoom().hasNPC())
+            {
+                System.out.println("<< There is an NPC in this room! >>");
+            }
+    }
+    
+    /**
+     * Displays a message indicating that there is an artifact in the room if there is one.
+     */
+    public void checkForArtifact()
+    {
+        // Check if there is an artifact in this room
+        Room playerRoom = player1.getCurrentRoom();
+        if (playerRoom.hasArtifact())
+            {
+                String artifactName = playerRoom.getAssignedArtifact().getName();
+                System.out.println("<< The '" + artifactName + "' artifact in this room! >>");
+            }
+    }
+    
+    /**
+     * Main play routine. Loops until end of play.
+     */
+    public void play() 
+    {            
+        printWelcome();
+
+        // Main game loop, which will process commands until the player "quits" the game
+        boolean finished = false;
+        while (! finished) {
+            Command command = parser.getCommand();
+
+            // Space out command inputs
+            System.out.println();
+            System.out.println("--------------------------------------------");
+
+            // Process player command
+            finished = processCommand(command).wantsToQuit();
+            
+            // Check if the player has lost or won the game
+            if (!finished)
+            {
+                finished = (checkGameLoss() || checkGameWin());
+            }
+        }
+        System.out.println("Thank you for playing! Goodbye!");
+    }
+
+    /**
      * Initialises the game world, creating all the rooms, exits for each room, selection of special rooms and spawning of entities
      */
     private void createGameWorld()
@@ -173,72 +265,6 @@ public class Game
         
         // Create the player, spawning them outside
         player1 = new Player(outside);
-    }
-
-    /**
-     * Checks if the player has lost the game.
-     * @return true if the player lost.
-     * @return false if the player has not lost.
-     */
-    public boolean checkGameLoss()
-    {
-        // Check if the player is in the same room as any of the enemies
-        Room playerRoom = player1.getCurrentRoom();
-        for (Enemy e: Enemy.getAllEnemies())
-        {
-            if (playerRoom.equals(e.getCurrentRoom()))
-            {
-                System.out.println("--------------------------------------------");
-                System.out.println("<<<< One of the maids have caught you red-handed! You have lost the game! >>>> ");
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Checks if the player has won the game.
-     * @return true if the player won (Meaning the player successfully retrieved all artifacts and dropped them off in the goal room).
-     * @return false if the player has not won.
-     */
-    public boolean checkGameWin()
-    {
-        boolean wonGame = (player1.getNumCompletedArtifacts() == Artifact.getNumArtifacts());
-        if (wonGame)
-        {
-            System.out.println();
-            System.out.println("--------------------------------------------");
-            System.out.println("<<<< Congratulations you have successfully completed the game! Hope it was fun! >>>>");
-        }
-        return wonGame;
-    }
-
-    /**
-     * Main play routine. Loops until end of play.
-     */
-    public void play() 
-    {            
-        printWelcome();
-
-        // Main game loop, which will process commands until the player "quits" the game
-        boolean finished = false;
-        while (! finished) {
-            Command command = parser.getCommand();
-
-            // Space out command inputs
-            System.out.println();
-            System.out.println("--------------------------------------------");
-
-            // Process player command
-            finished = processCommand(command).wantsToQuit();
-            
-            // Check if the player has lost or won the game
-            if (!finished)
-            {
-                finished = (checkGameLoss() || checkGameWin());
-            }
-        }
-        System.out.println("Thank you for playing! Goodbye!");
     }
 
     /**
@@ -658,32 +684,6 @@ public class Game
             player1.showInventoryContents();
         }
         return true;
-    }
-
-    /**
-     * Displays a message indicating that there is an NPC in the room if there is one.
-     */
-    public void checkForNPC()
-    {
-        // Check if there is an NPC in this room
-        if (player1.getCurrentRoom().hasNPC())
-            {
-                System.out.println("<< There is an NPC in this room! >>");
-            }
-    }
-    
-    /**
-     * Displays a message indicating that there is an artifact in the room if there is one.
-     */
-    public void checkForArtifact()
-    {
-        // Check if there is an artifact in this room
-        Room playerRoom = player1.getCurrentRoom();
-        if (playerRoom.hasArtifact())
-            {
-                String artifactName = playerRoom.getAssignedArtifact().getName();
-                System.out.println("<< The '" + artifactName + "' artifact in this room! >>");
-            }
     }
 
     /** 
