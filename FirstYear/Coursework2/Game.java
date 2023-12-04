@@ -35,16 +35,6 @@ public class Game
     private ArrayList<String> currentOptions = new ArrayList<String>(); // List containing the names/identities of the options available to the player,
     private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command),
     private Player player1; // Pointer to the Player object.
-
-    /**
-     * Main method, for development
-     */
-    public static void main(String[] args)
-    {   
-        // Start game
-        Game myGame = new Game();
-        myGame.play();
-    }
     
     /**
      * Constructor for Game class.
