@@ -7,7 +7,7 @@ import core.TextPrinter;
 
 import java.util.ArrayList;
 import dependencies.entities.Room;
-import dependencies.entities.NPC;
+import dependencies.entities.Note;
 import dependencies.entities.Player;
 import dependencies.entities.Artifact;
 import dependencies.entities.Enemy;
@@ -63,10 +63,6 @@ public class Game
         textPrinter = new TextPrinter();
         parser = new Parser();
 
-        // Initialise static collections for NPC class
-        NPC.createConversationsList(textPrinter);
-        NPC.createNamesList(textPrinter);
-
         // Initialise details for all artifacts
         Artifact.createArtifactsDetails(textPrinter);
 
@@ -113,14 +109,14 @@ public class Game
     }
 
     /**
-     * Displays a message indicating that there is an NPC in the room if there is one.
+     * Displays a message indicating that there is a note in the room if there is one.
      */
-    public void checkForNPC()
+    public void checkForNote()
     {
-        // Check if there is an NPC in this room
-        if (player1.getCurrentRoom().hasNPC())
+        // Check if there is an note in this room
+        if (player1.getCurrentRoom().hasNote())
             {
-                System.out.println("<< There is an NPC in this room! >>");
+                System.out.println("<< There is a note in this room! Use the 'interact with note' command to interact with the note! >>");
             }
     }
     
@@ -134,7 +130,7 @@ public class Game
         if (playerRoom.hasArtifact())
             {
                 String artifactName = playerRoom.getAssignedArtifact().getName();
-                System.out.println("<< The '" + artifactName + "' artifact in this room! >>");
+                System.out.println("<< The '" + artifactName + "' artifact in this room! Use the 'collect artifact' command to add it to your inventory! >>");
             }
     }
     
@@ -181,7 +177,7 @@ public class Game
         hallway3, bedroom2,
         attic;
 
-        // Parameters: description, can spawn NPCs in this room?, can spawn artifacts in this room?
+        // Parameters: description, can spawn notes in this room?, can spawn artifacts in this room?
         outside = new Room("outside the Smith's residence", true, false);
 
         gamesRoom = new Room("in the games room", false, true);
@@ -261,7 +257,7 @@ public class Game
         // Spawn entities into the world
         Enemy.spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
         Artifact.spawnArtifacts();
-        NPC.spawnNPCs();
+        Note.spawnNotes();
         
         // Create the player, spawning them outside
         player1 = new Player(outside);
@@ -368,7 +364,7 @@ public class Game
         }
         else if (commandWord.equals("interact with"))
         {   
-            successfulCommand = interactWithNPC(command);
+            successfulCommand = interactWithNote(command);
         }
         else if (commandWord.equals("collect" ))
         {      
@@ -421,7 +417,7 @@ public class Game
             if (!isRepeatCommand)
             {
                 Enemy.moveAllEnemies(); 
-                checkForNPC();
+                checkForNote();
                 checkForArtifact();
                 Enemy.displayEnemyLocations();
                 currentOptions.clear(); // Empty the list of options available to the player
@@ -456,7 +452,7 @@ public class Game
             System.out.println("Use the 'help' command for additional information and guidance!");
 
             // Show initial information and options to player
-            checkForNPC();
+            checkForNote();
             checkForArtifact();
             Enemy.displayEnemyLocations();
             currentOptions.clear(); // Empty the list of options available to the player
@@ -575,34 +571,30 @@ public class Game
     }
 
     /**
-     * Prints the conversation from the assigned NPC in the current room when interacted with, if there is an NPC in this room.
+     * Prints the conversation from the assigned note in the current room when interacted with, if there is a note in this room.
      * @param command The command created from the user's input into the terminal.
      */
-    public boolean interactWithNPC(Command command)
+    public boolean interactWithNote(Command command)
     {
         String secondWord = command.getSecondWord();
 
         // Check if the player used an invalid command
-        if (secondWord == null || !secondWord.equalsIgnoreCase("NPC"))
+        if (secondWord == null || !secondWord.equalsIgnoreCase("note"))
             {
-                System.out.println("Cannot interact with '" + secondWord + "', use the 'interact with npc' command to interact with NPCs.");
+                System.out.println("Cannot interact with '" + secondWord + "', use the 'interact with note' command to interact with notes.");
             }
         else{      
-            // Check if this room has an NPC
+            // Check if this room has a note
             Room playerRoom = player1.getCurrentRoom();
-            if (!playerRoom.hasNPC()) 
+            if (!playerRoom.hasNote()) 
                 {
-                    System.out.println("There is no NPC to interact with in this room!");
+                    System.out.println("There is no note to interact with in this room!");
                     return true; // Allow for repeated commands
                 }
             else
                 {
-                NPC currentNPC = playerRoom.getAssignedNPC();
-                System.out.println(currentNPC.getName() + ": " + currentNPC.getRandomConversation());
-                // for (String c: currentNPC.getPossibleConversations())
-                // {
-                //     System.out.println(c);
-                // }
+                Note currentNote = playerRoom.getAssignedNote();
+                currentNote.printDescription();
                 return true;
                 }
             }

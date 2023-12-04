@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class Room 
 {
-    private static ArrayList<Room> NPCSpawnableRooms = new ArrayList<Room>(); // Stores all the rooms that NPCs can spawn in.
+    private static ArrayList<Room> noteSpawnableRooms = new ArrayList<Room>(); // Stores all the rooms that notes can spawn in.
     private static ArrayList<Room> artifactSpawnableRooms = new ArrayList<Room>(); // Stores all the rooms that artifacts can spawn in.
     private static ArrayList<Room> allRooms = new ArrayList<Room>(); // List of all room objects instantiated.
     private static Room magicTransporterRoom; // Pointer to Room set as the magic transporter room.
@@ -27,24 +27,24 @@ public class Room
 
     private String description; // Description of this room.
     private HashMap<String, Room> exits = new HashMap<String, Room>(); // Stores the exits of this room.
-    private NPC assignedNPC; // Pointer to NPC assigned to this room.
+    private Note assignedNote; // Pointer to Note assigned to this room.
     private Artifact assignedArtifact; // Pointer to Artifact assigned to this room.
 
     /**
      * Constructor for Room class. 
-     * Creates and initialises a Room object with a description and whether or not NPCs or artifacts can spawn in them.
-     * @param description The room's description (e.g., "in the kitchen" or "outside the Smith's residence")
-     * @param npcSpawnable Whether or not NPCs can spawn in this room
-     * @param artifactSpawnable Whether or not artifacts can spawn  in this room
+     * Creates and initialises a Room object with a description and whether or not notes or artifacts can spawn in them.
+     * @param description The room's description (e.g., "in the kitchen" or "outside the Smith's residence").
+     * @param noteSpawnable Whether or not notes can spawn in this room.
+     * @param artifactSpawnable Whether or not artifacts can spawn in this room.
      */
-    public Room(String description, boolean npcSpawnable, boolean artifactSpawnable)
+    public Room(String description, boolean noteSpawnable, boolean artifactSpawnable)
     {
         this.description = description;
 
-        // Add this room to the NPCSpawnable rooms list, if applicable
-        if (npcSpawnable == true)
+        // Add this room to the noteSpawnable rooms list, if applicable
+        if (noteSpawnable == true)
         {
-            Room.NPCSpawnableRooms.add(this);
+            Room.noteSpawnableRooms.add(this);
         }
 
         // Add this room to the artifactSpawnable rooms list, if applicable
@@ -84,11 +84,11 @@ public class Room
     }
 
     /**
-     * @return An ArrayList<Room> containing the rooms that NPCs can spawn in.
+     * @return An ArrayList<Room> containing the rooms that notes can spawn in.
      */
-    public static ArrayList<Room> getNPCSpawnableRooms()
+    public static ArrayList<Room> getNoteSpawnableRooms()
     {
-        return Room.NPCSpawnableRooms;
+        return Room.noteSpawnableRooms;
     }
 
     /**
@@ -178,11 +178,11 @@ public class Room
     }
 
     /**
-     * @return A boolean indicating whether an NPC is inside this room or not.
+     * @return A boolean indicating whether a note is inside this room or not.
      */
-    public boolean hasNPC()
+    public boolean hasNote()
     {
-        return (assignedNPC != null);
+        return (assignedNote != null);
     }
 
     /**
@@ -194,12 +194,12 @@ public class Room
     }
 
     /**
-     * @return The assigned NPC to this room.
-     * (Should only be called if the assigned NPC is not null)
+     * @return The assigned note to this room.
+     * (Should only be called if the assigned note is not null)
      */
-    public NPC getAssignedNPC()
+    public Note getAssignedNote()
     {   
-        return assignedNPC;
+        return assignedNote;
     }
 
     /**
@@ -222,12 +222,12 @@ public class Room
     }
 
     /**
-     * Assigns a passed-in NPC to this room.
-     * @param NPCToAssign The NPC to set as the assignedNPC for this room.
+     * Assigns a passed-in note to this room.
+     * @param noteToAssign The note to set as the assignedNote for this room.
      */
-    public void assignNPC(NPC NPCToAssign) 
+    public void assignNote(Note noteToAssign) 
     {
-        assignedNPC = NPCToAssign;
+        assignedNote = noteToAssign;
     }
 
     /**

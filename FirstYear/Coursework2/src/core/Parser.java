@@ -82,14 +82,14 @@ public class Parser
         // Three word commands
         if (word1 != null && word2 != null && word3 != null)
         {      
-            // go {location}
+            // "go {location}""
             if (word1.equals("go"))
             {
                 // Combine last 2 words into word2 and set word3 as null
                 word2 = word2 + " " + word3;
                 word3 = null;
             }
-             // interact with NPC
+             // "interact with note"
             else
             {
                 // Combine first 2 words into word1 and set word2 as the last word 

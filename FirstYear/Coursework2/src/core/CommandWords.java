@@ -24,7 +24,7 @@ public class CommandWords
                                                                                 add("quit");
                                                                                 add("help");
                                                                                 add("print out");
-                                                                                add("interact with"); // Able to interact with: "npc"
+                                                                                add("interact with"); // Able to interact with: "note"
                                                                                 add("back");
                                                                                 add("repeat");
                                                                                 add("collect");
@@ -94,8 +94,8 @@ public class CommandWords
         
         ArrayList<String> commandsToIgnore = new ArrayList<String>();
 
-        // Current room has no NPC
-        if (!chosenPlayer.getCurrentRoom().hasNPC())
+        // Current room has no note
+        if (!chosenPlayer.getCurrentRoom().hasNote())
         {
             commandsToIgnore.add("interact with");
         }  
