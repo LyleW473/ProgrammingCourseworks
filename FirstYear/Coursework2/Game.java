@@ -1,17 +1,3 @@
-import java.util.Random;
-
-import core.Command;
-import core.CommandResult;
-import core.Parser;
-import core.TextPrinter;
-
-import java.util.ArrayList;
-import dependencies.entities.Room;
-import dependencies.entities.Note;
-import dependencies.entities.Player;
-import dependencies.entities.Artifact;
-import dependencies.entities.Enemy;
-
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -28,6 +14,9 @@ import dependencies.entities.Enemy;
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
+
+import java.util.Random;
+import java.util.ArrayList;
 
 public class Game 
 {

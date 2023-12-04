@@ -1,5 +1,3 @@
-package core;
-
 public class CommandResult
 {
     public boolean successBool; // A boolean indicating whether this command was executed successfully or not.

@@ -1,5 +1,3 @@
-package dependencies.entities;
-
 public class Object
 {
     private String name; // Name of this object

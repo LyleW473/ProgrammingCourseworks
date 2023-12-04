@@ -1,5 +1,3 @@
-package dependencies.entities;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

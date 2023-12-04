@@ -15,9 +15,6 @@
  * @version 2016.02.29
  */
 
-package core;
-
-import dependencies.entities.Player;
 import java.util.Scanner;
 
 public class Parser 
