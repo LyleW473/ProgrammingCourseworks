@@ -21,21 +21,14 @@ import java.util.HashSet;
 
 public class Game 
 {
-    
-    private Parser parser;
+    private final int NUM_ARTIFACTS = 3; // Number of artifacts to spawn into the game world.
+    private final int NUM_NOTES = 3; // The number of notes that should be spawned into the game world.
 
-    /** 
-     * List containing the names/identities of the options available to the player (So that commands like "go 0" can be used)
-     * Uses: Names of rooms, accessing items in inventory
-    */
-    private ArrayList<String> currentOptions = new ArrayList<String>();
-
-    private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command)
-    private Player player1; // Pointer to the Player object
-
-    private final int NUM_ARTIFACTS = 3; // Number of artifacts to spawn in the world
-    public final int NUM_NOTES = 3; // The number of notes that should be spawned into the game world.
-    private Random randomGen = new Random();
+    private Parser parser; // Parser for reading and interpreting user input.
+    private Random randomGen = new Random(); // Random number generator for spawning of entities.
+    private ArrayList<String> currentOptions = new ArrayList<String>(); // List containing the names/identities of the options available to the player,
+    private Command previousCommand = null; // Holds the previous command that was successfully executed (erased after a failed command),
+    private Player player1; // Pointer to the Player object.
 
     /**
      * Main method, for development
@@ -55,9 +48,6 @@ public class Game
     {   
         // Create parser to read user input
         parser = new Parser();
-
-        // Initialise details for all artifacts
-        Artifact.createArtifactsDetails();
 
         // Create game world
         createGameWorld();
@@ -262,7 +252,10 @@ public class Game
 
         // Spawn entities into the world
         spawnEnemies(gamesRoom, artRoom, diningRoom, livingRoom, mainHallway, kitchen, attic, hallway3, bedroom2, hallway2, bedroom1);
+
+        Artifact.createArtifactsDetails(); // Initialise details for all artifacts
         spawnArtifacts();
+        
         spawnNotes();
         
         // Create the player, spawning them outside

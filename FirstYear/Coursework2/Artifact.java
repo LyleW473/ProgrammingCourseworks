@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class Artifact extends Object // Inherit from the Object class
 {
     private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // Maps each artifact name to an Artifact object
-
     private double weight; // Weight assigned to this artifact
 
     /**

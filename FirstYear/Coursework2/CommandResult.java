@@ -1,7 +1,7 @@
 public class CommandResult
 {
-    public boolean successBool; // A boolean indicating whether this command was executed successfully or not.
-    public boolean quitBool; // A boolean indicating whether or not the player wanted to quit the game.
+    private boolean successBool; // A boolean indicating whether this command was executed successfully or not.
+    private boolean quitBool; // A boolean indicating whether or not the player wanted to quit the game.
 
     /**
      * Constructor for CommandResult class.
