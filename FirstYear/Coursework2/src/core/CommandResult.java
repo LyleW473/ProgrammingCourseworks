@@ -2,18 +2,22 @@ package core;
 
 public class CommandResult
 {
+    public boolean successBool; // A boolean indicating whether this command was executed successfully or not.
+    public boolean quitBool; // A boolean indicating whether or not the player wanted to quit the game.
 
-    public boolean successBool; // A boolean indicating whether this command was executed successfully or not
-    public boolean quitBool; // A boolean indicating whether or not the player wanted to quit the game
-
+    /**
+     * Constructor for CommandResult class.
+     * @param successBool A boolean indicating whether this command was executed successfully or not.
+     * @param quitBool A boolean indicating whether or not the player wanted to quit the game.
+     */    
     public CommandResult(boolean successBool, boolean quitBool)
     {
         this.successBool = successBool;
         this.quitBool = quitBool;
     }
-
+    
     /**
-     * @return Whether the command was executed successfully or not
+     * @return A boolean indicating whether or not the command was executed successfully.
      */
     public boolean wasSuccessful()
     {
@@ -21,7 +25,7 @@ public class CommandResult
     }
 
     /**
-     * @return true if the player wanted to quit the game else false
+     * @return A boolean indicating whether or not the player wants to quit the game (after a successful "quit" command).
      */
     public boolean wantsToQuit()
     {
