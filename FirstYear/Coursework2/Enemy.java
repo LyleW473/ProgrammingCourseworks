@@ -1,3 +1,23 @@
+/**
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
+ * 
+ *  This class is tbe class for the enemies in my game (i.e., the maids).
+ * 
+ *  Each enemy has a move interval and counter, and will only move after 
+ *  a successful command from the player.
+ * 
+ *  All enemies are given a defined path to traverse (which is a list of 
+ *  Room objects), which is set when all of the Enemy objects are created. 
+ *  All traversal paths are cycles, so the maidspatrol a certain area "endlessly".
+ * 
+ *  Enemies are spawned within the Game class.
+ * 
+ * @author  Michael Kölling and David J. Barnes
+ * @version 2016.02.29
+ */
+
 import java.util.ArrayList;
 
 public class Enemy 

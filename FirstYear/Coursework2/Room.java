@@ -1,19 +1,31 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /**
- * Class Room - a room in an adventure game.
- *
- * This class is part of the "World of Zuul" application. 
- * "World of Zuul" is a very simple, text based adventure game.  
- *
- * A "Room" represents one location in the scenery of the game.  It is 
- * connected to other rooms via exits.  For each existing exit, the room 
- * stores a reference to the neighboring room.
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
+ * 
+ * This class is for the rooms inside of my game. A "Room" represents one 
+ * location in the scenery of the game.  It is connected to other rooms via 
+ * exits. For each existing exit, the room stores a reference to the neighboring 
+ * room. 
+ * 
+ * Each Room object also has attributes relating to: what entities are inside of it,
+ * a description of the room and the exits from the room.
+ * 
+ * This class holds static attributes which are pointers to special rooms such as the 
+ * magic transporter room and the goal room (the room that the player needs to place all
+ * artifacts into in order to win the game).
+ * 
+ * It also holds static array lists for all created Room objects, that can have NPCs or
+ * artifacts spawning in them.
+ * 
+ * All Room objects are created within the Game class when the game world is created.
  * 
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Room 
 {

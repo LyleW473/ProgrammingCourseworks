@@ -1,15 +1,21 @@
 /**
- *  This class is the main class of the "World of Zuul" application. 
- *  "World of Zuul" is a very simple, text based adventure game.  Users 
- *  can walk around some scenery. That's all. It should really be extended 
- *  to make it more interesting!
+ *  Student K-number: K22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
+ * 
+ *  "The Artifact Heist" is a text based adventure game where users should 
+ *  collect the artifacts scattered inside of the house, whilst avoiding 
+ *  getting caught by the maids hired by the owners of the household.
+ * 
+ *  This class is the main class of the "The Artifact Heist" application. 
  * 
  *  To play this game, create an instance of this class and call the "play"
  *  method.
  * 
- *  This main class creates and initialises all the others: it creates all
- *  rooms, creates the parser and starts the game.  It also evaluates and
- *  executes the commands that the parser returns.
+ *  This main class creates and initialises all other classes. It creates the
+ *  game world: creates the rooms, spawns all entities into rooms, creates the 
+ *  parser and starts the game. It also evaluates and executes the commands that
+ *  the parser returns when the user enters input into the terminal.
  * 
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29

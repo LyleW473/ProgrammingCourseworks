@@ -1,3 +1,25 @@
+/**
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
+ * 
+ *  This class is tbe class for the notes in my game, which is the uncollectible item in my 
+ *  game.
+ * 
+ *  Each note has an associated owner (which is just the name of the "owner" of this note)
+ *  as well as a text (the contents of the note).
+ * 
+ *  Notes cannot be collected but they can interacted with as long as the player is in the
+ *  same room as the note and the "interact with note" command was used.
+
+ *  All notes are created and spawned from within the Game class using the defined static
+ *  methods. (Each created note is randomly assigned an owner from the defined owners and 
+ *  texts within this class).
+ * 
+ * @author  Michael Kölling and David J. Barnes
+ * @version 2016.02.29
+ */
+
 import java.util.ArrayList;
 import java.util.Random;
 

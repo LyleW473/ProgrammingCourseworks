@@ -1,3 +1,23 @@
+/**
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ *  
+ * 
+ *  This class defines a collectible item that players should find and collect,
+ *  in order to win the game. Each artifact has an associated weight, name and 
+ *  description.
+ *  
+ *  This class also contains static methods for the creation and spawning of artifact 
+ *  objects as well as instance methods for retrieving information about each Artifact 
+ *  object.
+ *  
+ *  Artifacts are spawned from the Game class by creating the artifacts' details and 
+ *  then spawning the artifacts in randomly selected rooms.
+ * 
+ * @author  Michael Kölling and David J. Barnes
+ * @version 2016.02.29
+ */
+
 import java.util.HashMap;
 import java.util.ArrayList;
 

@@ -1,3 +1,28 @@
+/**
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
+ * 
+ *  This class is tbe class for the Player, and contains data relevant to the player.
+ *  There are getter methods to modify and retrieve information relevant to the player
+ *  as well as "helper" methods that are executed upon a valid command within the Game 
+ *  class, for example "dropArtifact" for dropping an artifact out of the player's 
+ *  inventory.
+ * 
+ * It contains the following data:
+ *  - The current room the player is in
+ *  - History of rooms the player has visited
+ *  - Inventory (of collected artifacts)
+ *  - Weight of the inventory
+ *  - Number of artifacts successfully dropped off (objective).
+ *  - The weight limit for the player's inventory.
+ * 
+ *  The player is created and spawned from within the Game class.
+ * 
+ * @author  Michael Kölling and David J. Barnes
+ * @version 2016.02.29
+ */
+
 import java.util.ArrayList;
 
 public class Player 

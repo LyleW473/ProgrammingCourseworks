@@ -1,9 +1,11 @@
 /**
- * This class is part of the "World of Zuul" application. 
- * "World of Zuul" is a very simple, text based adventure game.
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
  * 
  * This class holds an enumeration of all command words known to the game.
  * It is used to recognise commands as they are typed in.
+ * It also contains methods to check whether a user command is valid or repeatable.
  *
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
@@ -44,15 +46,17 @@ public class CommandWords
 
     /**
      * Check whether a given String is a valid command word. 
+     * @param commandWord The command word (first word) in the user's command
      * @return true if it is, false if it isn't.
      */
-    public boolean isCommand(String aString)
+    public boolean isCommand(String commandWord)
     {   
-        return validCommands.contains(aString);
+        return validCommands.contains(commandWord);
     }
 
     /**
      * Check whether a command is repeatable or not.
+     * @param commandWord The command word (first word) in the user's command
      * @return true if it is, false if it isn't.
      */
     public boolean isRepeatable(String commandWord)

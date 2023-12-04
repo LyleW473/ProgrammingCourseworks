@@ -1,6 +1,7 @@
 /**
- * This class is part of the "World of Zuul" application. 
- * "World of Zuul" is a very simple, text based adventure game.  
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
  * 
  * This parser reads user input and tries to interpret it as an "Adventure"
  * command. Every time it is called it reads a line from the terminal and

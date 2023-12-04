@@ -1,3 +1,16 @@
+/**
+ *  Student K-number: 22039642
+ *  Student full name: Gee-Lyle Wong
+ * 
+ * 
+ *  This Object class is used to encapsulate common attributes and methods that items within my game may have.
+ *  This class defines "name" and "description" attributes and getter methods for each attribute.
+ *  For example, artifacts all have a name and a description, hence, the Artifact class inherits this class.
+ * 
+ * @author  Michael Kölling and David J. Barnes
+ * @version 2016.02.29
+ */
+
 public class Object
 {
     private String name; // Name of this object
