@@ -116,7 +116,7 @@ public class Game
         // Check if there is an note in this room
         if (player1.getCurrentRoom().hasNote())
             {
-                System.out.println("<< There is a note in this room! Use the 'interact with note' command to interact with the note! >>");
+                System.out.println("<< There is a note in this room! Use the 'interact with note' command to interact with the note! >>\n");
             }
     }
     
@@ -143,6 +143,7 @@ public class Game
                     String artifactName = playerRoom.getAssignedArtifact(idx).getName();
                     System.out.println("    Artifact " + (idx + 1) + ": The '" + artifactName + "' artifact");
                 }
+                System.out.println();
             }
     }
     
@@ -682,7 +683,7 @@ public class Game
         // Empty inventory
         if (player1.getInventoryWeight() == 0)
         {
-            System.out.println("Your inventory is empty. No artifacts have been collected yet.");
+            System.out.println("Your inventory is empty. No artifacts have been collected yet.\n");
         }
         else
         {  

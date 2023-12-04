@@ -127,6 +127,7 @@ public class Player
         // Display current total weight of the player's inventory and the set weight limit
         System.out.println("Current total weight: " + inventoryWeight);
         System.out.println("Weight limit: " + INVENTORY_WEIGHT_LIMIT);
+        System.out.println();
     }
 
     /**
@@ -138,7 +139,7 @@ public class Player
     {
         inventoryWeight = newWeight; // Update inventory weight
         inventory.add(artifactToCollect); // Add artifact to inventory
-        System.out.println("The '" + artifactToCollect.getName() +  "' artifact has been added to your inventory!");
+        System.out.println("The '" + artifactToCollect.getName() +  "' artifact has been added to your inventory!\n");
     }
     
     /**
@@ -151,7 +152,7 @@ public class Player
         Artifact artifactToDrop = inventory.get(itemIndex);
         inventoryWeight -= artifactToDrop.getWeight(); // Update inventory weight
         inventory.remove(itemIndex); // Remove artifact from inventory
-        System.out.println("Successfully dropped '" + artifactToDrop.getName() + "'!");
+        System.out.println("Successfully dropped '" + artifactToDrop.getName() + "'!\n");
         return artifactToDrop;
     }
 
@@ -217,7 +218,7 @@ public class Player
                 {  
                     // Note: Don't re-assign artifact to this room (as it is the goal room)
                     numCompletedArtifacts ++; // Increment number of artifacts dropped off successfully at the goal room
-                    System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + Artifact.getNumArtifacts() + " artifacts! >>");
+                    System.out.println("<< You have successfully dropped off " + numCompletedArtifacts + "/" + Artifact.getNumArtifacts() + " artifacts! >>\n");
                 }
                 else 
                 {

@@ -121,7 +121,7 @@ public class Note
      */
     public void printDescription()
     {
-        System.out.println(owner + "'s: " + contents);
+        System.out.println(owner + "'s note: " + contents + "\n");
     }
 
     /**

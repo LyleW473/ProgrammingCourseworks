@@ -62,6 +62,7 @@ public class Enemy
             Enemy e = Enemy.allEnemies.get(i);
             System.out.println("<< Maid " + (i + 1) + " is " + e.getCurrentRoom().getShortDescription() + "! >>");
         }
+        System.out.println();
     }
 
     /**
