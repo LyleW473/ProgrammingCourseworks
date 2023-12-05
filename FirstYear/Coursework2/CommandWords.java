@@ -21,7 +21,7 @@ public class CommandWords
                                                                                 add("go");
                                                                                 add("quit");
                                                                                 add("help");
-                                                                                add("interact with"); // Able to interact with: "note"
+                                                                                add("interact"); // Able to interact with: "note"
                                                                                 add("back");
                                                                                 add("repeat");
                                                                                 add("collect");

@@ -1,5 +1,5 @@
 /**
- *  Student K-number: K22039642
+ *  Student K-number: 22039642
  *  Student full name: Gee-Lyle Wong
  * 
  * 
@@ -460,7 +460,7 @@ public class Game
         {
             successfulCommand = wantToQuit = quit(command);
         }
-        else if (commandWord.equals("interact with"))
+        else if (commandWord.equals("interact"))
         {   
             successfulCommand = interactWithNote(command);
         }
@@ -672,8 +672,9 @@ public class Game
         String secondWord = command.getSecondWord();
 
         // Check if the player used an invalid command
-        if (secondWord == null || !secondWord.equalsIgnoreCase("note"))
+        if (secondWord == null || !secondWord.equalsIgnoreCase("with note"))
             {
+                secondWord = secondWord.replace("with", "").trim(); // remove "with" inside secondWord
                 System.out.println("Cannot interact with '" + secondWord + "', use the 'interact with note' command to interact with notes.");
             }
         else{      
@@ -681,7 +682,7 @@ public class Game
             Room playerRoom = player1.getCurrentRoom();
             if (!playerRoom.hasNote()) 
                 {
-                    System.out.println("There is no note to interact with in this room!");
+                    System.out.println("There is no note to interact with in this room!\n");
                     return true; // Allow for repeated commands
                 }
             else
