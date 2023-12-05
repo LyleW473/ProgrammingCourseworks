@@ -40,7 +40,6 @@ public class Artifact extends Object // Inherit from the Object class
 
         // Increment the number of artifacts spawned into the game
         Artifact.numArtifactsSpawned ++;
-        System.out.println(Artifact.numArtifactsSpawned);
     }
 
     /**
