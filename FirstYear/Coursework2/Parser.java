@@ -53,9 +53,9 @@ public class Parser
             word1 = tokenizer.next();      // get first word
             if(tokenizer.hasNext()) {
                 word2 = tokenizer.next();      // get second word
-                if (tokenizer.hasNext())            
+                if (tokenizer.hasNext()) {   
                     word3 = tokenizer.next();       // get third word
-
+                    }
                     // note: we just ignore the rest of the input line.
             }
         }
@@ -69,7 +69,6 @@ public class Parser
         {
             word2 = getCleanWord(word2);
         }
-
         if (word3 != null)
         {
             word3 = getCleanWord(word3);
@@ -92,13 +91,6 @@ public class Parser
         }
         else 
         {
-            // Special three-word command case: First two words in the command were correct but had no 'subject', e.g., "interact with".
-            String concatenatedCommand = word1 + " " + word2;
-            if (commands.isCommand(concatenatedCommand)) 
-                {
-                    return new Command(concatenatedCommand, null);
-                }
-            
             // Otherwise, create a "null" command (for unknown command).
             return new Command(null, word2); 
         }

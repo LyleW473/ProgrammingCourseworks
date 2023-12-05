@@ -672,9 +672,15 @@ public class Game
         String secondWord = command.getSecondWord();
 
         // Check if the player used an invalid command
-        if (secondWord == null || !secondWord.equalsIgnoreCase("with note"))
-            {
-                secondWord = secondWord.replace("with", "").trim(); // remove "with" inside secondWord
+        boolean secondWordIsNull = (secondWord == null);
+        if (secondWordIsNull || !secondWord.equalsIgnoreCase("with note"))
+            {   
+                // If the second word is null, set as empty string, otherwise the .replace method will cause an error
+                if (secondWordIsNull)
+                {
+                    secondWord = "";
+                }
+                secondWord = secondWord.replace("with", "").trim(); // remove the "with" inside secondWord e.g., "with blah" -> "blah"
                 System.out.println("Cannot interact with '" + secondWord + "', use the 'interact with note' command to interact with notes.");
             }
         else{      
