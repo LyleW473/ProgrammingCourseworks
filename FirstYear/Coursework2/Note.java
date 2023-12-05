@@ -49,6 +49,7 @@ public class Note
     
     private String owner; // The note that this belongs to (the name of the person).
     private String contents; // The contents of the note.
+    private double weight = 0.0; // Weight of the note (There is none as it is uncollectible)
 
     /**
      * Constructor for Note class. 
