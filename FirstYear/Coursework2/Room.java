@@ -70,19 +70,21 @@ public class Room
     /**
      * @return A boolean indicating whether or not the room passed in is the magic transporter room
      * @param RoomToCheck The room to check against
+     * Note: Using "==" instead of .equals to check if it is the same object
      */
     public static boolean isMagicTransporterRoom(Room roomToCheck)
     {
-        return roomToCheck.equals(Room.magicTransporterRoom);
+        return roomToCheck == Room.magicTransporterRoom;
     }
 
     /**
      * @return A boolean indicating whether or not the room passed in is the goal room (i.e., the room that the player needs to drop all artifacts in, to win).
      * @param roomToCheck The room to check against
+     * Note: Using "==" instead of .equals to check if it is the same object
      */
     public static boolean isGoalRoom(Room roomToCheck)
     {
-        return roomToCheck.equals(Room.goalRoom);
+        return roomToCheck == Room.goalRoom;
     }
 
     /**
