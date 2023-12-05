@@ -22,8 +22,9 @@ import java.util.HashMap;
 
 public class Artifact extends Object // Inherit from the Object class
 {
-    private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // Maps each artifact name to an Artifact object
-    private double weight; // Weight assigned to this artifact
+    private static HashMap<String, Artifact> artifactsDetails = new HashMap<String, Artifact>(); // Maps each artifact name to an Artifact object.
+    private static int numArtifactsSpawned = 0; // Keeps track of the number of artifacts spawned into the world.
+    private double weight; // Weight assigned to this artifact.
 
     /**
      * Constructor for Artifact class. Initialises the Artifact object with a passed-in name, description and weight.
@@ -36,6 +37,10 @@ public class Artifact extends Object // Inherit from the Object class
         // Initialise all attributes
         super(name, description); // Inherits from the Object class
         this.weight = weight;
+
+        // Increment the number of artifacts spawned into the game
+        Artifact.numArtifactsSpawned ++;
+        System.out.println(Artifact.numArtifactsSpawned);
     }
 
     /**
@@ -76,7 +81,7 @@ public class Artifact extends Object // Inherit from the Object class
     }
 
     /**
-    * @return The artifact with the corresponding artifact name, to be assigned to a random room
+    * @return The artifact with the corresponding artifact name, to be assigned to a random room.
     * @param nameOfArtifact The name of the artifact to spawn into the game world (i.e., to be assigned to a random room).
     */
     public static Artifact getArtifact(String nameOfArtifact)
@@ -84,6 +89,14 @@ public class Artifact extends Object // Inherit from the Object class
         Artifact artifact = Artifact.artifactsDetails.get(nameOfArtifact);
         Artifact.artifactsDetails.remove(nameOfArtifact); // Remove from artifactDetails, meaning that this artifact cannot be spawned again
         return artifact;
+    }
+
+    /**
+    * @return The total number of artifacts that have been created in the game / spawned.
+    */
+    public static int getNumArtifactsSpawned()
+    {
+        return Artifact.numArtifactsSpawned;
     }
 
     /**

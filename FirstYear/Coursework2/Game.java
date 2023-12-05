@@ -28,7 +28,6 @@ import java.util.HashMap;
 
 public class Game 
 {
-    private final int NUM_ARTIFACTS = 3; // Number of artifacts to spawn into the game world.
     private final int NUM_NOTES = 3; // The number of notes that should be spawned into the game world.
 
     private Parser parser; // Parser for reading and interpreting user input.
@@ -78,7 +77,7 @@ public class Game
      */
     public boolean checkGameWin()
     {
-        boolean wonGame = (player1.getNumCompletedArtifacts() == NUM_ARTIFACTS);
+        boolean wonGame = (player1.getNumCompletedArtifacts() == Artifact.getNumArtifactsSpawned());
         if (wonGame)
         {
             System.out.println();
@@ -325,7 +324,7 @@ public class Game
     }
 
     /**
-     * Randomly selects "Note.NUM_NOTES" rooms and spawns notes into them.
+     * Randomly selects "NUM_NOTES" rooms and spawns notes into them.
      * - Only spawns notes into rooms that can have notes spawning in them (i.e., Room.noteSpawnable == true)
      */
     public void spawnNotes()
@@ -730,7 +729,7 @@ public class Game
             // Only acceptable input is the item number / index
             try {
                     // Try dropping the artifact with the specified index
-                    if (player1.dropArtifact(secondWord, NUM_ARTIFACTS) == true)
+                    if (player1.dropArtifact(secondWord, Artifact.getNumArtifactsSpawned()) == true)
                     {
                         return true;
                     }
