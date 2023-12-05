@@ -19,7 +19,6 @@
  */
 
 import java.util.HashMap;
-import java.util.ArrayList;
 
 public class Artifact extends Object // Inherit from the Object class
 {
@@ -69,11 +68,11 @@ public class Artifact extends Object // Inherit from the Object class
     }
 
     /**
-    * @return An ArrayList<String> containing the names of all the artifacts that can be created / instantiated
+    * @return A HashMap<String, Artifact> mapping the names of each artifact to the Artifact object created.
     */
-    public static ArrayList<String> getAllArtifactNames()
+    public static HashMap<String, Artifact> getArtifactDetails()
     {
-        return new ArrayList<String>(Artifact.artifactsDetails.keySet());
+        return Artifact.artifactsDetails;
     }
 
     /**

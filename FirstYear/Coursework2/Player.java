@@ -198,7 +198,7 @@ public class Player
             // Check if the collecting the artifact will exceed the weight restriction
             if (newTotalWeight > INVENTORY_WEIGHT_LIMIT)
             {   
-                System.out.println("Cannot pick up this artifact as you will exceed the weight limit of " + INVENTORY_WEIGHT_LIMIT + "!\nCurrent total weight: " + inventoryWeight);
+                System.out.println("Cannot pick up this artifact as you will exceed the weight limit of " + INVENTORY_WEIGHT_LIMIT + "!\nCurrent total weight: " + inventoryWeight + "\n");
                 // Exit at the bottom of method 
             }
             else
