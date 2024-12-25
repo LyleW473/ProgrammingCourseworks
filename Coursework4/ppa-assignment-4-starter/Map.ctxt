@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Map
+comment0.text=\r\n\ Class\ that\ encapsulates\ the\ creation\ of\ the\ map\ interface\ and\ the\ buttons\ used\ to\ interact\ with\ boroughs.\r\n
+comment1.params=panelWidth
+comment1.target=Map(int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Map\r\n\ @param\ panelWidth\ Width\ of\ the\ parent\ panel,\ used\ to\ calculate\ padding.\r\n
+comment2.params=
+comment2.target=java.util.HashMap\ createLocations()
+comment2.text=\r\n\ Creates\ a\ hashmap\ containing\ the\ locations\ of\ where\ each\ borough\ button\ should\ be\ placed.\r\n\ @return\ The\ hashmap\ containing\ the\ borough\ locations.\r\n
+comment3.params=
+comment3.target=void\ createInterface()
+comment3.text=\r\n\ Creates\ the\ buttons\ and\ actual\ design\ for\ the\ map.\r\n
+comment4.params=
+comment4.target=javafx.scene.layout.GridPane\ getPane()
+comment4.text=\ \r\n\ @return\ The\ map\ and\ its\ contents\ (i.e.,\ the\ buttons\ and\ spacing).\r\n
+comment5.params=
+comment5.target=void\ update()
+comment5.text=\ \r\n\ Calls\ the\ update\ function\ of\ all\ buttons\ inside\ of\ the\ map.\r\n
+numComments=6

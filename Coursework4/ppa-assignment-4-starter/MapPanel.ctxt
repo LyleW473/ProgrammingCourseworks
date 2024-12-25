@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=MapPanel
+comment0.text=\r\n\ Panel\ that\ contains\ all\ of\ the\ components\ associated\ with\ the\ map.\r\n
+comment1.params=
+comment1.target=MapPanel()
+comment2.params=
+comment2.target=void\ update()
+comment2.text=\ \r\n\ Calls\ the\ update\ function\ of\ the\ shown\ map.\r\n
+numComments=3

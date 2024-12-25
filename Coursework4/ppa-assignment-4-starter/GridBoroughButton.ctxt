@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=GridBoroughButton
+comment0.text=\r\n\ The\ buttons\ that\ users\ can\ click\ on\ to\ display\ that\ statistics\ for\ the\ designated\ borough\ inside\ of\ the\ chart\ panel.\r\n
+comment1.params=borough
+comment1.target=GridBoroughButton(java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ GridBoroughButton\r\n\ @param\ borough\ The\ name\ of\ the\ borough\ this\ button\ is\ designated\ for.\r\n
+comment2.params=event
+comment2.target=void\ interact(javafx.event.ActionEvent)
+comment2.text=\r\n\ Alternates\ between\ the\ "toggled"\ attribute,\ updating\ the\ number\ of\ buttons\ toggled\ and\ sets\ the\ button\ to\ the\ correct\ colours.\r\n
+comment3.params=
+comment3.target=void\ setColour()
+comment3.text=\r\n\ Sets\ the\ colour\ of\ the\ button\ when\ clicked\ on.\r\n
+comment4.params=
+comment4.target=java.lang.Boolean\ isToggled()
+comment4.text=\r\n\ @return\ Whether\ or\ not\ this\ button\ has\ been\ activated\ /\ toggled\ on.\r\n
+comment5.params=
+comment5.target=java.lang.String\ getBorough()
+comment5.text=\r\n\ @return\ The\ borough\ that\ this\ button\ "belongs"\ to".\r\n
+comment6.params=
+comment6.target=void\ update()
+comment6.text=\r\n\ Calls\ the\ update\ method.\ \r\n
+numComments=7

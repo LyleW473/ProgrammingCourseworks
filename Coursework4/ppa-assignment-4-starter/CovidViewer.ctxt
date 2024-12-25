@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=CovidViewer
+comment0.text=\r\n\ The\ main\ class\ used\ for\ viewing\ the\ COVID\ dataset.\ \r\n\ \r\n\ This\ class\ encapsulates\ the\ code\ for\ creating\ the\ interface\ for\ the\ COVID\ dataset\ viewer.\r\n\ \r\n\ It\ provides\ DatePicker\ objects\ for\ selecting\ a\ date\ range.\ \r\n\ There\ are\ also\ navigation\ buttons\ for\ switching\ between\ different\ panels.\ Each\ panel\ is\ displayed\ in\ the\ center\ of\ the\ screen.\r\n\ The\ following\ panels\ can\ be\ shown\ are\ as\ follows\:\ WelcomePanel,\ MapPanel,\ StatisticsPanel,\ ChartPanel\r\n\ \r\n
+comment1.params=stage
+comment1.target=void\ start(javafx.stage.Stage)
+comment1.text=\r\n\ Initialisation\ function\ for\ creating\ the\ entire\ interface\ for\ the\ COVID\ dataset\ viewer.\r\n
+comment2.params=parent
+comment2.target=void\ makeMenuBar(javafx.scene.layout.Pane)
+comment2.text=\r\n\ Creates\ the\ main\ frame's\ menu\ bar.\r\n\ @param\ parent\ The\ pane\ that\ the\ menu\ bar\ should\ be\ added\ to.\r\n
+comment3.params=fromDatePicker\ toDatePicker
+comment3.target=javafx.scene.layout.HBox\ createDateBox(javafx.scene.control.DatePicker,\ javafx.scene.control.DatePicker)
+comment3.text=\r\n\ Creates\ the\ HBox\ that\ contains\ the\ date\ picker\ objects\ for\ selecting\ a\ date\ range.\r\n
+comment4.params=backButton\ nextButton
+comment4.target=javafx.scene.layout.HBox\ createNavigationBox(javafx.scene.control.Button,\ javafx.scene.control.Button)
+comment4.text=\r\n\ Creates\ the\ HBox\ that\ contains\ the\ navigation\ buttons\ for\ switching\ between\ panels.\r\n
+numComments=5

@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=StatsCalculator
+comment0.text=\r\n\ Class\ containing\ the\ methods\ for\ finding\ and\ calculating\ specific\ statistics\ for\ the\ StatsCounter\ class.\r\n
+comment1.params=startDateDeaths\ endDateDeaths\ deathsMap\ highestDeaths
+comment1.target=double\ findTotalDeaths(java.util.HashMap,\ java.util.HashMap,\ java.util.HashMap,\ double)
+comment1.text=\r\n\ Finds\ the\ total\ deaths\ for\ each\ borough\ based\ on\ the\ total\ deaths\ on\ the\ starting\ and\ end\ dates\ for\ that\ borough.\r\n\ @param\ startDateDeaths\ Hashmap\ that\ maps\ the\ borough\ to\ the\ total\ deaths\ on\ the\ start\ date.\r\n\ @param\ endDateDeaths\ Hashmap\ that\ maps\ the\ borough\ to\ the\ total\ deaths\ on\ the\ end\ date.\r\n\ @param\ deathsMap\ Reference\ to\ the\ hashmap\ that\ maps\ boroughs\ to\ the\ total\ number\ of\ deaths\ for\ that\ borough\ within\ the\ specified\ date\ range.\r\n\ @return\ The\ highest\ number\ of\ total\ deaths\ between\ the\ selected\ date\ range\ across\ all\ boroughs.\r\n
+comment2.params=numRecordedPerBorough\ avgTotalCasesMap
+comment2.target=void\ findAverageTotalCases(java.util.HashMap,\ java.util.HashMap)
+comment2.text=\r\n\ Finds\ the\ average\ total\ cases\ for\ each\ borough\ based\ on\ the\ cumulative\ total\ cases\ between\ that\ period,\ divided\ by\ the\ length\ of\ the\ date\ range.\r\n\ @param\ numRecordedPerBorough\ A\ hashmap\ mapping\ boroughs\ to\ the\ number\ of\ records\ belonging\ to\ it\ between\ the\ date\ range.\r\n\ @param\ avgTotalCasesMap\ Reference\ to\ the\ hashmap\ that\ maps\ boroughs\ to\ the\ average\ total\ cases\ for\ that\ borough\ within\ the\ specified\ date\ range.\r\n
+comment3.params=numRecordedPerBorough\ avgGMRAcrossPeriodMap\ allGMRTypes
+comment3.target=void\ findAverageGMRs(java.util.HashMap,\ java.util.HashMap,\ java.lang.String[])
+comment3.text=\r\n\ Finds\ the\ average\ GMR\ values\ amongst\ all\ boroughs\ for\ all\ GMR\ types\ between\ the\ specified\ date\ range.\r\n\ @param\ numRecordedPerBorough\ A\ hashmap\ mapping\ boroughs\ to\ the\ number\ of\ records\ belonging\ to\ it\ between\ the\ date\ range.\r\n
+numComments=4

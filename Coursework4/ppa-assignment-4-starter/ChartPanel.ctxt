@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=ChartPanel
+comment0.text=\r\n\ Panel\ that\ displays\ statistics\ for\ selected\ boroughs\ in\ a\ specified\ date\ range\ in\ a\ bar\ chart\ format.\ Users\ can\ select\ multiple\ boroughs\ simultaneously\ \r\n\ to\ compare\ between\ them.\r\n\ \r\n\ The\ panel\ provides\ buttons\ to\ navigate\ between\ different\ statistics\ and\ an\ additional\ refresh\ button\ that\ is\ used\ to\ update\ the\ entire\ panel\ based\ on\r\n\ the\ selected\ boroughs.\r\n
+comment1.params=
+comment1.target=ChartPanel()
+comment2.params=event
+comment2.target=void\ refresh(javafx.event.ActionEvent)
+comment2.text=\r\n\ Calls\ the\ update\ function,\ refreshing\ the\ entire\ panel\ with\ the\ selected\ data.\r\n\ -\ This\ has\ been\ defined\ because\ the\ only\ other\ time\ the\ entire\ panel\ is\ updated\ is\ when\ a\ new\ valid\ date\ range\ is\ selected.\r\n
+comment3.params=
+comment3.target=void\ update()
+comment3.text=\ \r\n\ Identifies\ selected/toggled\ boroughs\ and\ updates\ the\ bar\ chart\ accordingly.\r\n
+numComments=4

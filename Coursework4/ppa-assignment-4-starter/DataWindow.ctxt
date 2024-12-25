@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=DataWindow
+comment0.text=\r\n\ Class\ to\ display\ a\ borough's\ data\ when\ the\ button\ associated\ with\ that\ borough\ has\ been\ clicked.\ Each\ borough\ will\ have\ its\ own\ DataWindow,\ which\ is\r\n\ shown/hidden\ when\ the\ button\ is\ clicked.\r\n
+comment1.params=borough
+comment1.target=DataWindow(java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ DataWindow\r\n\ @param\ borough\ The\ name\ of\ the\ borough\ this\ button\ is\ designated\ for.\r\n
+comment2.params=
+comment2.target=void\ toggleWindow()
+comment2.text=\r\n\ Toggles\ the\ window\ to\ show/hide.\ When\ showing\ the\ data,\ the\ data\ table\ will\ be\ updated\ again,\ to\ ensure\ that\ data\ is\ accurate\ and\ up\ to\ date.\r\n
+comment3.params=
+comment3.target=javafx.scene.control.MenuBar\ createMenuBar()
+comment3.text=\r\n\ Creates\ the\ menu\ bar\ that\ the\ users\ can\ use\ to\ exit\ the\ window\ or\ sort\ the\ data\ table\ based\ on\ a\ specific\ column.\r\n
+numComments=4

@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=DateContext
+comment0.text=\n\ A\ shared\ class\ between\ the\ entire\ program\ to\ access\ the\ currently\ selected\ from\ and\ to\ dates.\n
+comment1.params=
+comment1.target=java.time.LocalDate\ getFromDate()
+comment2.params=
+comment2.target=java.time.LocalDate\ getToDate()
+comment3.params=fromDate
+comment3.target=void\ updateFromDate(java.time.LocalDate)
+comment4.params=toDate
+comment4.target=void\ updateToDate(java.time.LocalDate)
+numComments=5

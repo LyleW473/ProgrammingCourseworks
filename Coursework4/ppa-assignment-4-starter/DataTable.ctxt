@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=DataTable
+comment0.text=\n\ Class\ to\ display\ a\ borough's\ data\ when\ the\ button\ associated\ with\ that\ borough\ has\ been\ clicked.\ Each\ borough\ will\ have\ its\ own\ DataWindow,\ which\ is\n\ shown/hidden\ when\ the\ button\ is\ clicked.\n
+comment1.params=borough
+comment1.target=DataTable(java.lang.String)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ DataTable\n\ @param\ borough\ The\ name\ of\ the\ borough\ this\ button\ is\ designated\ for.\n
+comment2.params=
+comment2.target=void\ initialiseTable()
+comment2.text=\n\ Initialises\ the\ table,\ creating\ the\ table\ and\ its\ columns\ for\ each\ data\ feature/variable.\n
+comment3.params=
+comment3.target=void\ retrieveData()
+comment3.text=\n\ Retrieves\ the\ data\ for\ the\ current\ borough\ within\ the\ specified\ date\ range,\ and\ sorts\ it\ by\ date\ initially.\n
+comment4.params=sortComparator
+comment4.target=void\ sortData(java.util.Comparator)
+comment4.text=\n\ Sorts\ the\ data\ according\ to\ a\ provided\ sort\ comparator.\n\ @param\ sortComparator\ The\ comparator\ that\ should\ be\ used\ to\ sort\ the\ data.\ (e.g.,\ a\ sort\ by\ date).\n
+comment5.params=
+comment5.target=javafx.scene.control.TableView\ getTable()
+comment5.text=\n\ @return\ The\ table\ containing\ the\ data\ for\ this\ borough\ at\ a\ specific\ date\ range.\n
+numComments=6

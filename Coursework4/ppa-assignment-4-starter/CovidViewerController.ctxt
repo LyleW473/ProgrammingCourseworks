@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=CovidViewerController
+comment0.text=\n\ This\ class\ acts\ as\ the\ controller\ class\ for\ the\ COVID\ dataset\ viewer.\ \n\ \n\ It\ provides\ methods\ for\ alternating\ between\ different\ panels,\ selecting\ a\ date\ range\ and\ menu\ options.\n
+comment1.params=panelList\ panelPane
+comment1.target=CovidViewerController(java.util.ArrayList,\ javafx.scene.layout.BorderPane)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ CovidViewerController\n
+comment2.params=fromDate
+comment2.target=void\ setFromDateChangeListener(javafx.scene.control.DatePicker)
+comment2.text=\n\ Method\ to\ set\ the\ event\ listener\ for\ changing\ the\ start/from\ date\ inside\ of\ the\ date\ picker.\n\ @param\ fromDate\ The\ DatePicker\ object\ used\ for\ selecting\ the\ start\ date.\n
+comment3.params=toDate
+comment3.target=void\ setToDateChangeListener(javafx.scene.control.DatePicker)
+comment3.text=\n\ Method\ to\ set\ the\ event\ listener\ for\ changing\ the\ end/to\ date\ inside\ of\ the\ date\ picker.\n\ @param\ toDate\ The\ DatePicker\ object\ used\ for\ selecting\ the\ end\ date.\n
+comment4.params=event
+comment4.target=void\ quitAction(javafx.event.ActionEvent)
+comment4.text=\n\ The\ "Quit"\ item\ has\ been\ activated.\n
+comment5.params=event
+comment5.target=void\ backAction(javafx.event.ActionEvent)
+comment5.text=\n\ Updates\ the\ viewer\ to\ display\ the\ previous\ panel.\n
+comment6.params=event
+comment6.target=void\ nextAction(javafx.event.ActionEvent)
+comment6.text=\n\ Updates\ the\ viewer\ to\ display\ the\ next\ panel.\n
+numComments=7

@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=BoroughSelectionGrid
+comment0.text=\r\n\ Grid\ used\ to\ display\ buttons\ for\ each\ borough.\ When\ a\ button\ for\ a\ borough\ is\ clicked,\ it\ will\ become\ toggled.\ After\ refreshing\ the\ panel,\ the\ changes\r\n\ will\ be\ reflected\ in\ the\ displayed\ bar\ chart.\r\n
+comment1.params=toggledBoroughs
+comment1.target=BoroughSelectionGrid(java.util.ArrayList)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ BoroughSelectionGrid\r\n\ @param\ toggledBoroughs\ A\ reference\ to\ the\ actual\ toggledBoroughs\ list\ created\ in\ the\ chart\ panel.\ \r\n
+comment2.params=
+comment2.target=void\ addButtons()
+comment2.text=\r\n\ Creates\ buttons\ for\ all\ London\ boroughs\ and\ places\ them\ inside\ of\ the\ main\ grid\ pane.\r\n
+comment3.params=
+comment3.target=void\ findToggledBoroughs()
+comment3.text=\r\n\ Clears\ the\ current\ list\ of\ toggled\ boroughs\ and\ adds\ all\ of\ the\ selected\ boroughs\ in\ the\ grid.\r\n
+comment4.params=event
+comment4.target=void\ toggleWindow(javafx.event.ActionEvent)
+comment4.text=\r\n\ Toggles\ the\ window\ to\ show/hide.\r\n
+numComments=5

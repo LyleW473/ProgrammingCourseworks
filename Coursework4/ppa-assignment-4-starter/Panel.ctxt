@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Panel
+comment0.text=\r\n\ Generic\ Panel\ class\ which\ contains\ the\ attributes\ and\ methods\ that\ all\ panels\ have\ in\ common.\r\n
+comment1.params=
+comment1.target=void\ update()
+comment2.params=
+comment2.target=javafx.scene.layout.Pane\ getPane()
+numComments=3

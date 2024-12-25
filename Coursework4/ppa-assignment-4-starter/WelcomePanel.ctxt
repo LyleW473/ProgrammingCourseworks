@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=WelcomePanel
+comment0.text=\r\n\ The\ Welcome\ Panel\ is\ the\ first\ page\ that\ the\ user\ sees\ when\ loading\ up\ the\ application.\r\n\ It\ provides\ brief\ instructions\ on\ how\ to\ navigate\ through\ the\ application\ and\ what\ it\ contains.\r\n
+comment1.params=
+comment1.target=WelcomePanel()
+comment2.params=
+comment2.target=void\ update()
+numComments=3

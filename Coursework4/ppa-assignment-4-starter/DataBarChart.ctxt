@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=DataBarChart
+comment0.text=\r\n\ Chart\ which\ displays\ data\ for\ boroughs\ that\ the\ user\ has\ selected\ inside\ of\ the\ BoroughSelectionGrid.\r\n\ Note\:\ Named\ "DataBarChart"\ instead\ of\ "BarChart"\ to\ avoid\ clashes\ with\ bar\ chart\ import.\r\n
+comment1.params=toggledBoroughs
+comment1.target=DataBarChart(java.util.ArrayList)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ DataBarChart\r\n\ @param\ toggledBoroughs\ A\ reference\ to\ the\ actual\ toggledBoroughs\ list\ created\ in\ the\ chart\ panel.\ \r\n
+comment2.params=event
+comment2.target=void\ prevStatistic(javafx.event.ActionEvent)
+comment2.text=\r\n\ Updates\ the\ chart\ to\ display\ the\ previous\ statistic.\r\n
+comment3.params=event
+comment3.target=void\ nextStatistic(javafx.event.ActionEvent)
+comment3.text=\r\n\ Updates\ the\ chart\ to\ display\ the\ next\ statistic.\r\n
+comment4.params=
+comment4.target=void\ addSeriesData()
+comment4.text=\r\n\ Creates\ and\ adds\ a\ series\ for\ each\ borough\ that\ has\ been\ selected\ to\ the\ hashmap\ that\ maps\ boroughs\ to\ its\ series.\r\n
+comment5.params=
+comment5.target=javafx.scene.chart.BarChart\ getChart()
+comment5.text=\r\n\ @return\ The\ BarChart\ object\ which\ contains\ all\ of\ the\ Series\ objects\ created\ for\ each\ selected\ borough.\r\n
+comment6.params=
+comment6.target=void\ update()
+comment6.text=\r\n\ Updates\ the\ chart\ according\ to\ which\ boroughs\ were\ selected\ in\ the\ BoroughSelectionGrid.\r\n
+numComments=7

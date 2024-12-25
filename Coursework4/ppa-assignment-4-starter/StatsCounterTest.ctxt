@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=StatsCounterTest
+comment0.text=\r\n\ The\ test\ class\ StatsCounterTest.\r\n\r\n\ @author\ \ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=StatsCounterTest()
+comment1.text=\r\n\ Default\ constructor\ for\ test\ class\ StatsCounterTest\r\n
+comment2.params=
+comment2.target=void\ outOfRangeDates_TotalDeaths()
+comment2.text=\r\n\ Test\ whether\ the\ total\ deaths\ will\ return\ 0.0\ if\ a\ date\ range\ exceeds\ \r\n\ the\ earliest/latest\ dates\ recorded\ in\ covid_london.csv.\r\n
+comment3.params=
+comment3.target=void\ outOfRangeDates_AvgCases()
+comment3.text=\r\n\ Test\ whether\ the\ average\ total\ cases\ will\ return\ 0\ if\ a\ date\ range\ exceeds\r\n\ the\ earliest/latest\ dates\ recorded\ in\ covid_london.csv.\r\n
+comment4.params=
+comment4.target=void\ inRange_TotalDeaths()
+comment4.text=\r\n\ Test\ whether\ total\ deaths\ will\ return\ the\ correct\ value.\r\n
+comment5.params=
+comment5.target=void\ inRangeDates_AvgCases()
+comment5.text=\r\n\ Test\ whether\ average\ number\ of\ cases\ will\ return\ the\ correct\ value.\r\n
+comment6.params=
+comment6.target=void\ testGetBoroughs()
+comment6.text=\r\n\ Test\ whether\ getBoroughs()\ returns\ the\ correct\ HashSet\r\n
+comment7.params=
+comment7.target=void\ testDeathRate()
+comment7.text=\r\n\ Test\ whether\ the\ death\ rate\ will\ return\ the\ correct\ value.\r\n
+numComments=8

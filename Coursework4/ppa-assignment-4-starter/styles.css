@@ -1,0 +1,18 @@
+.date-box {
+    -fx-spacing: 5;
+    -fx-padding: 20 20 0 20; /* top, right, bottom, left */
+}
+
+.bottom-box {
+
+    -fx-padding: 0 20 20 20; /* top, right, bottom, left */
+}
+
+.date-label {
+    -fx-spacing: 0;
+    -fx-padding: 5 0 0 30; /* top, right, bottom, left */
+}
+
+.back-next-btns{
+    -fx-padding: 5 30 5 30; /* top, right, bottom, left */
+}
